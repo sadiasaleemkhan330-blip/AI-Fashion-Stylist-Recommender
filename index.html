@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- ⚡ SUPABASE INTEGRATION -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -38,64 +39,158 @@
             position: relative;
         }
 
-        /* 🔒 LOGIN GATE DESIGN */
-        .login-gate-container {
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(124, 58, 237, 0.15);
-            width: 340px;
-            text-align: center;
-            border: 2px solid var(--pink-accent);
-            z-index: 100;
+        /* 🔒 EXACT IMAGE MATCH LOGIN SCREEN OVERLAY */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(167, 139, 250, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
-        .login-gate-container h2 {
+
+        .custom-login-box {
+            background: white;
+            padding: 40px 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(46, 16, 101, 0.15);
+            width: 440px;
+            text-align: center;
+        }
+
+        .custom-login-box h2 {
             font-size: 1.8rem;
             font-weight: 800;
-            color: var(--text-main);
-            margin-bottom: 5px;
-        }
-        .login-gate-container p {
-            font-size: 0.85rem;
-            color: var(--pink-accent);
-            font-weight: 700;
+            color: #1e1b4b;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
             text-transform: uppercase;
-            margin-bottom: 20px;
         }
-        .login-gate-container input {
+
+        .custom-login-box .subtitle {
+            font-size: 0.75rem;
+            color: #7c3aed;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #4c1d95;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .input-group input {
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: #eef2ff;
+            border: 1px solid rgba(124, 58, 237, 0.2);
             border-radius: 10px;
-            box-sizing: border-box;
-            outline: none;
+            padding: 12px 14px;
+            font-size: 0.95rem;
+            color: #1e1b4b;
             font-weight: 600;
-            text-align: center;
+            outline: none;
+            text-align: left !important;
         }
-        .login-gate-container input:focus {
-            border-color: var(--pink-accent);
-            box-shadow: 0 0 8px rgba(219, 39, 119, 0.2);
+
+        .input-group .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 35px;
+            color: #4c1d95;
+            cursor: pointer;
         }
-        .login-gate-container button {
+
+        .main-login-btn {
             width: 100%;
-            padding: 12px;
+            background: #7c3aed;
             color: white;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 15px;
-            font-weight: 700;
-            margin-top: 8px;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
         }
-        .login-btn { background: #007bff; }
-        .login-btn:hover { background: #0056b3; transform: translateY(-1px); }
-        .signup-btn { background: #28a745; }
-        .signup-btn:hover { background: #218838; transform: translateY(-1px); }
 
-        /* 🌟 HEADER STYLING */
+        .main-login-btn:hover {
+            background: #6d28d9;
+        }
+
+        .divider-container {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+            color: #9ca3af;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .divider-container::before, .divider-container::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .divider-container:not(:empty)::before { margin-right: .5em; }
+        .divider-container:not(:empty)::after { margin-left: .5em; }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .social-btn {
+            flex: 1;
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #1e1b4b;
+        }
+
+        .switch-mode-text {
+            font-size: 0.85rem;
+            color: #4b5563;
+        }
+
+        .switch-mode-text span {
+            color: #db2777;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* 🌟 ORIGINAL DESIGN FOR MAIN APPLICATION */
         header {
             width: 100%;
             background: rgba(255, 255, 255, 0.8);
@@ -140,7 +235,6 @@
             transform: translateY(-1px);
         }
 
-        /* 📋 MAIN CONTENT WRAPPER */
         .content-container {
             display: flex;
             justify-content: center;
@@ -235,7 +329,6 @@
             50% { transform: translateY(-15px); }
         }
 
-        /* 📋 MAIN CARD COMPONENT */
         .main-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -329,7 +422,6 @@
             box-shadow: 0 12px 24px rgba(219, 39, 119, 0.45);
         }
 
-        /* 📊 ANALYTICS DASHBOARD LAYOUT */
         .results-section {
             margin-top: 35px;
             padding: 20px;
@@ -543,18 +635,42 @@
 </head>
 <body>
 
-    <div id="authContainerFrame" class="login-gate-container">
-        <h2>Welcome to ML App</h2>
-        <p>ASA NovaStyle AI Portal</p>
-        
-        <input type="email" id="authEmail" placeholder="Enter Email" required>
-        <input type="password" id="authPassword" placeholder="Enter Password" required>
-        
-        <button class="login-btn" onclick="handleLogin()">Login</button>
-        <button class="signup-btn" onclick="handleSignup()">Sign Up</button>
+    <!-- 🔒 1. EXACT OVERLAY AND MATCH FROM image_8e27c3.png -->
+    <div id="authOverlayGate" class="auth-overlay">
+        <div class="custom-login-box">
+            <h2 id="authTitle">AI Fashion Login</h2>
+            <div class="subtitle">// Unlocking System Dashboard //</div>
+            
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="authEmail" placeholder="skgladrags@gmail.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="authPassword" placeholder="••••••••" required>
+                <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+            </div>
+            
+            <button class="main-login-btn" id="submitAuthBtn" onclick="processAuthentication()">
+                <i class="fas fa-sign-in-alt"></i> Access Account Log In
+            </button>
+            
+            <div class="divider-container">OR CONNECT WITH</div>
+            
+            <div class="social-buttons">
+                <button class="social-btn"><img src="https://docs.idfy.com/images/button-logos/google.png" width="16" alt="G"> Google</button>
+                <button class="social-btn"><i class="fab fa-github"></i> GitHub</button>
+            </div>
+            
+            <div class="switch-mode-text">
+                New to NovaStyle? <span id="toggleAuthModeLink" onclick="toggleAuthMode()">Create Account / Sign Up</span>
+            </div>
+        </div>
     </div>
 
-    <div id="mainAppWrapper" class="w-full min-h-screen flex flex-col items-center justify-center" style="display: none;">
+    <!-- 🌐 2. MAIN WEBSITE APP (Peeche tab tak block rahegi jab tak upar se login na ho) -->
+    <div id="mainAppWrapper" class="w-full min-h-screen flex flex-col items-center justify-center">
         <header>
             <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
             <nav class="nav-links">
@@ -567,7 +683,6 @@
 
         <div class="content-container">
             <div class="page-wrapper">
-    
                 <div class="robot-side">
                     <div class="speech-bubble">
                         <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
@@ -758,32 +873,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="dashboard-grid mt-4">
-                            <div class="metrics-card-box">
-                                <div class="metrics-card-title">Refined Color Palette</div>
-                                <div class="flex justify-center gap-3" id="paletteCirclesWrapper"></div>
-                            </div>
-                            <div class="metrics-card-box">
-                                <div class="metrics-card-title">Optimal Fabric Solutions</div>
-                                <div class="grid grid-cols-2 gap-2 text-center font-sans">
-                                    <div class="bg-purple-50 p-1.5 rounded-xl border border-purple-100">
-                                        <div class="text-[10px] uppercase font-bold text-gray-500">Structural Fit</div>
-                                        <div class="text-sm font-black text-purple-900" id="structuralFitValue">--</div>
-                                    </div>
-                                    <div class="bg-pink-50 p-1.5 rounded-xl border border-pink-100">
-                                        <div class="text-[10px] uppercase font-bold text-gray-500">Aura Density</div>
-                                        <div class="text-sm font-black text-pink-900" id="auraDensityValue">--</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="metrics-card-box">
-                                <div class="metrics-card-title">System KPIs (Diversity Trend)</div>
-                                <div class="w-full h-[65px]"><canvas id="miniDiversityChart"></canvas></div>
-                            </div>
-                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -797,6 +887,7 @@
         </footer>
     </div>
 
+    <!-- Modals -->
     <div id="aboutModal" class="info-modal">
         <div class="modal-content text-left">
             <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
@@ -805,153 +896,90 @@
         </div>
     </div>
 
-    <div id="feedbackModal" class="info-modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="toggleModal('feedbackModal', false)">&times;</span>
-            <h2 class="text-3xl font-bold mb-4 text-purple-900">User Feedback System</h2>
-            <textarea class="w-full p-3 border border-pink-400 rounded-lg text-lg outline-none mb-4" rows="3" placeholder="Write feedback..."></textarea>
-            <button class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold py-2 px-6 rounded-xl" onclick="toggleModal('feedbackModal', false)">Submit</button>
-        </div>
-    </div>
-
     <script>
         // 🛠️ APNE SUPABASE DASHBOARD WALI KEYS YAHAN PASTE KAREIN:
-        const SUPABASE_URL = "https://your-project-url.supabase.co"; // Dashboard ka URL paste karein
-        const SUPABASE_ANON_KEY = "your-anon-public-key";          // Dashboard ki anon public key paste karein
+        const SUPABASE_URL = "https://your-project-url.supabase.co"; 
+        const SUPABASE_ANON_KEY = "your-anon-public-key";          
         
-        // Supabase initialize
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        let isSignUpMode = false;
 
-        let kpiChartInstance = null;
-
-        // Entry Gateway function jo login screen ko hata kar website kholti hai
-        function showApplicationInterface() {
-            document.getElementById('authContainerFrame').style.display = 'none';
-            document.getElementById('mainAppWrapper').style.display = 'flex';
-        }
-
-        // Check if user is already logged in (Auto login feature)
-        window.onload = async function() {
+        // Auto check session on load
+        window.onload = function() {
             const sessionData = localStorage.getItem("user_session");
             if (sessionData) {
-                showApplicationInterface();
+                hideAuthOverlay();
             }
         };
 
-        // 🟢 SIGN UP FUNCTION
-        async function handleSignup() {
-            const email = document.getElementById('authEmail').value;
-            const password = document.getElementById('authPassword').value;
+        function hideAuthOverlay() {
+            document.getElementById('authOverlayGate').style.display = 'none';
+        }
 
-            if(!email || !password) {
-                alert("Please fill both email and password fields!");
-                return;
-            }
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('authPassword');
+            passInput.type = passInput.type === 'password' ? 'text' : 'password';
+        }
 
-            const { data, error } = await supabase.auth.signUp({ email, password });
+        // Mode Switching: Login vs Sign Up
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            const title = document.getElementById('authTitle');
+            const btn = document.getElementById('submitAuthBtn');
+            const toggleLink = document.getElementById('toggleAuthModeLink');
 
-            if (error) {
-                alert("Sign Up Error: " + error.message);
+            if (isSignUpMode) {
+                title.innerText = "AI Fashion Sign Up";
+                btn.innerHTML = `<i class="fas fa-user-plus"></i> Create Account & Log In`;
+                toggleLink.innerHTML = "Already have an account? Log In";
             } else {
-                alert("Sign up successful! If confirmation link email is off, you can log in directly.");
-                showApplicationInterface();
+                title.innerText = "AI Fashion Login";
+                btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Access Account Log In`;
+                toggleLink.innerHTML = "Create Account / Sign Up";
             }
         }
 
-        // 🔵 LOGIN FUNCTION
-        async function handleLogin() {
-            const email = document.getElementById('authEmail').value;
+        // Central Authenticate Handler (@gmail.com Check Included)
+        async function processAuthentication() {
+            const email = document.getElementById('authEmail').value.trim();
             const password = document.getElementById('authPassword').value;
 
-            if(!email || !password) {
-                alert("Please fill both fields!");
+            // Strict checklist check: email must end with @gmail.com
+            if (!email.endsWith('@gmail.com') || password.length < 4) {
+                alert("Access Denied! Email must include '@gmail.com' and password cannot be empty.");
                 return;
             }
 
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-            if (error) {
-                alert("Login Failed: " + error.message);
+            if (isSignUpMode) {
+                // Supabase Sign Up technique execution
+                const { data, error } = await supabase.auth.signUp({ email, password });
+                if (error) {
+                    alert("System Error: " + error.message);
+                } else {
+                    alert("Registration Successful! Welcome.");
+                    hideAuthOverlay();
+                }
             } else {
-                alert("Authentication Successful! Access Granted.");
-                localStorage.setItem("user_session", JSON.stringify(data.session));
-                showApplicationInterface(); // 🚀 Website khol di jaye!
+                // Supabase Login technique execution
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) {
+                    alert("System Error: " + error.message);
+                } else {
+                    alert("Access Granted! Syncing Dashboard Matrix.");
+                    localStorage.setItem("user_session", JSON.stringify(data.session));
+                    hideAuthOverlay();
+                }
             }
         }
 
-        // 🔴 LOGOUT FUNCTION
-        async function handleLogout() {
-            await supabase.auth.signOut();
+        function handleLogout() {
+            supabase.auth.signOut();
             localStorage.removeItem("user_session");
             window.location.reload();
         }
 
         function toggleModal(id, show) {
             document.getElementById(id).style.display = show ? 'flex' : 'none';
-        }
-
-        // Prediction Submission API Handler
-        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const payload = {};
-            formData.forEach((value, key) => { payload[key] = value; });
-
-            const panel = document.getElementById('resultPanel');
-            const badge = document.getElementById('badgeContainer');
-
-            try {
-                const response = await fetch('http://127.0.0.1:5000/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                if(result.status === 'success') {
-                    panel.style.display = 'block';
-                    document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
-                    updateVisualAnalyticsDashboard(result.prediction === 1 ? 92 : 31, payload.fabric);
-                }
-            } catch (error) {
-                panel.style.display = 'block';
-                badge.innerHTML = '<span class="badge match-bad">✕ Connection Fallback</span>';
-                document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
-                updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend");
-            }
-        });
-
-        function updateVisualAnalyticsDashboard(accuracy, userFabric) {
-            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
-            const needleAngle = ((accuracy / 100) * 180) - 90;
-            document.getElementById('gaugePointerPin').style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
-            
-            const paletteBox = document.getElementById('paletteCirclesWrapper');
-            paletteBox.innerHTML = `
-                <span class="palette-circle-dot bg-[#0f172a]"></span>
-                <span class="palette-circle-dot bg-[#1e3a8a]"></span>
-                <span class="palette-circle-dot bg-[#334155]"></span>
-            `;
-
-            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
-            document.getElementById('structuralFitValue').innerText = `${accuracy}%`;
-            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(accuracy * 1.15))}%`;
-
-            const ctx = document.getElementById('miniDiversityChart').getContext('2d');
-            if (kpiChartInstance) { kpiChartInstance.destroy(); }
-            kpiChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['W1', 'W2', 'W3', 'W4', 'W5'],
-                    datasets: [{
-                        data: [40, 55, 65, 80, accuracy],
-                        borderColor: '#db2777',
-                        borderWidth: 2,
-                        fill: false
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
-            });
-            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
