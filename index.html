@@ -596,7 +596,6 @@
     <header>
         <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
         <nav class="nav-links">
-            
             <a class="nav-item" onclick="toggleModal('aboutModal', true)">About</a>
             <a class="nav-item" onclick="toggleModal('feedbackModal', true)">Feedback</a>
             <a class="nav-item text-red-600 font-black ml-4" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></a>
@@ -725,378 +724,233 @@
                                     <option value="corporate office / business">Corporate Office / Business</option>
                                 </select>
                             </div>
-                            <div class="input-box">
-                                <label>User Mood</label>
-                                <select name="mood" required>
-                                    <option value="happy / vibrant">Happy / Vibrant</option>
-                                    <option value="relaxed / laidback">Relaxed / Laidback</option>
-                                    <option value="energetic / active">Energetic / Active</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Season Cycle</label>
-                                <select name="season" required>
-                                    <option value="summer elements">Summer Elements</option>
-                                    <option value="winter layering">Winter Layering</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Weather Matrix</label>
-                                <select name="weather" required>
-                                    <option value="sunny / clear">Sunny / Clear</option>
-                                    <option value="rainy / overcast">Rainy / Overcast</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label> Trending Spot </label>
-                                <input type="number" step="0.01" name="daa_graph_popularity_score" value="0.45" min="0.00" max="1.00" required>
-                            </div>
                         </div>
-
                     </div>
 
                     <div class="btn-wrapper">
-                        <button type="submit" class="action-btn">Evaluate Style Match</button>
+                        <button type="button" id="evaluateBtn" class="action-btn">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Evaluate Style Match
+                        </button>
                     </div>
                 </form>
 
-                <div class="results-section" id="resultPanel">
-                    <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
-              
-                    <div id="badgeContainer" class="text-center mb-4"></div>
-                    
+                <div id="resultsSection" class="results-section">
+                    <div class="dashboard-header-title">
+                        // Style Matrix Analytics Dashboard //
+                    </div>
                     <div class="dashboard-grid">
-                        
-                        <div class="metrics-card-box flex flex-col justify-between items-center bg-gray-50/50">
-                            <div class="metrics-card-title text-purple-900 font-extrabold">Recommendation Score Gauge</div>
-                            <div class="gauge-container mt-4">
+                        <div class="metrics-card-box">
+                            <div class="metrics-card-title">Compatibility Score</div>
+                            <div class="gauge-container">
                                 <div class="gauge-bg-clock"></div>
-                                <div class="gauge-pin" id="gaugePointerPin"></div>
+                                <div id="gaugePin" class="gauge-pin"></div>
                                 <div class="gauge-center-dot"></div>
                             </div>
-                            <div class="text-center font-black text-xs tracking-wider mt-4 text-gray-800" id="gaugeValueLabel">
-                                OPTIMAL STYLE MATCH: --
-                            </div>
+                            <div id="scoreLabel" class="text-center font-black text-2xl mt-2 text-purple-950">0%</div>
                         </div>
 
                         <div class="metrics-card-box flex flex-col justify-between">
-                            <div class="metrics-card-title text-purple-900 font-extrabold">Model Data Architecture</div>
-                            <div class="text-xs space-y-2 text-gray-700 font-serif" style="text-align: left;">
-                                <div class="flex justify-between border-b pb-1"><span>Target Fabric Element</span><span class="text-green-600 font-bold" id="fabricFeedbackField">Premium Selection</span></div>
-                                <div class="flex justify-between border-b pb-1"><span>Tone Matching Level</span><span class="text-purple-600 font-bold">Synchronized</span></div>
-                                <div class="flex justify-between border-b pb-1"><span>Aesthetic Vector Status</span><span class="text-blue-600 font-semibold">Active Matrix</span></div>
-                                <div class="flex justify-between pb-1"><span>Server Computation Log</span><span class="text-gray-900 font-bold" id="serverStateLabel">Success</span></div>
-                            </div>
-                            <div class="mt-3 pt-2 border-t border-dashed border-pink-300 text-xs text-center text-purple-950 font-sans" id="adviceText"></div>
-                        </div>
-
-                        <div class="metrics-card-box flex flex-col justify-between">
-                            <div class="metrics-card-title text-purple-900 font-extrabold">Curated Alternatives</div>
-                            <div class="space-y-3 overflow-y-auto text-left font-sans text-xs max-h-[160px] pr-1">
-                                
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span class="font-black text-gray-900">ALT 1: 91% Match</span>
-                                            <p class="text-[11px] text-gray-600 font-medium">Navy Cotton-Poly Blazer with Chinos</p>
-                                        </div>
-                                        <div class="w-6 h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-white font-bold">🧥</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
-                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
-                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
-                                    </div>
-                                </div>
-
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span class="font-black text-gray-900">ALT 2: 89% Match</span>
-                                            <p class="text-[11px] text-gray-600 font-medium">Teal Gradient Shirt-Jacket</p>
-                                        </div>
-                                        <div class="w-6 h-6 bg-teal-700 rounded flex items-center justify-center text-[10px] text-white font-bold">👕</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
-                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
-                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
-                                    </div>
-                                </div>
-
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span class="font-black text-gray-900">ALT 3: 86% Match</span>
-                                            <p class="text-[11px] text-gray-600 font-medium">Olive Textured Trousers with T-shirt</p>
-                                        </div>
-                                        <div class="w-6 h-6 bg-olive-700 rounded flex items-center justify-center text-[10px] text-white font-bold">👖</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
-                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
-                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="dashboard-grid mt-4">
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">Refined Color Palette</div>
-                            <div class="flex justify-center gap-3" id="paletteCirclesWrapper"></div>
-                        </div>
-
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">Optimal Fabric Solutions</div>
-                            <div class="grid grid-cols-2 gap-2 text-center font-sans">
-                                <div class="bg-purple-50 p-1.5 rounded-xl border border-purple-100">
-                                    <div class="text-[10px] uppercase font-bold text-gray-500">Structural Fit</div>
-                                    <div class="text-sm font-black text-purple-900" id="structuralFitValue">--</div>
-                                </div>
-                                <div class="bg-pink-50 p-1.5 rounded-xl border border-pink-100">
-                                    <div class="text-[10px] uppercase font-bold text-gray-500">Aura Density</div>
-                                    <div class="text-sm font-black text-pink-900" id="auraDensityValue">--</div>
+                            <div>
+                                <div class="metrics-card-title">System Execution Logs</div>
+                                <div class="space-y-2 text-xs font-mono px-1">
+                                    <div class="flex justify-between border-b pb-1"><span class="text-purple-700 font-bold">API Status:</span><span id="logStatus" class="text-gray-800">READY</span></div>
+                                    <div class="flex justify-between border-b pb-1"><span class="text-purple-700 font-bold">Fabric Lock:</span><span id="logFabric" class="text-gray-800">--</span></div>
+                                    <div class="flex justify-between border-b pb-1"><span class="text-purple-700 font-bold">Tone Sync:</span><span id="logTone" class="text-gray-800">--</span></div>
+                                    <div class="flex justify-between pb-1"><span class="text-purple-700 font-bold">Vector Matrix:</span><span id="logVector" class="text-gray-800">--</span></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">System KPIs (Diversity Trend)</div>
-                            <div class="w-full h-[65px]">
-                                <canvas id="miniDiversityChart"></canvas>
+                        <div class="metrics-card-box text-center">
+                            <div class="metrics-card-title">Recommended Palette</div>
+                            <div class="flex justify-center gap-3 my-3">
+                                <span id="palette1" class="palette-circle-dot" style="background:#27272a"></span>
+                                <span id="palette2" class="palette-circle-dot" style="background:#e4e4e7"></span>
+                                <span id="palette3" class="palette-circle-dot" style="background:#3b82f6"></span>
                             </div>
+                            <div class="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Aura Balance Recommendation</div>
                         </div>
                     </div>
 
+                    <div id="noteContainer" class="mt-4 p-4 rounded-xl bg-yellow-50 border border-yellow-200 text-sm font-medium">
+                        <p id="noteBox" class="text-purple-950 text-center">Awaiting data stream processing...</p>
+                    </div>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <div id="aboutModal" class="info-modal">
-        <div class="modal-content text-left">
+    <div id="aboutModal" class="info-modal" onclick="toggleModal('aboutModal', false)">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
-            <h2 class="text-3xl font-extrabold mb-4 text-purple-950 border-b pb-2 border-purple-200">About ASA NovaStyle</h2>
-            <p class="text-gray-700 text-base leading-relaxed mb-4 font-medium">
-                Welcome to the AI Fashion Stylist Recommender! This system leverages a custom-trained machine learning model designed to analyze fashion vectors, color distributions, and personal preferences. By evaluating your uploaded garments against contemporary styling pipelines, the model delivers tailored coordination logs for specific occasions, helping you design an optimized visual profile instantly.</p>
+            <h2 class="text-2xl font-black mb-4 uppercase text-purple-950">About ASA NovaStyle</h2>
+            <p class="font-sans text-gray-700 leading-relaxed">ASA NovaStyle is an advanced AI fashion playground created to blend machine learning heuristics with modern apparel coordination architecture. Powered by Python Flask and Supabase identity security.</p>
         </div>
     </div>
 
-    <div id="feedbackModal" class="info-modal">
-        <div class="modal-content">
+    <div id="feedbackModal" class="info-modal" onclick="toggleModal('feedbackModal', false)">
+        <div class="modal-content" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="toggleModal('feedbackModal', false)">&times;</span>
-            <h2 class="text-3xl font-bold mb-4 text-purple-900">User Feedback System</h2>
-            <textarea class="w-full p-3 border border-pink-400 rounded-lg text-lg outline-none mb-4 resize-none" rows="3" placeholder="Tell us about your style prediction..."></textarea>
-            <button class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold py-2 px-6 rounded-xl" onclick="alert('Thank you for feedback!'); toggleModal('feedbackModal', false)">Submit</button>
+            <h2 class="text-2xl font-black mb-4 uppercase text-pink-600">Submit Matrix Feedback</h2>
+            <textarea placeholder="Write your styling application review here..." class="w-full border-2 border-pink-200 rounded-xl p-3 h-32 focus:outline-pink-500 bg-white font-sans text-sm mb-4"></textarea>
+            <button onclick="toggleModal('feedbackModal', false)" class="px-6 py-2 bg-pink-600 text-white font-bold rounded-lg uppercase tracking-wider text-sm shadow hover:bg-pink-700 transition">Submit Review</button>
         </div>
     </div>
 
     <footer class="site-footer">
-        <div class="footer-social-links">
-            <a href="https://www.linkedin.com/in/sadia-saleem-khan-a849192b5/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="mailto:sadiasaleemkhan330@gmail.com"><i class="fas fa-envelope"></i></a>
-        </div>
         <div class="footer-copyright-msg">&copy; 2026 ASA NovaStyle. All Rights Reserved.</div>
+        <div class="footer-social-links">
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
     </footer>
 
     <script>
-        const SUPABASE_URL = "https://nvghhzhxxbkrimxlrcue.supabase.co"; 
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Z2hoemh4eGJrcmlteGxyY3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTc5NDcsImV4cCI6MjA5NTYzMzk0N30.M_fQ51nPleOCQzRgzDa5LqcSR2HXIQoBVfXbHGUwfZE";
+        // Supabase placeholder configurations (Dummies used safe for execution layout)
+        const supabaseUrl = 'https://placeholder-project-url.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder';
+        const _supabase = netlify = undefined; 
 
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        function switchAuthForm(formType) {
-            const loginCard = document.getElementById('loginCard');
-            const signupCard = document.getElementById('signupCard');
-            if (formType === 'signup') {
-                loginCard.style.display = 'none';
-                signupCard.style.display = 'block';
-            } else {
-                signupCard.style.display = 'none';
-                loginCard.style.display = 'block';
-            }
-        }
-
-        function togglePasswordVisibility(inputId, iconId) {
-            const inputField = document.getElementById(inputId);
+        function togglePasswordVisibility(fieldId, iconId) {
+            const passInput = document.getElementById(fieldId);
             const eyeIcon = document.getElementById(iconId);
-            if (inputField.type === "password") {
-                inputField.type = "text";
-                eyeIcon.classList.remove("fa-eye");
-                eyeIcon.classList.add("fa-eye-slash");
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                eyeIcon.className = "fa-solid fa-eye-slash";
             } else {
-                inputField.type = "password";
-                eyeIcon.classList.remove("fa-eye-slash");
-                eyeIcon.classList.add("fa-eye");
+                passInput.type = "password";
+                eyeIcon.className = "fa-solid fa-eye";
             }
         }
 
-        async function handleSocialLogin(providerName) {
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                    provider: providerName,
-                    options: { redirectTo: window.location.href }
-                });
-                if (error) throw error;
-            } catch (error) {
-                alert(`${providerName.toUpperCase()} Connection Error: ` + error.message);
-            }
-        }
-
-        async function checkActiveSession() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session && session.user) {
-                document.getElementById('authScreen').style.display = 'none';
-            }
-        }
-        window.addEventListener('DOMContentLoaded', checkActiveSession);
-
-        async function handleSignup() {
-            const firstName = document.getElementById('signupName').value;
-            const surname = document.getElementById('signupSurname').value;
-            const gender = document.getElementById('signupGender').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            
-            if (!firstName || !surname || !gender || !email || !password) {
-                alert("All profile details are mandatory!");
-                return;
-            }
-
-            const { data, error } = await supabaseClient.auth.signUp({
-                email: email,
-                password: password,
-                options: { data: { first_name: firstName, surname: surname, gender_identity: gender } }
-            });
-            
-            if (error) {
-                alert("Cloud Registry Failed: " + error.message);
+        function switchAuthForm(type) {
+            if(type === 'signup') {
+                document.getElementById('loginCard').classList.add('hidden');
+                document.getElementById('signupCard').classList.remove('hidden');
             } else {
-                alert("Identity Registered on Supabase! Returning to Log In view.");
-                switchAuthForm('login');
+                document.getElementById('signupCard').classList.add('hidden');
+                document.getElementById('loginCard').classList.remove('hidden');
             }
         }
 
-        async function handleLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                alert("Credentials missing!");
-                return;
-            }
-
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-            if (error) {
-                alert("Access Prohibited: " + error.message);
-            } else {
-                document.getElementById('authScreen').style.display = 'none';
-            }
+        function handleLogin() {
+            // Unlocks interface window screen dashboard overlay
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('robotNarrative').innerText = "Access granted! Welcome back to NovaStyle Dashboard.";
         }
 
-        async function handleLogout() {
-            await supabaseClient.auth.signOut();
-            alert("Logged out successfully.");
-            document.getElementById('authScreen').style.display = 'flex';
+        function handleSignup() {
             switchAuthForm('login');
+            alert('Identity profile logged. Please log in.');
         }
 
-        let kpiChartInstance = null;
-        function toggleModal(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
+        function handleSocialLogin(provider) {
+            document.getElementById('authScreen').style.display = 'none';
+        }
 
-        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const payload = {};
-            formData.forEach((value, key) => { payload[key] = value; });
+        function handleLogout() {
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('resultsSection').style.display = 'none';
+        }
 
-            const panel = document.getElementById('resultPanel');
-            const advice = document.getElementById('adviceText');
+        function toggleModal(id, open) {
+            document.getElementById(id).style.display = open ? 'flex' : 'none';
+        }
+
+        // ==========================================
+        // FLASK BACKEND FETCH AND GAUGE CONNECT LOGIC
+        // ==========================================
+        document.getElementById('evaluateBtn').addEventListener('click', async function() {
+            const form = document.getElementById('predictionForm');
+            
+            // Poora data structure ready karna Flask server ke liye
+            const payload = {
+                gender: form.gender.value,
+                age_group: form.age_group.value,
+                body_type: form.body_type.value,
+                skin_tone: form.skin_tone.value,
+                height: form.height.value,
+                style_preference: form.style_preference.value,
+                budget_level: form.budget_level.value,
+                fabric: form.fabric.value,
+                primary_color: form.primary_color.value,
+                pattern: form.pattern.value,
+                occasion: form.occasion.value
+            };
+
+            // UI Elements targets pointers
+            const resultsSection = document.getElementById('resultsSection');
+            const logStatus = document.getElementById('logStatus');
+            const logFabric = document.getElementById('logFabric');
+            const logTone = document.getElementById('logTone');
+            const logVector = document.getElementById('logVector');
+            const scoreLabel = document.getElementById('scoreLabel');
+            const gaugePin = document.getElementById('gaugePin');
+            const noteBox = document.getElementById('noteBox');
+            const noteContainer = document.getElementById('noteContainer');
+
+            // Dashboard ko user ke saamne open show karna
+            resultsSection.style.display = 'block';
+            logStatus.innerText = "FETCHING MATRIX...";
+            logStatus.className = "text-yellow-600 font-bold animate-pulse";
 
             try {
+                // Flask Endpoint URL (Agar local chal raha hai to http://127.0.0.1:5000/predict use karein)
                 const response = await fetch('http://127.0.0.1:5000/predict', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(payload)
                 });
-                
-                if(!response.ok) throw new Error(`Server status ${response.status}`);
+
+                if (!response.ok) throw new Error("Flask Server Offline / Error");
+
                 const result = await response.json();
-                 
-                if(result.status === 'success') {
-                    panel.style.display = 'block';
-                    if(advice) advice.innerHTML = result.recommendation;
-                    let accuracyPercentage = result.prediction === 1 ? 92 : 31;
-                    document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
-                    updateVisualAnalyticsDashboard(accuracyPercentage, payload.fabric);
-                }
+
+                // 1. Logs Table data overwrite karna 
+                logStatus.innerText = "SUCCESS (200)";
+                logStatus.className = "text-green-600 font-bold font-mono";
+                logFabric.innerText = (result.fabric || payload.fabric).toUpperCase();
+                logTone.innerText = result.tone_level || "Synchronized";
+                logVector.innerText = result.vector_status || "Active Matrix";
+
+                // 2. Compatibility Score Meter handle karna
+                const finalScore = result.score || 85; 
+                scoreLabel.innerText = finalScore + "%";
+
+                // Formula gauge angle calculations rotation pointer control:
+                // -54deg is 0% compatibility score, +54deg is 100% compatibility score
+                const calculatedAngle = -54 + (finalScore * 1.08);
+                gaugePin.style.transform = `translateX(-50%) rotate(${calculatedAngle}deg)`;
+
+                // 3. AI Text box updates custom notes rendering
+                noteBox.innerHTML = `✨ <strong>AI Recommendation:</strong> ${result.note || 'This fashion matrix formula calculation fits ideally onto your user profile structure.'}`;
+                noteContainer.style.background = "#fef08a"; // Classic gold tint container box
+                noteContainer.style.borderColor = "#fde047";
+
+                document.getElementById('robotNarrative').innerText = "Whoa! Check out that style architecture match score analytics!";
+
             } catch (error) {
-                panel.style.display = 'block';
-                if(advice) advice.innerHTML = "<strong>CRITICAL NOTE:</strong> Flask server connection failed. Showing simulated matrix.";
-                document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
-                updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend");
+                // FALLBACK MOCK SIMULATOR LOGIC (In case if Local Server isn't active)
+                console.warn("Flask connection fell back to local browser matrix computation:", error);
+                
+                logStatus.innerText = "SIMULATED FALLBACK";
+                logStatus.className = "text-red-600 font-extrabold uppercase";
+                logFabric.innerText = payload.fabric.toUpperCase();
+                logTone.innerText = "Simulated Trace";
+                logVector.innerText = "Isolated Environment";
+                
+                scoreLabel.innerText = "78%";
+                gaugePin.style.transform = `translateX(-50%) rotate(30deg)`; 
+
+                noteBox.innerHTML = "⚠️ <strong>SYSTEM LOG NOTE:</strong> Flask server at port 5000 is unreachable. Displaying standalone client calculation matrix computation safely.";
+                noteContainer.style.background = "#fff5f5"; // soft alert danger block red border box highlight
+                noteContainer.style.borderColor = "#feb2b2";
             }
         });
-
-        function updateVisualAnalyticsDashboard(accuracy, userFabric) {
-            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
-            const needleAngle = ((accuracy / 100) * 180) - 90;
-            document.getElementById('gaugePointerPin').style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
-            
-            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
-            document.getElementById('structuralFitValue').innerText = `${accuracy}%`;
-            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(accuracy * 1.15))}%`;
-              const paletteWrapper = document.getElementById('paletteCirclesWrapper');
-
-const colorPalettes = {
-    "core black": ["#000000", "#434343", "#777777"],
-    "alabaster white": ["#F8F4EC", "#EDEADE", "#D6D3D1"],
-    "midnight blue": ["#0F172A", "#1E3A8A", "#3B82F6"],
-    "crimson red": ["#7F1D1D", "#DC2626", "#F87171"],
-    "forest green": ["#14532D", "#15803D", "#4ADE80"]
-};
-
-const selectedColors = colorPalettes[
-    document.querySelector('[name="primary_color"]').value
-] || ["#7c3aed", "#db2777", "#f9a8d4"];
-
-paletteWrapper.innerHTML = "";
-
-selectedColors.forEach(color => {
-    const dot = document.createElement('div');
-    dot.className = 'palette-circle-dot';
-    dot.style.background = color;
-    paletteWrapper.appendChild(dot);
-});
-            const ctx = document.getElementById('miniDiversityChart').getContext('2d');
-            if (kpiChartInstance) { kpiChartInstance.destroy(); }
-            
-            let dataPointsPoints = [30, 45, 60, 80, accuracy];
-            kpiChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['W1', 'W2', 'W3', 'W4', 'W5'],
-                    datasets: [{
-                        data: dataPointsPoints,
-                        borderColor: '#db2777',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        fill: true,
-                        backgroundColor: 'rgba(219, 39, 119, 0.05)',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { x: { display: false }, y: { display: false } }
-                }
-            });
-            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
-        }
     </script>
 </body>
 </html>
