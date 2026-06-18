@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fashion Stylist Recommender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        :root {
+            --bg-glow: linear-gradient(135deg, #fce7f3 0%, #f5f3ff 50%, #fbcfe8 100%);
+            --text-main: #2e1065;
+            --purple-brand: #7c3aed;
+            --pink-accent: #db2777;
+            --card-bg: rgba(255, 255, 255, 0.75);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        body {
+            background: var(--bg-glow);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        header {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(219, 39, 119, 0.2);
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 50;
+        }
+
+        .header-logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-item {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4c1d95;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            color: var(--pink-accent);
+            transform: translateY(-1px);
+        }
+
+        .content-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 120px 20px 40px 20px;
+            flex-grow: 1;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(219, 39, 119, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 50 Q 25 25, 50 50 T 100 50" fill="none" stroke="%23db2777" stroke-width="0.7" stroke-opacity="0.18"/%3E%3Cpath d="M0 20 Q 35 60, 70 20 T 100 40" fill="none" stroke="%233b82f6" stroke-width="0.6" stroke-opacity="0.15"/%3E%3Ccircle cx="50" cy="50" r="2" fill="%23db2777" fill-opacity="0.3"/%3E%3Ccircle cx="70" cy="20" r="1.5" fill="%233b82f6" fill-opacity="0.25"/%3E%3Ccircle cx="25" cy="75" r="2" fill="%23db2777" fill-opacity="0.2"/%3E%3C/svg%3E');
+            z-index: -2;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1500px;
+            width: 100%;
+        }
+
+        @media (max-width: 1150px) {
+            .page-wrapper {
+                flex-direction: column;
+                gap: 40px;
+                align-items: center;
+            }
+        }
+
+        .robot-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+            position: sticky;
+            top: 110px;
+        }
+
+        .speech-bubble {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 14px 22px;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.08);
+            margin-bottom: 25px;
+            position: relative;
+            text-align: center;
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            max-width: 320px;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: #ffffff transparent;
+        }
+
+        .speech-bubble p {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e1b4b;
+        }
+        
+        .speech-bubble span {
+            font-size: 0.85rem;
+            color: var(--pink-accent);
+            font-weight: 800;
+            display: block;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .robot-frame {
+            animation: softFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes softFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 1040px;
+            box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            overflow: hidden;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-column h2 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #7c3aed;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-box {
+            margin-bottom: 18px;
+        }
+
+        .input-box label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #4c1d95;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        select, input {
+            width: 100%;
+            background: #ffffff;
+            border: 1.5px solid rgba(244, 114, 182, 0.6);
+            border-radius: 12px;
+            padding: 12px 10px;
+            font-size: 0.95rem;
+            color: #1e1b4b;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-align-last: center;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--pink-accent);
+            box-shadow: 0 0 10px rgba(219, 39, 119, 0.25);
+        }
+
+        .btn-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, #a855f7 0%, #db2777 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px 60px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border-radius: 28px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(219, 39, 119, 0.45);
+        }
+
+        .results-section {
+            margin-top: 35px;
+            padding: 20px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px dashed var(--pink-accent);
+            display: none;
+            width: 100%;
+        }
+
+        .dashboard-header-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1e1b4b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(124, 58, 237, 0.08);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1fr;
+            gap: 15px;
+            text-align: left;
+            width: 100%;
+        }
+
+        @media (max-width: 960px) {
+            .dashboard-grid { 
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .metrics-card-box {
+            background: #ffffff;
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            border-radius: 18px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .metrics-card-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #4b5563;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 6px;
+        }
+
+        .gauge-container {
+            position: relative;
+            width: 180px;
+            height: 90px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .gauge-bg-clock {
+            position: absolute;
+            top: 0; left: 0; width: 180px; height: 180px;
+            border-radius: 50%;
+            border: 22px solid transparent;
+            background: conic-gradient(
+                from 270deg,
+                #1b7a43 0deg 36deg,   
+                #43a047 36deg 72deg,  
+                #81c784 72deg 108deg, 
+                #fdd835 108deg 144deg, 
+                #e0e0e0 144deg 180deg, 
+                transparent 180deg
+            ) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
+            transform: rotate(0deg);
+        }
+        .gauge-pin {
+            position: absolute;
+            bottom: 0; left: 50%; width: 4px; height: 75px;
+            background: #27272a; transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-54deg);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+            z-index: 10;
+        }
+        .gauge-center-dot {
+            position: absolute;
+            bottom: -6px; left: calc(50% - 6px);
+            width: 12px; height: 12px;
+            background: #27272a; border-radius: 50%;
+            z-index: 12;
+        }
+
+        .palette-circle-dot {
+            width: 35px;
+            height: 35px; border-radius: 50%;
+            display: inline-block; box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        .alt-box-layout {
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 10px 12px;
+            background: #ffffff;
+            width: 100%;
+        }
+
+        .info-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(46, 16, 101, 0.4);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 650px;
+            width: 100%;
+            border-radius: 24px;
+            padding: 40px;
+            border: 2px solid var(--pink-accent);
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--pink-accent);
+            cursor: pointer;
+        }
+
+        .site-footer {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(219, 39, 119, 0.15);
+            padding: 16px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #4c1d95;
+            z-index: 50;
+        }
+
+        .footer-social-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-social-links a {
+            color: #4c1d95;
+            font-size: 1.4rem;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--pink-accent);
+            transform: scale(1.15);
+        }
+
+        .footer-copyright-msg {
+            color: #4c1d95;
+            letter-spacing: 0.3px;
+        }
+
+        @media (max-width: 640px) {
+            .site-footer {
+                flex-direction: column-reverse;
+                gap: 14px;
+                text-align: center;
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="authScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-purple-950/60 backdrop-blur-md overflow-y-auto py-8">
+        
+        <div id="loginCard" class="bg-white p-8 rounded-3xl shadow-2xl border border-purple-300 w-full max-w-md text-center max-md:mx-4 block my-auto">
+            <h2 class="text-3xl font-black text-purple-950 mb-1 tracking-wide">AI FASHION LOGIN</h2>
+            <p class="text-xs text-purple-600 uppercase font-bold tracking-widest mb-6">// Unlocking System Dashboard //</p>
+            
+            <div class="space-y-4 text-left font-sans">
+                <div>
+                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="name@example.com" 
+                        class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white font-medium text-left">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Password</label>
+                    <div class="relative w-full">
+                        <input type="password" id="loginPassword" placeholder="••••••••" 
+                            class="w-full px-4 py-3 pr-12 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white font-medium text-left">
+                        <button type="button" onclick="togglePasswordVisibility('loginPassword', 'loginEyeIcon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-purple-950 hover:text-pink-600 focus:outline-none cursor-pointer">
+                            <i id="loginEyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 space-y-4 font-sans">
+                <button onclick="handleLogin()" class="w-full py-3 bg-purple-700 hover:bg-purple-800 text-white font-bold text-base rounded-xl shadow-md transition transform active:scale-95 cursor-pointer">
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i> Access Account Log In
+                </button>
+
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-purple-200"></div>
+                    <span class="flex-shrink mx-4 text-gray-400 text-xs font-bold uppercase">Or Connect With</span>
+                    <div class="flex-grow border-t border-purple-200"></div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="handleSocialLogin('google')" class="flex items-center justify-center gap-2 py-2.5 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-sm text-gray-900 cursor-pointer shadow-sm transition">
+                        <i class="fa-brands fa-google text-red-500 text-base"></i> <span class="text-gray-900">Google</span>
+                    </button>
+                    <button onclick="handleSocialLogin('github')" class="flex items-center justify-center gap-2 py-2.5 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-sm text-gray-900 cursor-pointer shadow-sm transition">
+                        <i class="fa-brands fa-github text-black text-base"></i> <span class="text-gray-900">GitHub</span>
+                    </button>
+                </div>
+
+                <p class="text-xs text-gray-500 font-semibold pt-2">
+                    New to NovaStyle? 
+                    <span onclick="switchAuthForm('signup')" class="text-pink-600 hover:underline cursor-pointer font-bold ml-1">Create Account / Sign Up</span>
+                </p>
+            </div>
+        </div>
+
+        <div id="signupCard" class="bg-white p-8 rounded-3xl shadow-2xl border border-pink-300 w-full max-w-md text-center max-md:mx-4 hidden my-auto">
+            <h2 class="text-3xl font-black text-pink-600 mb-1 tracking-wide">CREATE ACCOUNT</h2>
+            <p class="text-xs text-purple-950 uppercase font-bold tracking-widest mb-5">// Register User Identity Matrix //</p>
+            
+            <div class="space-y-3.5 text-left font-sans">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-purple-950 uppercase mb-1">First Name</label>
+                        <input type="text" id="signupName" placeholder="Sadia" 
+                            class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Surname</label>
+                        <input type="text" id="signupSurname" placeholder="Saleem" 
+                            class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Gender Identity</label>
+                    <select id="signupGender" class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="yourname@domain.com" 
+                        class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Create Password</label>
+                    <div class="relative w-full">
+                        <input type="password" id="signupPassword" placeholder="••••••••" 
+                            class="w-full px-3 py-2.5 pr-12 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
+                        <button type="button" onclick="togglePasswordVisibility('signupPassword', 'signupEyeIcon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-purple-950 hover:text-pink-600 focus:outline-none cursor-pointer">
+                            <i id="signupEyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 space-y-3 font-sans">
+                <button onclick="handleSignup()" class="w-full py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold text-base rounded-xl shadow-md transition transform active:scale-95 cursor-pointer">
+                    <i class="fa-solid fa-user-plus mr-2"></i> Register New Sign Up
+                </button>
+
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-purple-200"></div>
+                    <span class="flex-shrink mx-4 text-gray-400 text-[10px] font-bold uppercase">Or Register With</span>
+                    <div class="flex-grow border-t border-purple-200"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="handleSocialLogin('google')" class="flex items-center justify-center gap-2 py-2 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-xs text-gray-900 cursor-pointer shadow-sm transition">
+                        <i class="fa-brands fa-google text-red-500 text-sm"></i> <span class="text-gray-900">Google</span>
+                    </button>
+                    <button onclick="handleSocialLogin('github')" class="flex items-center justify-center gap-2 py-2 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-xs text-gray-900 cursor-pointer shadow-sm transition">
+                        <i class="fa-brands fa-github text-black text-sm"></i> <span class="text-gray-900">GitHub</span>
+                    </button>
+                </div>
+
+                <p class="text-xs text-gray-500 font-semibold pt-1">
+                    Already have an account? 
+                    <span onclick="switchAuthForm('login')" class="text-purple-700 hover:underline cursor-pointer font-bold ml-1"><i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Log In</span>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <header>
+        <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
+        <nav class="nav-links">
+            
+            <a class="nav-item" onclick="toggleModal('aboutModal', true)">About</a>
+            <a class="nav-item" onclick="toggleModal('feedbackModal', true)">Feedback</a>
+            <a class="nav-item text-red-600 font-black ml-4" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></a>
+        </nav>
+    </header>
+
+    <div class="content-container">
+        <div class="page-wrapper">
+  
+            <div class="robot-side">
+                <div class="speech-bubble">
+                    <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
+                    <span>ASA NOVASTYLE AI ASSISTANT</span>
+                </div>
+                <div class="robot-frame">
+                    <img src="robot.png" class="w-full max-w-[550px] min-w-[360px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(219,39,119,0.25)]" alt="Stylist Aura AI">
+                </div>
+            </div>
+
+            <div class="main-card">
+                <div class="w-full text-center mb-8 px-4">
+                    <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
+                        AI Fashion Stylist Recommender
+                    </h1>
+                </div>
+
+                <form id="predictionForm">
+                    <div class="form-grid">
+ 
+                        <div class="form-column">
+                            <h2>Body Metrics</h2>
+                            <div class="input-box">
+                                <label>Gender Profile</label>
+                                <select name="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                
+                            <div class="input-box">
+                                <label>Age Segment</label>
+                                <select name="age_group" required>
+                                    <option value="gen-z">Gen-Z</option>
+                                    <option value="millennial">Millennial</option>
+                                    <option value="older generation">Older Generation</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Body Architecture</label>
+                                <select name="body_type" required>
+                                    <option value="slim / lean">Slim / Lean</option>
+                                    <option value="average / fit">Average / Fit</option>
+                                    <option value="athletic / muscular">Athletic / Muscular</option>
+                                    <option value="heavy / plus">Heavy / Plus</option>
+                                </select>
+                            </div>
+                           
+                            <div class="input-box">
+                                <label>Skin Tone Complex</label>
+                                <select name="skin_tone" required>
+                                    <option value="fair / light">Fair / Light</option>
+                                    <option value="medium / olive">Medium / Olive</option>
+                                    <option value="dark / deep">Dark / Deep</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Exact Height (cm)</label>
+                                <input type="number" name="height" value="165" min="100" max="250" required>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <h2>Fashion Spot</h2>
+                            <div class="input-box">
+                                <label>Style Preference</label>
+                                <select name="style_preference" required>
+                                    <option value="casual wear">Casual Wear</option>
+                                    <option value="formal structured">Formal Structured</option>
+                                    <option value="smart casual / layered">Smart Casual / Layered</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Budget Dynamic</label>
+                                <select name="budget_level" required>
+                                    <option value="low / budget friendly">Low / Budget Friendly</option>
+                                    <option value="medium segment">Medium Segment</option>
+                                    <option value="high / luxury premium">High / Luxury Premium</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Primary Fabric</label>
+                                <select name="fabric" required>
+                                    <option value="cotton blend">Cotton Blend</option>
+                                    <option value="silk premium">Silk Premium</option>
+                                    <option value="denim / heavy canvas">Denim / Heavy Canvas</option>
+                                    <option value="linen luxury">Linen Luxury</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Color Palette</label>
+                                <select name="primary_color" required>
+                                    <option value="core black">Core Black</option>
+                                    <option value="alabaster white">Alabaster White</option>
+                                    <option value="midnight blue">Midnight Blue</option>
+                                    <option value="crimson red">Crimson Red</option>
+                                    <option value="forest green">Forest Green</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Pattern Matrix</label>
+                                <select name="pattern" required>
+                                    <option value="solid / monochromatic">Solid / Monochromatic</option>
+                                    <option value="printed micro">Printed Micro</option>
+                                    <option value="vertical striped">Vertical Striped</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <h2>Environmental Logic</h2>
+                            <div class="input-box">
+                                <label>Occasion Profile</label>
+                                <select name="occasion" required>
+                                    <option value="casual outing / daily">Casual Outing / Daily</option>
+                                    <option value="wedding / grand festival">Wedding / Grand Festival</option>
+                                    <option value="corporate office / business">Corporate Office / Business</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>User Mood</label>
+                                <select name="mood" required>
+                                    <option value="happy / vibrant">Happy / Vibrant</option>
+                                    <option value="relaxed / laidback">Relaxed / Laidback</option>
+                                    <option value="energetic / active">Energetic / Active</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Season Cycle</label>
+                                <select name="season" required>
+                                    <option value="summer elements">Summer Elements</option>
+                                    <option value="winter layering">Winter Layering</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Weather Matrix</label>
+                                <select name="weather" required>
+                                    <option value="sunny / clear">Sunny / Clear</option>
+                                    <option value="rainy / overcast">Rainy / Overcast</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label> Trending Spot </label>
+                                <input type="number" step="0.01" name="daa_graph_popularity_score" value="0.45" min="0.00" max="1.00" required>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="btn-wrapper">
+                        <button type="submit" class="action-btn">Evaluate Style Match</button>
+                    </div>
+                </form>
+
+                <div class="results-section" id="resultPanel">
+                    <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
+              
+                    <div id="badgeContainer" class="text-center mb-4"></div>
+                    
+                    <div class="dashboard-grid">
+                        
+                        <div class="metrics-card-box flex flex-col justify-between items-center bg-gray-50/50">
+                            <div class="metrics-card-title text-purple-900 font-extrabold">Recommendation Score Gauge</div>
+                            <div class="gauge-container mt-4">
+                                <div class="gauge-bg-clock"></div>
+                                <div class="gauge-pin" id="gaugePointerPin"></div>
+                                <div class="gauge-center-dot"></div>
+                            </div>
+                            <div class="text-center font-black text-xs tracking-wider mt-4 text-gray-800" id="gaugeValueLabel">
+                                OPTIMAL STYLE MATCH: --
+                            </div>
+                        </div>
+
+                        <div class="metrics-card-box flex flex-col justify-between">
+                            <div class="metrics-card-title text-purple-900 font-extrabold">Model Data Architecture</div>
+                            <div class="text-xs space-y-2 text-gray-700 font-serif" style="text-align: left;">
+                                <div class="flex justify-between border-b pb-1"><span>Target Fabric Element</span><span class="text-green-600 font-bold" id="fabricFeedbackField">Premium Selection</span></div>
+                                <div class="flex justify-between border-b pb-1"><span>Tone Matching Level</span><span class="text-purple-600 font-bold">Synchronized</span></div>
+                                <div class="flex justify-between border-b pb-1"><span>Aesthetic Vector Status</span><span class="text-blue-600 font-semibold">Active Matrix</span></div>
+                                <div class="flex justify-between pb-1"><span>Server Computation Log</span><span class="text-gray-900 font-bold" id="serverStateLabel">Success</span></div>
+                            </div>
+                            <div class="mt-3 pt-2 border-t border-dashed border-pink-300 text-xs text-center text-purple-950 font-sans" id="adviceText"></div>
+                        </div>
+
+                        <div class="metrics-card-box flex flex-col justify-between">
+                            <div class="metrics-card-title text-purple-900 font-extrabold">Curated Alternatives</div>
+                            <div class="space-y-3 overflow-y-auto text-left font-sans text-xs max-h-[160px] pr-1">
+                                
+                                <div class="alt-box-layout">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <span class="font-black text-gray-900">ALT 1: 91% Match</span>
+                                            <p class="text-[11px] text-gray-600 font-medium">Navy Cotton-Poly Blazer with Chinos</p>
+                                        </div>
+                                        <div class="w-6 h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-white font-bold">🧥</div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
+                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
+                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="alt-box-layout">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <span class="font-black text-gray-900">ALT 2: 89% Match</span>
+                                            <p class="text-[11px] text-gray-600 font-medium">Teal Gradient Shirt-Jacket</p>
+                                        </div>
+                                        <div class="w-6 h-6 bg-teal-700 rounded flex items-center justify-center text-[10px] text-white font-bold">👕</div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
+                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
+                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
+                                    </div>
+                                </div>
+
+                                <div class="alt-box-layout">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <div>
+                                            <span class="font-black text-gray-900">ALT 3: 86% Match</span>
+                                            <p class="text-[11px] text-gray-600 font-medium">Olive Textured Trousers with T-shirt</p>
+                                        </div>
+                                        <div class="w-6 h-6 bg-olive-700 rounded flex items-center justify-center text-[10px] text-white font-bold">👖</div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
+                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
+                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="dashboard-grid mt-4">
+                        <div class="metrics-card-box">
+                            <div class="metrics-card-title">Refined Color Palette</div>
+                            <div class="flex justify-center gap-3" id="paletteCirclesWrapper"></div>
+                        </div>
+
+                        <div class="metrics-card-box">
+                            <div class="metrics-card-title">Optimal Fabric Solutions</div>
+                            <div class="grid grid-cols-2 gap-2 text-center font-sans">
+                                <div class="bg-purple-50 p-1.5 rounded-xl border border-purple-100">
+                                    <div class="text-[10px] uppercase font-bold text-gray-500">Structural Fit</div>
+                                    <div class="text-sm font-black text-purple-900" id="structuralFitValue">--</div>
+                                </div>
+                                <div class="bg-pink-50 p-1.5 rounded-xl border border-pink-100">
+                                    <div class="text-[10px] uppercase font-bold text-gray-500">Aura Density</div>
+                                    <div class="text-sm font-black text-pink-900" id="auraDensityValue">--</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="metrics-card-box">
+                            <div class="metrics-card-title">System KPIs (Diversity Trend)</div>
+                            <div class="w-full h-[65px]">
+                                <canvas id="miniDiversityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="aboutModal" class="info-modal">
+        <div class="modal-content text-left">
+            <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
+            <h2 class="text-3xl font-extrabold mb-4 text-purple-950 border-b pb-2 border-purple-200">About ASA NovaStyle</h2>
+            <p class="text-gray-700 text-base leading-relaxed mb-4 font-medium">
+                Welcome to the AI Fashion Stylist Recommender! This system leverages a custom-trained machine learning model designed to analyze fashion vectors, color distributions, and personal preferences. By evaluating your uploaded garments against contemporary styling pipelines, the model delivers tailored coordination logs for specific occasions, helping you design an optimized visual profile instantly.</p>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="info-modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="toggleModal('feedbackModal', false)">&times;</span>
+            <h2 class="text-3xl font-bold mb-4 text-purple-900">User Feedback System</h2>
+            <textarea class="w-full p-3 border border-pink-400 rounded-lg text-lg outline-none mb-4 resize-none" rows="3" placeholder="Tell us about your style prediction..."></textarea>
+            <button class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold py-2 px-6 rounded-xl" onclick="alert('Thank you for feedback!'); toggleModal('feedbackModal', false)">Submit</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-social-links">
+            <a href="https://www.linkedin.com/in/sadia-saleem-khan-a849192b5/" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:sadiasaleemkhan330@gmail.com"><i class="fas fa-envelope"></i></a>
+        </div>
+        <div class="footer-copyright-msg">&copy; 2026 ASA NovaStyle. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = "https://nvghhzhxxbkrimxlrcue.supabase.co"; 
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Z2hoemh4eGJrcmlteGxyY3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTc5NDcsImV4cCI6MjA5NTYzMzk0N30.M_fQ51nPleOCQzRgzDa5LqcSR2HXIQoBVfXbHGUwfZE";
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function switchAuthForm(formType) {
+            const loginCard = document.getElementById('loginCard');
+            const signupCard = document.getElementById('signupCard');
+            if (formType === 'signup') {
+                loginCard.style.display = 'none';
+                signupCard.style.display = 'block';
+            } else {
+                signupCard.style.display = 'none';
+                loginCard.style.display = 'block';
+            }
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const inputField = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(iconId);
+            if (inputField.type === "password") {
+                inputField.type = "text";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            } else {
+                inputField.type = "password";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            }
+        }
+
+        async function handleSocialLogin(providerName) {
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: providerName,
+                    options: { redirectTo: window.location.href }
+                });
+                if (error) throw error;
+            } catch (error) {
+                alert(`${providerName.toUpperCase()} Connection Error: ` + error.message);
+            }
+        }
+
+        async function checkActiveSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session && session.user) {
+                document.getElementById('authScreen').style.display = 'none';
+            }
+        }
+        window.addEventListener('DOMContentLoaded', checkActiveSession);
+
+        async function handleSignup() {
+            const firstName = document.getElementById('signupName').value;
+            const surname = document.getElementById('signupSurname').value;
+            const gender = document.getElementById('signupGender').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            if (!firstName || !surname || !gender || !email || !password) {
+                alert("All profile details are mandatory!");
+                return;
+            }
+
+            const { data, error } = await supabaseClient.auth.signUp({
+                email: email,
+                password: password,
+                options: { data: { first_name: firstName, surname: surname, gender_identity: gender } }
+            });
+            
+            if (error) {
+                alert("Cloud Registry Failed: " + error.message);
+            } else {
+                alert("Identity Registered on Supabase! Returning to Log In view.");
+                switchAuthForm('login');
+            }
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert("Credentials missing!");
+                return;
+            }
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) {
+                alert("Access Prohibited: " + error.message);
+            } else {
+                document.getElementById('authScreen').style.display = 'none';
+            }
+        }
+
+        async function handleLogout() {
+            await supabaseClient.auth.signOut();
+            alert("Logged out successfully.");
+            document.getElementById('authScreen').style.display = 'flex';
+            switchAuthForm('login');
+        }
+
+        let kpiChartInstance = null;
+        function toggleModal(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
+
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const payload = {};
+            formData.forEach((value, key) => { payload[key] = value; });
+
+            const panel = document.getElementById('resultPanel');
+            const advice = document.getElementById('adviceText');
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if(!response.ok) throw new Error(`Server status ${response.status}`);
+                const result = await response.json();
+                 
+                if(result.status === 'success') {
+                    panel.style.display = 'block';
+                    if(advice) advice.innerHTML = result.recommendation;
+                    let accuracyPercentage = result.prediction === 1 ? 92 : 31;
+                    document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
+                    updateVisualAnalyticsDashboard(accuracyPercentage, payload.fabric);
+                }
+            } catch (error) {
+                panel.style.display = 'block';
+                if(advice) advice.innerHTML = "<strong>CRITICAL NOTE:</strong> Flask server connection failed. Showing simulated matrix.";
+                document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
+                updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend");
+            }
+        });
+
+        function updateVisualAnalyticsDashboard(accuracy, userFabric) {
+            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
+            const needleAngle = ((accuracy / 100) * 180) - 90;
+            document.getElementById('gaugePointerPin').style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
+            
+            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
+            document.getElementById('structuralFitValue').innerText = `${accuracy}%`;
+            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(accuracy * 1.15))}%`;
+              const paletteWrapper = document.getElementById('paletteCirclesWrapper');
+
+const colorPalettes = {
+    "core black": ["#000000", "#434343", "#777777"],
+    "alabaster white": ["#F8F4EC", "#EDEADE", "#D6D3D1"],
+    "midnight blue": ["#0F172A", "#1E3A8A", "#3B82F6"],
+    "crimson red": ["#7F1D1D", "#DC2626", "#F87171"],
+    "forest green": ["#14532D", "#15803D", "#4ADE80"]
+};
+
+const selectedColors = colorPalettes[
+    document.querySelector('[name="primary_color"]').value
+] || ["#7c3aed", "#db2777", "#f9a8d4"];
+
+paletteWrapper.innerHTML = "";
+
+selectedColors.forEach(color => {
+    const dot = document.createElement('div');
+    dot.className = 'palette-circle-dot';
+    dot.style.background = color;
+    paletteWrapper.appendChild(dot);
+});
+            const ctx = document.getElementById('miniDiversityChart').getContext('2d');
+            if (kpiChartInstance) { kpiChartInstance.destroy(); }
+            
+            let dataPointsPoints = [30, 45, 60, 80, accuracy];
+            kpiChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['W1', 'W2', 'W3', 'W4', 'W5'],
+                    datasets: [{
+                        data: dataPointsPoints,
+                        borderColor: '#db2777',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true,
+                        backgroundColor: 'rgba(219, 39, 119, 0.05)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
