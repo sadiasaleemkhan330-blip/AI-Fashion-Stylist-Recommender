@@ -162,7 +162,9 @@ def predict():
 # Base route for checking if server is online
 @app.route('/')
 def home():
-    return jsonify({"status": "online", "message": "AI Fashion Stylist API is running successfully!"})
-
-if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000, use_reloader=False)
+    try:
+        # Yeh seedha main folder se aapki poori design wali index.html load karega
+        with open('index.html', 'r', encoding='utf-8') as f:
+            return f.read()
+    except Exception as e:
+        return f"Frontend file loading error: {str(e)}"
