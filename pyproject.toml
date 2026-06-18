@@ -1,14 +1,11 @@
 [project]
-name = "ai-fashion-stylist-recommender"
+name = "fashion-app"
 version = "0.1.0"
-description = "AI Fashion Stylist Recommender"
+description = "AI Fashion App"
 requires-python = ">=3.11"
 
 dependencies = [
-    "streamlit",
-    "pandas",
-    "numpy",
-    "scikit-learn"
+    "streamlit"
 ]
 
 [build-system]
