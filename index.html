@@ -8,15 +8,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <style>
         :root {
-            --bg-glow: linear-gradient(135deg, #fce7f3 0%, #f5f3ff 50%, #fbcfe8 100%);
+            --bg-glow: #f0f4ff;
             --text-main: #2e1065;
             --purple-brand: #7c3aed;
             --pink-accent: #db2777;
-            --card-bg: rgba(255, 255, 255, 0.75);
         }
 
         * {
@@ -27,828 +24,592 @@
         }
 
         body {
-            background: var(--bg-glow);
+            background-color: #f3e8ff;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(219, 39, 119, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.05) 0%, transparent 40%),
+                url('data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 40 Q 20 20, 40 40 T 80 40" fill="none" stroke="%23db2777" stroke-width="0.5" stroke-opacity="0.12"/%3E%3Cpath d="M0 15 Q 25 45, 50 15 T 80 30" fill="none" stroke="%237c3aed" stroke-width="0.4" stroke-opacity="0.1"/%3E%3Ccircle cx="40" cy="40" r="1.5" fill="%23db2777" fill-opacity="0.2"/%3E%3C/svg%3E');
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        header {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(219, 39, 119, 0.2);
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 50;
-        }
-
-        .header-logo {
-            font-size: 1.6rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            cursor: pointer;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 35px;
-        }
-
-        .nav-item {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #4c1d95;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .nav-item:hover {
-            color: var(--pink-accent);
-            transform: translateY(-1px);
-        }
-
-        .content-container {
-            display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: flex-start;
-            width: 100%;
-            padding: 120px 20px 40px 20px;
-            flex-grow: 1;
+            padding: 30px 40px 40px 300px;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        /* Floating Sidebar Assistant Element */
+        .sidebar-assistant {
             position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(219, 39, 119, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                url('data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 50 Q 25 25, 50 50 T 100 50" fill="none" stroke="%23db2777" stroke-width="0.7" stroke-opacity="0.18"/%3E%3Cpath d="M0 20 Q 35 60, 70 20 T 100 40" fill="none" stroke="%233b82f6" stroke-width="0.6" stroke-opacity="0.15"/%3E%3Ccircle cx="50" cy="50" r="2" fill="%23db2777" fill-opacity="0.3"/%3E%3Ccircle cx="70" cy="20" r="1.5" fill="%233b82f6" fill-opacity="0.25"/%3E%3Ccircle cx="25" cy="75" r="2" fill="%23db2777" fill-opacity="0.2"/%3E%3C/svg%3E');
-            z-index: -2;
-        }
-
-        .page-wrapper {
+            top: 35px;
+            left: 35px;
+            width: 240px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: transform;
-            gap: 25px;
-            max-width: 1100px;
-            width: 100%;
-        }
-
-        /* Fixed Left-Side Popup Speech Bubble */
-        .robot-side {
-            position: fixed;
-            top: 100px;
-            left: 20px;
-            z-index: 40;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            gap: 12px;
         }
 
         .speech-bubble {
             background: #ffffff;
-            border-radius: 16px;
-            padding: 14px 22px;
-            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.08);
-            margin-bottom: 15px;
-            position: relative;
+            border-radius: 18px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.08);
+            border: 1px solid rgba(244, 114, 182, 0.3);
             text-align: center;
-            border: 1px solid rgba(244, 114, 182, 0.2);
-            max-width: 260px;
-        }
-
-        .speech-bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 8px 8px 0;
-            border-style: solid;
-            border-color: #ffffff transparent;
         }
 
         .speech-bubble p {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #1e1b4b;
+            line-height: 1.3;
         }
         
         .speech-bubble span {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--pink-accent);
             font-weight: 800;
             display: block;
-            margin-top: 5px;
+            margin-top: 4px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .robot-frame {
-            animation: softFloat 5s ease-in-out infinite;
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #a78bfa;
+            padding-left: 8px;
+        }
+        .brand-logo-area i {
+            color: #f472b6;
+            font-size: 0.75rem;
+        }
+
+        /* Main Centralized Card Container */
+        .main-central-container {
+            background: #ffffff;
+            border-radius: 36px;
+            padding: 45px 50px;
+            width: 100%;
+            max-width: 1050px;
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.06);
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 30px;
         }
 
-        .assistant-icon {
-            width: 70px;
-            height: auto;
-        }
-
-        @keyframes softFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .main-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 32px;
-            padding: 40px 30px;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            overflow: hidden;
+        .main-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #db2777;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-        }
-
-        @media (max-width: 850px) {
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .robot-side {
-                position: static;
-                margin-bottom: 20px;
-            }
+            gap: 35px;
         }
 
         .form-column h2 {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             font-weight: 800;
-            color: #7c3aed;
+            color: #6d28d9;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             text-align: center;
+            letter-spacing: 0.5px;
         }
 
         .input-box {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .input-box label {
             display: block;
-            font-size: 0.9rem;
-            font-weight: 700;
+            font-size: 0.85rem;
+            font-weight: 800;
             color: #4c1d95;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             text-transform: uppercase;
             text-align: center;
+            letter-spacing: 0.3px;
+        }
+
+        .select-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         select, input {
             width: 100%;
             background: #ffffff;
-            border: 1.5px solid rgba(244, 114, 182, 0.6);
-            border-radius: 12px;
-            padding: 12px 10px;
-            font-size: 0.95rem;
-            color: #1e1b4b;
+            border: 1.5px solid #fbcfe8;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: #4b5563;
             font-weight: 600;
             outline: none;
-            transition: all 0.2s ease;
+            appearance: none;
+            -webkit-appearance: none;
             text-align: center;
             text-align-last: center;
+            transition: all 0.2s ease;
         }
 
         select:focus, input:focus {
-            border-color: var(--pink-accent);
-            box-shadow: 0 0 10px rgba(219, 39, 119, 0.25);
+            border-color: #f472b6;
         }
 
-        .btn-wrapper {
+        .select-wrapper::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1e1b4b;
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .btn-container {
             display: flex;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 10px;
         }
 
-        .action-btn {
-            background: linear-gradient(135deg, #a855f7 0%, #db2777 100%);
+        .evaluate-btn {
+            background: linear-gradient(90deg, #b55fe6 0%, #db2777 100%);
             color: #ffffff;
             border: none;
-            padding: 14px 60px;
-            font-size: 1.1rem;
+            padding: 12px 50px;
+            font-size: 1.05rem;
             font-weight: 800;
-            border-radius: 28px;
+            border-radius: 25px;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.3);
-            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 15px rgba(219, 39, 119, 0.25);
+            transition: transform 0.2s ease;
         }
 
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 24px rgba(219, 39, 119, 0.45);
+        .evaluate-btn:hover {
+            transform: scale(1.02);
         }
 
+        /* Results Display Panel */
         .results-section {
-            margin-top: 20px;
-            padding: 20px;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px dashed var(--pink-accent);
-            display: none;
+            border: 2px dashed #db2777;
+            border-radius: 28px;
+            padding: 24px;
+            background: #fff5f7;
             width: 100%;
         }
 
         .dashboard-header-title {
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             font-weight: 800;
             color: #1e1b4b;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: rgba(124, 58, 237, 0.08);
+            letter-spacing: 1px;
+            background: #ede9fe;
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 14px;
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1.1fr 1fr;
-            gap: 15px;
-            text-align: left;
-            width: 100%;
-        }
-
-        @media (max-width: 960px) {
-            .dashboard-grid { 
-                grid-template-columns: 1fr;
-            }
+            gap: 16px;
         }
 
         .metrics-card-box {
             background: #ffffff;
-            border: 1px solid rgba(244, 114, 182, 0.3);
-            border-radius: 18px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-            overflow: hidden;
-            width: 100%;
+            border: 1px solid #fbcfe8;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
         }
 
         .metrics-card-title {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            color: #4b5563;
+            color: #4c1d95;
             text-transform: uppercase;
             text-align: center;
             margin-bottom: 15px;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid #f3f4f6;
             padding-bottom: 6px;
         }
 
         .gauge-container {
             position: relative;
-            width: 180px;
-            height: 90px;
+            width: 160px;
+            height: 80px;
             margin: 0 auto;
             overflow: hidden;
         }
         .gauge-bg-clock {
             position: absolute;
-            top: 0; left: 0; width: 180px; height: 180px;
+            top: 0; left: 0; width: 160px; height: 160px;
             border-radius: 50%;
-            border: 22px solid transparent;
+            border: 20px solid transparent;
             background: conic-gradient(
                 from 270deg,
-                #1b7a43 0deg 36deg,   
-                #43a047 36deg 72deg,  
-                #81c784 72deg 108deg, 
-                #fdd835 108deg 144deg, 
-                #e0e0e0 144deg 180deg, 
+                #16a34a 0deg 45deg,   
+                #4ade80 45deg 90deg,  
+                #facc15 90deg 135deg, 
+                #e5e7eb 135deg 180deg, 
                 transparent 180deg
             ) border-box;
             -webkit-mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
-            transform: rotate(0deg);
         }
         .gauge-pin {
             position: absolute;
-            bottom: 0; left: 50%; width: 4px; height: 75px;
-            background: #27272a; transform-origin: bottom center;
-            transform: translateX(-50%) rotate(-54deg);
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            bottom: 0; left: 50%; width: 4px; height: 65px;
+            background: #1f2937; transform-origin: bottom center;
+            transform: translateX(-50%) rotate(45deg);
             border-radius: 4px;
-            z-index: 10;
-        }
-        .gauge-center-dot {
-            position: absolute;
-            bottom: -6px; left: calc(50% - 6px);
-            width: 12px; height: 12px;
-            background: #27272a; border-radius: 50%;
-            z-index: 12;
         }
 
         .palette-circle-dot {
-            width: 35px;
-            height: 35px; border-radius: 50%;
-            display: inline-block; box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            width: 32px;
+            height: 32px; border-radius: 50%;
+            display: inline-block;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
         }
 
-        .alt-box-layout {
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 10px 12px;
+        /* Alternatives Layout styling matching Image 2 */
+        .alternative-item-card {
+            border: 1px solid #f3f4f6;
+            border-radius: 12px;
+            padding: 10px;
             background: #ffffff;
-            width: 100%;
-        }
-
-        .info-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(46, 16, 101, 0.4);
-            backdrop-filter: blur(8px);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: white;
-            max-width: 650px;
-            width: 100%;
-            border-radius: 24px;
-            padding: 40px;
-            border: 2px solid var(--pink-accent);
+            margin-bottom: 8px;
             position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
-
-        .modal-close {
+        .alt-badge-icon {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--pink-accent);
-            cursor: pointer;
+            right: 12px; top: 12px;
+            width: 22px; height: 22px;
+            background: #1e293b; color: white;
+            border-radius: 6px; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 0.65rem;
         }
 
-        .site-footer {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(219, 39, 119, 0.15);
-            padding: 16px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #4c1d95;
-            z-index: 50;
+        /* Optimal Fabric Solutions custom segment cards */
+        .fabric-sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .fabric-sub-box {
+            background: #fdf4ff;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #fae8ff;
         }
 
-        .footer-social-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .footer-social-links a {
-            color: #4c1d95;
-            font-size: 1.4rem;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .footer-social-links a:hover {
-            color: var(--pink-accent);
-            transform: scale(1.15);
-        }
-
-        .footer-copyright-msg {
-            color: #4c1d95;
-            letter-spacing: 0.3px;
-        }
-
-        @media (max-width: 640px) {
-            .site-footer {
-                flex-direction: column-reverse;
-                gap: 14px;
-                text-align: center;
-                padding: 15px 20px;
-            }
+        @media (max-width: 950px) {
+            body { padding: 20px; justify-content: center; }
+            .sidebar-assistant { position: static; width: 100%; margin-bottom: 15px; }
+            .form-grid, .dashboard-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="authScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-purple-950/60 backdrop-blur-md overflow-y-auto py-8">
-        
-        <div id="loginCard" class="bg-white p-8 rounded-3xl shadow-2xl border border-purple-300 w-full max-w-md text-center max-md:mx-4 block my-auto">
-            <h2 class="text-3xl font-black text-purple-950 mb-1 tracking-wide">AI FASHION LOGIN</h2>
-            <p class="text-xs text-purple-600 uppercase font-bold tracking-widest mb-6">// Unlocking System Dashboard //</p>
-            
-            <div class="space-y-4 text-left font-sans">
-                <div>
-                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="name@example.com" 
-                        class="w-full px-4 py-3 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white font-medium text-left">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Password</label>
-                    <div class="relative w-full">
-                        <input type="password" id="loginPassword" placeholder="••••••••" 
-                            class="w-full px-4 py-3 pr-12 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white font-medium text-left">
-                        <button type="button" onclick="togglePasswordVisibility('loginPassword', 'loginEyeIcon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-purple-950 hover:text-pink-600 focus:outline-none cursor-pointer">
-                            <i id="loginEyeIcon" class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-6 space-y-4 font-sans">
-                <button onclick="handleLogin()" class="w-full py-3 bg-purple-700 hover:bg-purple-800 text-white font-bold text-base rounded-xl shadow-md transition transform active:scale-95 cursor-pointer">
-                    <i class="fa-solid fa-right-to-bracket mr-2"></i> Access Account Log In
-                </button>
-
-                <div class="relative flex py-2 items-center">
-                    <div class="flex-grow border-t border-purple-200"></div>
-                    <span class="flex-shrink mx-4 text-gray-400 text-xs font-bold uppercase">Or Connect With</span>
-                    <div class="flex-grow border-t border-purple-200"></div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="handleSocialLogin('google')" class="flex items-center justify-center gap-2 py-2.5 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-sm text-gray-900 cursor-pointer shadow-sm transition">
-                        <i class="fa-brands fa-google text-red-500 text-base"></i> <span class="text-gray-900">Google</span>
-                    </button>
-                    <button onclick="handleSocialLogin('github')" class="flex items-center justify-center gap-2 py-2.5 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-sm text-gray-900 cursor-pointer shadow-sm transition">
-                        <i class="fa-brands fa-github text-black text-base"></i> <span class="text-gray-900">GitHub</span>
-                    </button>
-                </div>
-
-                <p class="text-xs text-gray-500 font-semibold pt-2">
-                    New to NovaStyle? 
-                    <span onclick="switchAuthForm('signup')" class="text-pink-600 hover:underline cursor-pointer font-bold ml-1">Create Account / Sign Up</span>
-                </p>
-            </div>
-        </div>
-
-        <div id="signupCard" class="bg-white p-8 rounded-3xl shadow-2xl border border-pink-300 w-full max-w-md text-center max-md:mx-4 hidden my-auto">
-            <h2 class="text-3xl font-black text-pink-600 mb-1 tracking-wide">CREATE ACCOUNT</h2>
-            <p class="text-xs text-purple-950 uppercase font-bold tracking-widest mb-5">// Register User Identity Matrix //</p>
-            
-            <div class="space-y-3.5 text-left font-sans">
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-purple-950 uppercase mb-1">First Name</label>
-                        <input type="text" id="signupName" placeholder="Sadia" 
-                            class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Surname</label>
-                        <input type="text" id="signupSurname" placeholder="Saleem" 
-                            class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Gender Identity</label>
-                    <select id="signupGender" class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
-                        <option value="" disabled selected>Select Gender</option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Email Address</label>
-                    <input type="email" id="signupEmail" placeholder="yourname@domain.com" 
-                        class="w-full px-3 py-2.5 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-purple-950 uppercase mb-1">Create Password</label>
-                    <div class="relative w-full">
-                        <input type="password" id="signupPassword" placeholder="••••••••" 
-                            class="w-full px-3 py-2.5 pr-12 rounded-xl border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white font-medium text-left">
-                        <button type="button" onclick="togglePasswordVisibility('signupPassword', 'signupEyeIcon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-purple-950 hover:text-pink-600 focus:outline-none cursor-pointer">
-                            <i id="signupEyeIcon" class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-5 space-y-3 font-sans">
-                <button onclick="handleSignup()" class="w-full py-3 bg-pink-600 hover:bg-pink-700 text-white font-bold text-base rounded-xl shadow-md transition transform active:scale-95 cursor-pointer">
-                    <i class="fa-solid fa-user-plus mr-2"></i> Register New Sign Up
-                </button>
-
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-purple-200"></div>
-                    <span class="flex-shrink mx-4 text-gray-400 text-[10px] font-bold uppercase">Or Register With</span>
-                    <div class="flex-grow border-t border-purple-200"></div>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="handleSocialLogin('google')" class="flex items-center justify-center gap-2 py-2 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-xs text-gray-900 cursor-pointer shadow-sm transition">
-                        <i class="fa-brands fa-google text-red-500 text-sm"></i> <span class="text-gray-900">Google</span>
-                    </button>
-                    <button onclick="handleSocialLogin('github')" class="flex items-center justify-center gap-2 py-2 border border-gray-300 bg-white hover:bg-gray-100 rounded-xl font-bold text-xs text-gray-900 cursor-pointer shadow-sm transition">
-                        <i class="fa-brands fa-github text-black text-sm"></i> <span class="text-gray-900">GitHub</span>
-                    </button>
-                </div>
-
-                <p class="text-xs text-gray-500 font-semibold pt-1">
-                    Already have an account? 
-                    <span onclick="switchAuthForm('login')" class="text-purple-700 hover:underline cursor-pointer font-bold ml-1"><i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Log In</span>
-                </p>
-            </div>
-        </div>
-
-    </div>
-
-    <header>
-        <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
-        <nav class="nav-links">
-            <a class="nav-item" onclick="toggleModal('aboutModal', true)">About</a>
-            <a class="nav-item" onclick="toggleModal('feedbackModal', true)">Feedback</a>
-            <a class="nav-item text-red-600 font-black ml-4" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></a>
-        </nav>
-    </header>
-
-    <div class="robot-side">
+    <!-- SIDEBAR FLOATING LAYER -->
+    <div class="sidebar-assistant">
         <div class="speech-bubble">
-            <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
+            <p>Hey! Let's find your perfect style vibe!</p>
             <span>ASA NOVASTYLE AI ASSISTANT</span>
         </div>
-        <div class="robot-frame">
-            <img src="assets/Robot.png" alt="Stylist Aura AI" class="assistant-icon">
+        <div class="brand-logo-area">
+            <i class="fa-solid fa-image"></i> Stylist Aura AI
         </div>
     </div>
 
-    <div class="content-container">
-        <div class="page-wrapper">
-            
-            <div class="text-center w-full">
-                <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
-                    AI Fashion Stylist Recommender
-                </h1>
+    <!-- MAIN CENTRAL PLATFORM -->
+    <div class="main-central-container">
+        
+        <div>
+            <h1 class="main-title">AI Fashion Stylist Recommender</h1>
+        </div>
+
+        <form id="styleInputForm">
+            <div class="form-grid">
+                <!-- BODY METRICS -->
+                <div class="form-column">
+                    <h2>Body Metrics</h2>
+                    <div class="input-box">
+                        <label>Gender Profile</label>
+                        <div class="select-wrapper">
+                            <select name="gender">
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Age Segment</label>
+                        <div class="select-wrapper">
+                            <select name="age">
+                                <option>Gen-Z</option>
+                                <option>Millennial</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Body Architecture</label>
+                        <div class="select-wrapper">
+                            <select name="body">
+                                <option>Slim / Lean</option>
+                                <option>Average / Fit</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Skin Tone Complex</label>
+                        <div class="select-wrapper">
+                            <select name="tone">
+                                <option>Fair / Light</option>
+                                <option>Medium / Olive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Exact Height (cm)</label>
+                        <input type="number" value="165">
+                    </div>
+                </div>
+
+                <!-- FASHION SPOT -->
+                <div class="form-column">
+                    <h2>Fashion Spot</h2>
+                    <div class="input-box">
+                        <label>Style Preference</label>
+                        <div class="select-wrapper">
+                            <select name="style">
+                                <option>Casual Wear</option>
+                                <option>Formal Structured</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Budget Dynamic</label>
+                        <div class="select-wrapper">
+                            <select name="budget">
+                                <option>Low / Budget Friendly</option>
+                                <option>High / Premium</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Primary Fabric</label>
+                        <div class="select-wrapper">
+                            <select name="fabric">
+                                <option>Cotton Blend</option>
+                                <option>Linen Luxury</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Color Palette</label>
+                        <div class="select-wrapper">
+                            <select name="color">
+                                <option>Core Black</option>
+                                <option>Midnight Blue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Pattern Matrix</label>
+                        <div class="select-wrapper">
+                            <select name="pattern">
+                                <option>Solid / Monochromatic</option>
+                                <option>Vertical Striped</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ENVIRONMENTAL LOGIC -->
+                <div class="form-column">
+                    <h2>Environmental Logic</h2>
+                    <div class="input-box">
+                        <label>Occasion Profile</label>
+                        <div class="select-wrapper">
+                            <select name="occasion">
+                                <option>Casual Outing / Daily</option>
+                                <option>Corporate / Office</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>User Mood</label>
+                        <div class="select-wrapper">
+                            <select name="mood">
+                                <option>Happy / Vibrant</option>
+                                <option>Relaxed / Calm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Season Cycle</label>
+                        <div class="select-wrapper">
+                            <select name="season">
+                                <option>Summer Elements</option>
+                                <option>Winter Layering</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Weather Matrix</label>
+                        <div class="select-wrapper">
+                            <select name="weather">
+                                <option>Sunny / Clear</option>
+                                <option>Rainy / Humid</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-box">
+                        <label>Trending Spot</label>
+                        <input type="number" step="0.01" value="0.45">
+                    </div>
+                </div>
             </div>
 
-            <div class="main-card">
-                <form id="predictionForm">
-                    <div class="form-grid">
-                        <div class="form-column">
-                            <h2>Body Metrics</h2>
-                            <div class="input-box">
-                                <label>Gender Profile</label>
-                                <select name="gender" required>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Age Segment</label>
-                                <select name="age_group" required>
-                                    <option value="gen-z">Gen-Z</option>
-                                    <option value="millennial">Millennial</option>
-                                    <option value="older generation">Older Generation</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Body Architecture</label>
-                                <select name="body_type" required>
-                                    <option value="slim / lean">Slim / Lean</option>
-                                    <option value="average / fit">Average / Fit</option>
-                                    <option value="athletic / muscular">Athletic / Muscular</option>
-                                    <option value="heavy / plus">Heavy / Plus</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Skin Tone Complex</label>
-                                <select name="skin_tone" required>
-                                    <option value="fair / light">Fair / Light</option>
-                                    <option value="medium / olive">Medium / Olive</option>
-                                    <option value="dark / deep">Dark / Deep</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Exact Height (cm)</label>
-                                <input type="number" name="height" value="165" min="100" max="250" required>
-                            </div>
-                        </div>
-
-                        <div class="form-column">
-                            <h2>Fashion Spot</h2>
-                            <div class="input-box">
-                                <label>Style Preference</label>
-                                <select name="style_preference" required>
-                                    <option value="casual wear">Casual Wear</option>
-                                    <option value="formal structured">Formal Structured</option>
-                                    <option value="smart casual / layered">Smart Casual / Layered</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Budget Dynamic</label>
-                                <select name="budget_level" required>
-                                    <option value="low / budget friendly">Low / Budget Friendly</option>
-                                    <option value="medium segment">Medium Segment</option>
-                                    <option value="high / luxury premium">High / Luxury Premium</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Primary Fabric</label>
-                                <select name="fabric" required>
-                                    <option value="cotton blend">Cotton Blend</option>
-                                    <option value="silk premium">Silk Premium</option>
-                                    <option value="denim / heavy canvas">Denim / Heavy Canvas</option>
-                                    <option value="linen luxury">Linen Luxury</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Color Palette</label>
-                                <select name="primary_color" required>
-                                    <option value="core black">Core Black</option>
-                                    <option value="alabaster white">Alabaster White</option>
-                                    <option value="midnight blue">Midnight Blue</option>
-                                    <option value="crimson red">Crimson Red</option>
-                                    <option value="forest green">Forest Green</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Pattern Matrix</label>
-                                <select name="pattern" required>
-                                    <option value="solid / monochromatic">Solid / Monochromatic</option>
-                                    <option value="printed micro">Printed Micro</option>
-                                    <option value="vertical striped">Vertical Striped</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-column">
-                            <h2>Environmental Logic</h2>
-                            <div class="input-box">
-                                <label>Occasion Profile</label>
-                                <select name="occasion" required>
-                                    <option value="casual outing / daily">Casual Outing / Daily</option>
-                                    <option value="wedding / grand festival">Wedding / Grand Festival</option>
-                                    <option value="corporate office / business">Corporate Office / Business</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>User Mood</label>
-                                <select name="mood" required>
-                                    <option value="happy / vibrant">Happy / Vibrant</option>
-                                    <option value="relaxed / laidback">Relaxed / Laidback</option>
-                                    <option value="energetic / active">Energetic / Active</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Season Cycle</label>
-                                <select name="season" required>
-                                    <option value="summer elements">Summer Elements</option>
-                                    <option value="winter layering">Winter Layering</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Weather Matrix</label>
-                                <select name="weather" required>
-                                    <option value="sunny / clear">Sunny / Clear</option>
-                                    <option value="rainy / humid">Rainy / Humid</option>
-                                    <option value="cloudy / overcast">Cloudy / Overcast</option>
-                                </select>
-                            </div>
-                            <div class="input-box">
-                                <label>Trending Spot</label>
-                                <input type="number" step="0.01" name="trend_factor" value="0.45" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="btn-wrapper">
-                        <button type="submit" class="action-btn">Evaluate Style Match</button>
-                    </div>
-                </form>
+            <div class="btn-container">
+                <button type="button" class="evaluate-btn">Evaluate Style Match</button>
             </div>
+        </form>
 
-            <div id="resultsLayout" class="results-section">
-                <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
-                
-                <div class="dashboard-grid">
-                    <div class="flex flex-col gap-4">
-                        <div class="metrics-card-box flex flex-col items-center">
-                            <div class="metrics-card-title">Recommendation Score Gauge</div>
-                            <div class="gauge-container mt-2">
-                                <div class="gauge-bg-clock"></div>
-                                <div id="gaugeNeedle" class="gauge-pin"></div>
-                                <div class="gauge-center-dot"></div>
-                            </div>
-                            <div id="matchScoreText" class="text-xs font-black text-purple-950 uppercase tracking-wider mt-3">Optimal Style Match: --</div>
+        <!-- DASHBOARD DISPLAY CONTEXT -->
+        <div class="results-section">
+            <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
+
+            <div class="dashboard-grid">
+                <!-- COL 1 -->
+                <div class="flex flex-col gap-4">
+                    <div class="metrics-card-box flex flex-col items-center">
+                        <div class="metrics-card-title">Recommendation Score Gauge</div>
+                        <div class="gauge-container mt-1">
+                            <div class="gauge-bg-clock"></div>
+                            <div class="gauge-pin"></div>
                         </div>
+                        <div class="text-[10px] font-black text-gray-800 uppercase tracking-wider mt-3">Optimal Style Match: 91%</div>
+                    </div>
 
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">Refined Color Palette</div>
-                            <div class="flex justify-center gap-3 py-2" id="paletteContainer">
-                                <span class="palette-circle-dot" style="background: #27272a;"></span>
-                                <span class="palette-circle-dot" style="background: #71717a;"></span>
-                                <span class="palette-circle-dot" style="background: #d4d4d8;"></span>
+                    <div class="metrics-card-box">
+                        <div class="metrics-card-title">Refined Color Palette</div>
+                        <div class="flex justify-center gap-3 py-1">
+                            <span class="palette-circle-dot" style="background: #000000;"></span>
+                            <span class="palette-circle-dot" style="background: #374151;"></span>
+                            <span class="palette-circle-dot" style="background: #6b7280;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COL 2 -->
+                <div class="metrics-card-box flex flex-col justify-between">
+                    <div>
+                        <div class="metrics-card-title">Model Data Architecture</div>
+                        <div class="space-y-2.5 text-[10px] font-bold font-sans px-1">
+                            <div class="flex justify-between border-b pb-1">
+                                <span class="text-gray-400 uppercase">Target Fabric Element</span>
+                                <span class="text-green-600 font-extrabold uppercase">Cotton Blend</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-1">
+                                <span class="text-gray-400 uppercase">Tone Matching Level</span>
+                                <span class="text-blue-600 uppercase">Synchronized</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-1">
+                                <span class="text-gray-400 uppercase">Aesthetic Vector Status</span>
+                                <span class="text-blue-500 uppercase">Active Matrix</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-1">
+                                <span class="text-gray-400 uppercase">Server Computation Log</span>
+                                <span class="text-gray-800">SUCCESS (200)</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="metrics-card-box flex flex-col justify-between">
-                        <div>
-                            <div class="metrics-card-title">Model Data Architecture</div>
-                            <div class="space-y-3 text-xs font-bold font-sans px-1">
-                                <div class="flex justify-between border-b pb-1">
-                                    <span class="text-gray-500 uppercase">Target Fabric Element</span>
-                                    <span id="resFabric" class="text-green-600 uppercase">--</span>
-                                </div>
-                                <div class="flex justify-between border-b pb-1">
-                                    <span class="text-gray-500 uppercase">Tone Matching Level</span>
-                                    <span id="resToneMatch" class="text-blue-600 uppercase">--</span>
-                                </div>
-                                <div class="flex justify-between border-b pb-1">
-                                    <span class="text-gray-500 uppercase">Aesthetic Vector Matrix</span>
-                                    <span id="resAesthetic" class="text-purple-600 uppercase">--</span>
-                                </div>
-                                <div class="flex justify-between border-b pb-1">
-                                    <span class="text-gray-500 uppercase">Server Computation Log</span>
-                                    <span class="text-gray-900">SUCCESS (200)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 mt-4 text-center">
-                            <p class="text-[11px] font-bold text-amber-900 leading-tight">
-                                🌟 <span id="verdictText">Perfect Match Matrix Ready!</span>
-                            </p>
-                        </div>
+                    
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-2 mt-3 text-center">
+                        <p class="text-[9px] font-bold text-yellow-800 leading-tight">
+                            ✨ PERFECT MATCH! This fashion combination looks stunning and matches beautifully with your profile.
+                        </p>
                     </div>
+                </div>
 
-                    <div class="flex flex-col gap-4">
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">Curated Alternatives</div>
-                            <div class="space-y-2 max-h-[140px] overflow-y-auto pr-1" id="alternativesWrapper">
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between text-[11px] font-black text-purple-900 mb-1">
-                                        <span>ALT 1: 91% Match</span>
-                                        <i class="fa-solid fa-shirt"></i>
-                                    </div>
-                                    <p class="text-[10px] font-bold text-gray-600">Navy Cotton-Poly Blazer with Chinos</p>
-                                </div>
+                <!-- COL 3 -->
+                <div class="flex flex-col gap-4">
+                    <div class="metrics-card-box">
+                        <div class="metrics-card-title">Curated Alternatives</div>
+                        <div class="alternative-item-card">
+                            <div class="alt-badge-icon"><i class="fa-solid fa-shirt"></i></div>
+                            <div class="text-[10px] font-black text-purple-950">ALT 1: 91% Match</div>
+                            <p class="text-[9px] font-bold text-gray-500 mt-0.5">Navy Cotton-Poly Blazer with Chinos</p>
+                            <div class="flex gap-4 text-[8px] font-bold text-gray-400 mt-1">
+                                <span>• Sleeve Length <br><b class="text-gray-700">- Optimizes arm sleeve length</b></span>
+                                <span>• Fit Type <br><b class="text-gray-700">- Optimizes slim fit type</b></span>
                             </div>
                         </div>
-
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">System KPIs (Diversity Trend)</div>
-                            <div class="h-[65px] w-full relative">
-                                <canvas id="kpiMiniChart"></canvas>
-                            </div>
+                        <div class="alternative-item-card mb-0">
+                            <div class="alt-badge-icon" style="background:#14532d;"><i class="fa-solid fa-vest-patches"></i></div>
+                            <div class="text-[10px] font-black text-purple-950">ALT 2: 89% Match</div>
+                            <p class="text-[9px] font-bold text-gray-500 mt-0.5">Teal Gradient Shirt-Jacket</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div>
-    </div>
+            <!-- BOTTOM GRID OF DASHBOARD IN IMAGE 2 -->
+            <div class="grid grid-cols-3 gap-4 mt-4">
+                <div></div>
+                <div class="metrics-card-box">
+                    <div class="metrics-card-title">Optimal Fabric Solutions</div>
+                    <div class="fabric-sub-grid">
+                        <div class="fabric-sub-box">
+                            <div class="text-[8px] font-bold text-gray-400 uppercase">Structural Fit</div>
+                            <div class="text-xs font-black text-purple-950 mt-0.5">91%</div>
+                        </div>
+                        <div class="fabric-sub-box">
+                            <div class="text-[8px] font-bold text-gray-400 uppercase">Aura Density</div>
+                            <div class="text-xs font-black text-pink-600 mt-0.5">100%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="metrics-card-box">
+                    <div class="metrics-card-title">System KPIs (Diversity Trend)</div>
+                    <div class="h-[42px] w-full bg-pink-50/50 rounded-lg relative overflow-hidden">
+                        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 100 30" preserveAspectRatio="none">
+                            <path d="M0,25 Q30,22 60,15 T100,5" fill="none" stroke="#f472b6" stroke-width="2"></path>
+                            <path d="M0,25 Q30,22 60,15 T100,5 L100,30 L0,30 Z" fill="#fce7f3" opacity="0.4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
 
-    <footer class="site-footer">
-        <p class="footer-copyright-msg">© 2026 ASA NovaStyle Labs. All rights reserved.</p>
-        <div class="footer-social-links">
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-            <a href="#"><i class="fa-brands fa-github"></i></a>
         </div>
-    </footer>
+
+    </div>
 
 </body>
 </html>
