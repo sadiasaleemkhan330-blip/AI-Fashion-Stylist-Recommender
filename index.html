@@ -6,7 +6,6 @@
     <title>AI Fashion Stylist Recommender</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome handles Social Icons like Google and GitHub -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -331,7 +330,7 @@
             padding-bottom: 6px;
         }
 
-        /* 📐 GAUGE SYSTEM GRAPHIC DESIGN */
+        /* 📐 EXACT CLOCK GAUGE SYSTEM GRAPHIC DESIGN */
         .gauge-container {
             position: relative;
             width: 180px;
@@ -402,12 +401,6 @@
             padding: 20px;
         }
 
-        /* SPECIFIC SYSTEM LOGIN MODAL DESIGN */
-        #loginModal {
-            display: flex; 
-            background: rgba(15, 23, 42, 0.6);
-        }
-
         .modal-content {
             background: white;
             max-width: 650px;
@@ -429,27 +422,7 @@
             cursor: pointer;
         }
 
-        /* BADGE BRAND UTILITIES */
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-        .match-ok {
-            background-color: #dcfce7;
-            color: #166534;
-            border: 1px solid #bbf7d0;
-        }
-        .match-bad {
-            background-color: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-
-        /* FOOTER COMPONENT */
+        /* 🔒 EXACT REQUESTED COPYRIGHT FOOTER COMPONENT */
         .site-footer {
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
@@ -500,91 +473,14 @@
                 padding: 15px 20px;
             }
         }
-
-        /* 🗲 SOCIAL LOGIN PREMIUM BUTTONS DESIGN */
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 11px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border: 1.5px solid #e2e8f0;
-            background: #ffffff;
-            color: #334155;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .social-btn:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            transform: translateY(-1px);
-        }
-        .social-btn i {
-            font-size: 1.15rem;
-        }
-        .social-btn.google-btn i { color: #ea4335; }
-        .social-btn.github-btn i { color: #24292e; }
     </style>
 </head>
 <body>
 
-    <!-- 🔒 COMPLETELY REDESIGNED AUTHENTICATION MODAL WITH GOOGLE, GITHUB & TOGGLE LINK -->
-    <div id="loginModal" class="info-modal">
-        <div class="modal-content text-center max-w-[430px] border-pink-500 shadow-2xl">
-            <!-- Dynamic Form Title and Header Header -->
-            <h2 id="authTitle" class="text-3xl font-black mb-1 text-purple-950">System Sign-In</h2>
-            <p id="authSubtitle" class="text-xs font-semibold text-pink-600 uppercase tracking-widest mb-6">ASA NovaStyle AI Portal</p>
-            
-            <!-- ⚡ Social Login Row Providers -->
-            <div class="grid grid-cols-2 gap-3 mb-5">
-                <button type="button" class="social-btn google-btn" onclick="handleSocialAuth('Google')">
-                    <i class="fab fa-google"></i> Google
-                </button>
-                <button type="button" class="social-btn github-btn" onclick="handleSocialAuth('GitHub')">
-                    <i class="fab fa-github"></i> GitHub
-                </button>
-            </div>
-
-            <!-- Divider Line Graphic -->
-            <div class="relative flex py-2 items-center mb-4">
-                <div class="flex-grow border-t border-gray-200"></div>
-                <span class="flex-shrink mx-4 text-gray-400 text-xs font-bold uppercase tracking-wider">Or continue with</span>
-                <div class="flex-grow border-t border-gray-200"></div>
-            </div>
-
-            <!-- Main Interactive Authentication Inputs Form -->
-            <form id="systemLoginForm" class="space-y-4">
-                <div class="text-left">
-                    <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Username / Email</label>
-                    <input type="text" id="loginUsername" placeholder="Enter username or email..." class="text-left rounded-lg p-2.5 border border-purple-200" required>
-                </div>
-                <div class="text-left">
-                    <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Secret Password</label>
-                    <input type="password" id="loginPassword" placeholder="••••••••" class="text-left rounded-lg p-2.5 border border-purple-200" required>
-                </div>
-                
-                <!-- Action Execution Button -->
-                <button type="submit" id="authSubmitBtn" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-3 rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 mt-2 uppercase tracking-wider text-sm">
-                    Authenticate Account
-                </button>
-            </form>
-
-            <!-- 🔄 Dynamic Toggle Link (Sign Up / Login Switcher Matrix) -->
-            <div class="mt-6 pt-4 border-t border-gray-100 text-sm font-medium text-gray-600">
-                <span id="toggleText">Don't have an account?</span> 
-                <a href="javascript:void(0)" id="toggleAuthModeLink" class="text-pink-600 font-extrabold underline ml-1 hover:text-purple-700 dynamic-transition">Sign Up</a>
-            </div>
-        </div>
-    </div>
-
     <header>
         <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
         <nav class="nav-links">
-            <a class="nav-item" onclick="window.location.reload()">Home</a>
+            <a class="nav-item" onclick="toggleModal('systemSignInModal', true)">Home</a>
             <a class="nav-item" onclick="toggleModal('aboutModal', true)">About</a>
             <a class="nav-item" onclick="toggleModal('feedbackModal', true)">Feedback</a>
         </nav>
@@ -595,7 +491,7 @@
   
             <div class="robot-side">
                 <div class="speech-bubble">
-                    <p id="robotNarrative">Please security authenticate using the portal sign-in module.</p>
+                    <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
                     <span>ASA NOVASTYLE AI ASSISTANT</span>
                 </div>
                 <div class="robot-frame">
@@ -768,8 +664,8 @@
                             <div class="metrics-card-title text-purple-900 font-extrabold">Model Data Architecture</div>
                             <div class="text-xs space-y-2 text-gray-700 font-serif" style="text-align: left;">
                                 <div class="flex justify-between border-b pb-1"><span>Target Fabric Element</span><span class="text-green-600 font-bold" id="fabricFeedbackField">Premium Selection</span></div>
-                                <div class="flex justify-between border-b pb-1"><span>Tone Matching Level</span><span class="text-purple-600 font-bold" id="toneMatchingField">Synchronized</span></div>
-                                <div class="flex justify-between border-b pb-1"><span>Aesthetic Vector Status</span><span class="text-blue-600 font-semibold" id="vectorStatusField">Active Matrix</span></div>
+                                <div class="flex justify-between border-b pb-1"><span>Tone Matching Level</span><span class="text-purple-600 font-bold">Synchronized</span></div>
+                                <div class="flex justify-between border-b pb-1"><span>Aesthetic Vector Status</span><span class="text-blue-600 font-semibold">Active Matrix</span></div>
                                 <div class="flex justify-between pb-1"><span>Server Computation Log</span><span class="text-gray-900 font-bold" id="serverStateLabel">Success</span></div>
                             </div>
                             <div class="mt-3 pt-2 border-t border-dashed border-pink-300 text-xs text-center text-purple-950 font-sans" id="adviceText"></div>
@@ -860,12 +756,81 @@
         </div>
     </div>
 
+    <div id="systemSignInModal" class="info-modal">
+        <div class="bg-white max-w-[420px] w-full rounded-[24px] p-8 border-2 border-pink-500 position-relative shadow-2xl text-center">
+            <span class="absolute top-4 right-6 text-2xl font-bold text-pink-600 cursor-pointer" onclick="toggleModal('systemSignInModal', false)">&times;</span>
+            <h2 class="text-3xl font-extrabold text-purple-950 mb-1 tracking-tight">System Sign-In</h2>
+            <p class="text-xs font-bold text-pink-600 uppercase tracking-widest mb-6">ASA NovaStyle AI Portal</p>
+            
+            <form onsubmit="event.preventDefault(); toggleModal('systemSignInModal', false); toggleModal('aiFashionLoginModal', true);">
+                <div class="mb-4 text-left">
+                    <label class="block text-xs font-bold text-purple-900 uppercase mb-2 tracking-wide">Username / Email</label>
+                    <input type="text" placeholder="Enter username..." class="w-full border border-purple-200 rounded-xl p-3 text-sm font-medium text-left outline-none placeholder:text-gray-300 focus:border-pink-500" required>
+                </div>
+                <div class="mb-6 text-left">
+                    <label class="block text-xs font-bold text-purple-900 uppercase mb-2 tracking-wide">Secret Password</label>
+                    <input type="password" placeholder="••••••••" class="w-full border border-purple-200 rounded-xl p-3 text-sm font-medium text-center outline-none placeholder:text-gray-300 focus:border-pink-500" required>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-extrabold py-3.5 px-6 rounded-xl uppercase text-sm tracking-wider shadow-lg hover:opacity-90 transition">
+                    Authenticate Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="aiFashionLoginModal" class="info-modal">
+        <div class="bg-white max-w-[440px] w-full rounded-[24px] p-8 border border-purple-100 shadow-2xl text-center position-relative">
+            <span class="absolute top-4 right-6 text-2xl font-bold text-purple-900 cursor-pointer" onclick="toggleModal('aiFashionLoginModal', false)">&times;</span>
+            <h2 class="text-2xl font-black text-purple-950 tracking-wide mb-1 uppercase">AI Fashion Login</h2>
+            <p class="text-[10px] font-bold text-purple-600 tracking-widest mb-6 uppercase">// Unlocking System Dashboard //</p>
+            
+            <form onsubmit="event.preventDefault(); alert('Account Successfully Accessed!'); toggleModal('aiFashionLoginModal', false);">
+                <div class="mb-4 text-left">
+                    <label class="block text-[10px] font-bold text-purple-900 uppercase mb-1 tracking-wider">Email Address</label>
+                    <input type="email" value="skgladrags@gmail.com" class="w-full bg-purple-50/60 border border-purple-100 rounded-xl p-3 text-sm font-semibold text-gray-800 outline-none focus:border-purple-400" required>
+                </div>
+                <div class="mb-5 text-left relative">
+                    <label class="block text-[10px] font-bold text-purple-900 uppercase mb-1 tracking-wider">Password</label>
+                    <div class="relative">
+                        <input type="password" value="abcdefg" class="w-full bg-purple-50/60 border border-purple-100 rounded-xl p-3 pr-10 text-sm font-semibold text-gray-800 outline-none focus:border-purple-400" required>
+                        <i class="far fa-eye absolute right-3.5 top-1/2 -translate-y-1/2 text-purple-950 cursor-pointer text-xs"></i>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-6 rounded-xl text-sm flex items-center justify-center gap-2 transition shadow-md">
+                    <i class="fas fa-sign-in-alt text-xs"></i> Access Account Log In
+                </button>
+            </form>
+
+            <div class="relative flex py-4 items-center justify-center">
+                <div class="flex-grow border-t border-gray-100"></div>
+                <span class="flex-shrink mx-4 text-[9px] font-bold text-gray-400 uppercase tracking-widest">Or Connect With</span>
+                <div class="flex-grow border-t border-gray-100"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 mb-5">
+                <button onclick="alert('Google Authentication Service Connected')" class="flex items-center justify-center gap-2 border border-gray-200 rounded-xl py-2.5 text-xs font-bold text-gray-700 hover:bg-gray-50 transition">
+                    <i class="fab fa-google text-red-500"></i> Google
+                </button>
+                <button onclick="alert('GitHub Authentication Service Connected')" class="flex items-center justify-center gap-2 border border-gray-200 rounded-xl py-2.5 text-xs font-bold text-gray-700 hover:bg-gray-50 transition">
+                    <i class="fab fa-github text-black"></i> GitHub
+                </button>
+            </div>
+
+            <p class="text-[11px] text-gray-500 font-medium">
+                New to NovaStyle? <a href="#" onclick="alert('Sign up portal coming soon!')" class="text-pink-600 font-bold hover:underline">Create Account / Sign Up</a>
+            </p>
+        </div>
+    </div>
+
     <div id="aboutModal" class="info-modal">
         <div class="modal-content text-left">
             <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
             <h2 class="text-3xl font-extrabold mb-4 text-purple-950 border-b pb-2 border-purple-200">About ASA NovaStyle</h2>
             <p class="text-gray-700 text-base leading-relaxed mb-4 font-medium">
-                Welcome to <strong>ASA NovaStyle</strong>, your ultimate intelligent wardrobe architecture companion. This platform utilizes a machine learning engine to completely redefine how you select your personal attire.
+                Welcome to <strong>ASA NovaStyle</strong>, your ultimate intelligent wardrobe architecture companion. This platform utilizes a state-of-the-art machine learning engine to completely redefine how you select and configure your personal attire.
+            </p>
+            <p class="text-gray-700 text-base leading-relaxed font-medium">
+                By deeply cross-analyzing your unique <strong>Body Metrics</strong>, <strong>Apparel Preferences</strong>, and <strong>Environmental Factors</strong> (such as real-time weather conditions, individual mood states, and event categories), our AI instantly maps out whether your selected combination achieves an optimal aesthetic matrix. No more second-guessing your outfit choices!
             </p>
         </div>
     </div>
@@ -896,76 +861,12 @@
 
     <script>
         let kpiChartInstance = null;
-        let isUserAuthenticated = false;
-        let isSignUpMode = false; // System mode tracker variable
-
         function toggleModal(id, show) {
-            if (!isUserAuthenticated && id !== 'loginModal') {
-                alert("Access Denied! Clear security authentication first.");
-                return;
-            }
             document.getElementById(id).style.display = show ? 'flex' : 'none';
         }
 
-        // 🔄 HANDLES TOGGLING BETWEEN SIGN IN AND SIGN UP GRAPHIC HOOKS
-        const toggleLink = document.getElementById('toggleAuthModeLink');
-        toggleLink.addEventListener('click', function() {
-            isSignUpMode = !isSignUpMode;
-            
-            const title = document.getElementById('authTitle');
-            const subtitle = document.getElementById('authSubtitle');
-            const submitBtn = document.getElementById('authSubmitBtn');
-            const toggleText = document.getElementById('toggleText');
-
-            if (isSignUpMode) {
-                title.innerText = "System Sign-Up";
-                subtitle.innerText = "Create Your NovaStyle Account";
-                submitBtn.innerText = "Register Account";
-                toggleText.innerText = "Already have an account?";
-                toggleLink.innerText = "Login";
-            } else {
-                title.innerText = "System Sign-In";
-                subtitle.innerText = "ASA NovaStyle AI Portal";
-                submitBtn.innerText = "Authenticate Account";
-                toggleText.innerText = "Don't have an account?";
-                toggleLink.innerText = "Sign Up";
-            }
-        });
-
-        // ⚡ SIMULATED SOCIAL AUTH SELECTION PIPELINE HOOK
-        function handleSocialAuth(provider) {
-            alert(`Connecting securely with ${provider} pipeline instance...`);
-            isUserAuthenticated = true;
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('robotNarrative').innerText = `Welcome authenticated ${provider} user! Let's build your style matrix profile now.`;
-        }
-
-        // ✅ HANDLE FORM SECURITY COMPLIANT ROUTING LOGIN
-        document.getElementById('systemLoginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('loginUsername').value.trim();
-            
-            if(username) {
-                isUserAuthenticated = true;
-                document.getElementById('loginModal').style.display = 'none';
-                
-                if (isSignUpMode) {
-                    document.getElementById('robotNarrative').innerText = `Welcome aboard, ${username}! Your new AI profile is registered successfully.`;
-                } else {
-                    document.getElementById('robotNarrative').innerText = `Welcome back, ${username}! Let's find your perfect style vibe today!`;
-                }
-            }
-        });
-
         document.getElementById('predictionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            if(!isUserAuthenticated) {
-                alert("Security block: Authenticate your user instance profile first.");
-                document.getElementById('loginModal').style.display = 'flex';
-                return;
-            }
-
             const formData = new FormData(e.target);
             const payload = {};
             formData.forEach((value, key) => { payload[key] = value; });
@@ -975,7 +876,7 @@
             const advice = document.getElementById('adviceText');
 
             try {
-                const response = await fetch('/predict', {
+                const response = await fetch('http://127.0.0.1:5000/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -984,26 +885,24 @@
                 if(!response.ok) throw new Error(`Server status ${response.status}`);
                 const result = await response.json();
                 
-                if(result.success) {
+                if(result.status === 'success') {
                     panel.style.display = 'block';
-                    if(advice) advice.innerHTML = result.note || "Analysis processing complete.";
+                    if(advice) advice.innerHTML = result.recommendation;
                     
-                    if(result.score >= 85) {
+                    let accuracyPercentage = 55;
+                    
+                    if(result.prediction === 1) {
+                        accuracyPercentage = 92;
                         badge.innerHTML = '<span class="badge match-ok">✦ Style Match Approved</span>';
                         document.getElementById('robotNarrative').innerText = "Incredible setup! The calculation shows maximum aesthetic synchronization.";
                     } else {
+                        accuracyPercentage = 31;
                         badge.innerHTML = '<span class="badge match-bad">✕ Sub-Optimal Configuration</span>';
                         document.getElementById('robotNarrative').innerText = "Warning: Mismatched components detected in architecture variables.";
                     }
                     
-                    document.getElementById('serverStateLabel').innerText = result.status || "SUCCESS (200)";
-                    document.getElementById('fabricFeedbackField').innerText = result.fabric || payload.fabric.toUpperCase();
-                    document.getElementById('toneMatchingField').innerText = result.tone_level || "Synchronized";
-                    document.getElementById('vectorStatusField').innerText = result.vector_status || "Active Matrix";
-                    document.getElementById('structuralFitValue').innerText = result.structural_fit || `${result.score}%`;
-                    document.getElementById('auraDensityValue').innerText = result.aura_density || `${result.score}%`;
-
-                    updateVisualAnalyticsDashboard(result.score, payload.fabric);
+                    document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
+                    updateVisualAnalyticsDashboard(accuracyPercentage, payload.fabric);
                 }
             } catch (error) {
                 panel.style.display = 'block';
@@ -1011,12 +910,6 @@
                 if(advice) advice.innerHTML = "<strong>CRITICAL NOTE:</strong> Flask server connection failed. Showing simulated evaluation matrix values.";
                 document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
                 document.getElementById('robotNarrative').innerText = "Displaying default structural estimation models due to server absence.";
-                
-                document.getElementById('fabricFeedbackField').innerText = (payload.fabric || "cotton blend").toUpperCase();
-                document.getElementById('toneMatchingField').innerText = "Synchronized";
-                document.getElementById('vectorStatusField').innerText = "Active Matrix";
-                document.getElementById('structuralFitValue').innerText = "88%";
-                document.getElementById('auraDensityValue').innerText = "92%";
                 
                 updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend");
             }
@@ -1035,6 +928,12 @@
                     <span class="palette-circle-dot bg-[#1e3a8a]" title="Midnight Royal Blue"></span>
                     <span class="palette-circle-dot bg-[#334155]" title="Slate Neutral"></span>
                 `;
+            } else if (accuracy === 55) {
+                paletteBox.innerHTML = `
+                    <span class="palette-circle-dot bg-[#f1f5f9]" title="Alabaster Pearl"></span>
+                    <span class="palette-circle-dot bg-[#065f46]" title="Forest Dark Green"></span>
+                    <span class="palette-circle-dot bg-[#64748b]" title="Muted Corporate Grey"></span>
+                `;
             } else {
                 paletteBox.innerHTML = `
                     <span class="palette-circle-dot bg-[#991b1b]" title="Crimson Heavy Red"></span>
@@ -1043,15 +942,23 @@
                 `;
             }
 
+            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
+            document.getElementById('structuralFitValue').innerText = `${accuracy}%`;
+            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(accuracy * 1.15))}%`;
+
             const ctx = document.getElementById('miniDiversityChart').getContext('2d');
             if (kpiChartInstance) { kpiChartInstance.destroy(); }
+            
+            let dataPointsPoints = [30, 45, 60, 80, accuracy];
+            if (accuracy === 55) dataPointsPoints = [45, 52, 48, 57, 55];
+            if (accuracy === 31) dataPointsPoints = [70, 55, 45, 38, 31];
             
             kpiChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['W1', 'W2', 'W3', 'W4', 'W5'],
                     datasets: [{
-                        data: [50, 65, 60, 80, accuracy],
+                        data: dataPointsPoints,
                         borderColor: '#db2777',
                         borderWidth: 2,
                         pointRadius: 0,
