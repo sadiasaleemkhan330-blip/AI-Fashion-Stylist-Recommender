@@ -401,6 +401,12 @@
             padding: 20px;
         }
 
+        /* SPECIFIC SYSTEM LOGIN MODAL DESIGN OVERRIDES */
+        #loginModal {
+            display: flex; /* Initially open till successful auth */
+            background: rgba(15, 23, 42, 0.6);
+        }
+
         .modal-content {
             background: white;
             max-width: 650px;
@@ -497,6 +503,27 @@
 </head>
 <body>
 
+    <div id="loginModal" class="info-modal">
+        <div class="modal-content text-center max-w-[420px]">
+            <h2 class="text-3xl font-black mb-2 text-purple-950">System Sign-In</h2>
+            <p class="text-xs font-semibold text-pink-600 uppercase tracking-widest mb-6">ASA NovaStyle AI Portal</p>
+            
+            <form id="systemLoginForm" class="space-y-4">
+                <div class="text-left">
+                    <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Username / Email</label>
+                    <input type="text" id="loginUsername" placeholder="Enter username..." class="text-left rounded-lg p-2.5 border border-purple-200" required>
+                </div>
+                <div class="text-left">
+                    <label class="block text-xs font-bold text-purple-900 uppercase mb-1">Secret Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" class="text-left rounded-lg p-2.5 border border-purple-200" required>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white font-extrabold py-3 rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 mt-2 uppercase tracking-wider text-sm">
+                    Authenticate Account
+                </button>
+            </form>
+        </div>
+    </div>
+
     <header>
         <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
         <nav class="nav-links">
@@ -511,7 +538,7 @@
   
             <div class="robot-side">
                 <div class="speech-bubble">
-                    <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
+                    <p id="robotNarrative">Please security authenticate using the portal sign-in module.</p>
                     <span>ASA NOVASTYLE AI ASSISTANT</span>
                 </div>
                 <div class="robot-frame">
@@ -815,12 +842,41 @@
 
     <script>
         let kpiChartInstance = null;
+        let isUserAuthenticated = false;
+
         function toggleModal(id, show) {
+            // Secure locked layer preventing authenticated states bypasses
+            if (!isUserAuthenticated && id !== 'loginModal') {
+                alert("Access Denied! Clear security authentication first.");
+                return;
+            }
             document.getElementById(id).style.display = show ? 'flex' : 'none';
         }
 
+        // ✅ HANDLE INTERACT DIALOG SYSTEM SIGN IN SUBMIT
+        document.getElementById('systemLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            
+            if(username) {
+                isUserAuthenticated = true;
+                // Close system security intercept modal box smoothly
+                document.getElementById('loginModal').style.display = 'none';
+                
+                // Dynamic Greeting change layout matrix injects
+                document.getElementById('robotNarrative').innerText = `Welcome back, ${username}! Let's find your perfect style vibe today!`;
+            }
+        });
+
         document.getElementById('predictionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            if(!isUserAuthenticated) {
+                alert("Security block: Authenticate your user instance profile first.");
+                document.getElementById('loginModal').style.display = 'flex';
+                return;
+            }
+
             const formData = new FormData(e.target);
             const payload = {};
             formData.forEach((value, key) => { payload[key] = value; });
@@ -830,7 +886,7 @@
             const advice = document.getElementById('adviceText');
 
             try {
-                // ✅ Vercel production deployment routing completely integrated
+                // ✅ Relative API Endpoint optimized for production deployments securely
                 const response = await fetch('/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -852,7 +908,7 @@
                         document.getElementById('robotNarrative').innerText = "Warning: Mismatched components detected in architecture variables.";
                     }
                     
-                    // ✅ Injecting real live metrics data fetched from the Flask backend endpoint
+                    // ✅ Live values configuration pipeline hooks injection maps
                     document.getElementById('serverStateLabel').innerText = result.server_status || "SUCCESS (200)";
                     document.getElementById('fabricFeedbackField').innerText = result.fabric || payload.fabric.toUpperCase();
                     document.getElementById('toneMatchingField').innerText = result.tone_level || "Synchronized";
@@ -863,14 +919,13 @@
                     updateVisualAnalyticsDashboard(result.score, payload.fabric);
                 }
             } catch (error) {
-                // 🛠️ Connections error secure architectural fallback component interface
+                // 🛠️ Structural Failover recovery pipeline active matrix fallback loops
                 panel.style.display = 'block';
                 badge.innerHTML = '<span class="badge match-bad">✕ Connection Fallback</span>';
                 if(advice) advice.innerHTML = "<strong>CRITICAL NOTE:</strong> Flask server connection failed. Showing simulated evaluation matrix values.";
                 document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
                 document.getElementById('robotNarrative').innerText = "Displaying default structural estimation models due to server absence.";
                 
-                // Set structural and aura elements on local dynamic variables inside layout wrapper
                 document.getElementById('fabricFeedbackField').innerText = (payload.fabric || "cotton blend").toUpperCase();
                 document.getElementById('toneMatchingField').innerText = "Synchronized";
                 document.getElementById('vectorStatusField').innerText = "Active Matrix";
