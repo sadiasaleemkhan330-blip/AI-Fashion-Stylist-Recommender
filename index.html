@@ -32,8 +32,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
             overflow-x: hidden;
             position: relative;
         }
@@ -85,7 +83,7 @@
         .content-container {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             width: 100%;
             padding: 120px 20px 40px 20px;
             flex-grow: 1;
@@ -104,29 +102,23 @@
 
         .page-wrapper {
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 40px;
-            max-width: 1500px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: transform;
+            gap: 25px;
+            max-width: 1100px;
             width: 100%;
         }
 
-        @media (max-width: 1150px) {
-            .page-wrapper {
-                flex-direction: column;
-                gap: 40px;
-                align-items: center;
-            }
-        }
-
+        /* Fixed Left-Side Popup Speech Bubble */
         .robot-side {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            z-index: 40;
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-shrink: 0;
-            position: sticky;
-            top: 110px;
         }
 
         .speech-bubble {
@@ -134,11 +126,11 @@
             border-radius: 16px;
             padding: 14px 22px;
             box-shadow: 0 8px 20px rgba(219, 39, 119, 0.08);
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             position: relative;
             text-align: center;
             border: 1px solid rgba(244, 114, 182, 0.2);
-            max-width: 320px;
+            max-width: 260px;
         }
 
         .speech-bubble::after {
@@ -169,11 +161,19 @@
 
         .robot-frame {
             animation: softFloat 5s ease-in-out infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .assistant-icon {
+            width: 70px;
+            height: auto;
         }
 
         @keyframes softFloat {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-10px); }
         }
 
         .main-card {
@@ -183,7 +183,6 @@
             border-radius: 32px;
             padding: 40px 30px;
             width: 100%;
-            max-width: 1040px;
             box-shadow: 0 25px 50px -12px rgba(124, 58, 237, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.6);
             overflow: hidden;
@@ -192,17 +191,21 @@
         .form-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 24px;
         }
 
         @media (max-width: 850px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
+            .robot-side {
+                position: static;
+                margin-bottom: 20px;
+            }
         }
 
         .form-column h2 {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 800;
             color: #7c3aed;
             text-transform: uppercase;
@@ -270,7 +273,7 @@
         }
 
         .results-section {
-            margin-top: 35px;
+            margin-top: 20px;
             padding: 20px;
             border-radius: 24px;
             background: rgba(255, 255, 255, 0.95);
@@ -596,31 +599,34 @@
     <header>
         <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
         <nav class="nav-links">
-            
             <a class="nav-item" onclick="toggleModal('aboutModal', true)">About</a>
             <a class="nav-item" onclick="toggleModal('feedbackModal', true)">Feedback</a>
             <a class="nav-item text-red-600 font-black ml-4" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></a>
         </nav>
     </header>
 
+    <div class="robot-side">
+        <div class="speech-bubble">
+            <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
+            <span>ASA NOVASTYLE AI ASSISTANT</span>
+        </div>
+        <div class="robot-frame">
+            <img src="assets/Robot.png" alt="Stylist Aura AI" class="assistant-icon">
+        </div>
+    </div>
+
     <div class="content-container">
         <div class="page-wrapper">
-  
-            <div class="robot-side">
-                <div class="speech-bubble">
-                    <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
-                    <span>ASA NOVASTYLE AI ASSISTANT</span>
-                </div>
-                <div class="robot-frame">
-        <img src="assets/Robot.png" alt="Stylist Aura AI" class="assistant-icon">
-                    <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
-                        AI Fashion Stylist Recommender
-                    </h1>
-                </div>
+            
+            <div class="text-center w-full">
+                <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
+                    AI Fashion Stylist Recommender
+                </h1>
+            </div>
 
+            <div class="main-card">
                 <form id="predictionForm">
                     <div class="form-grid">
- 
                         <div class="form-column">
                             <h2>Body Metrics</h2>
                             <div class="input-box">
@@ -630,7 +636,6 @@
                                     <option value="female">Female</option>
                                 </select>
                             </div>
-                
                             <div class="input-box">
                                 <label>Age Segment</label>
                                 <select name="age_group" required>
@@ -648,7 +653,6 @@
                                     <option value="heavy / plus">Heavy / Plus</option>
                                 </select>
                             </div>
-                           
                             <div class="input-box">
                                 <label>Skin Tone Complex</label>
                                 <select name="skin_tone" required>
@@ -739,359 +743,112 @@
                                 <label>Weather Matrix</label>
                                 <select name="weather" required>
                                     <option value="sunny / clear">Sunny / Clear</option>
-                                    <option value="rainy / overcast">Rainy / Overcast</option>
+                                    <option value="rainy / humid">Rainy / Humid</option>
+                                    <option value="cloudy / overcast">Cloudy / Overcast</option>
                                 </select>
                             </div>
                             <div class="input-box">
-                                <label> Trending Spot </label>
-                                <input type="number" step="0.01" name="daa_graph_popularity_score" value="0.45" min="0.00" max="1.00" required>
+                                <label>Trending Spot</label>
+                                <input type="number" step="0.01" name="trend_factor" value="0.45" required>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="btn-wrapper">
                         <button type="submit" class="action-btn">Evaluate Style Match</button>
                     </div>
                 </form>
+            </div>
 
-                <div class="results-section" id="resultPanel">
-                    <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
-              
-                    <div id="badgeContainer" class="text-center mb-4"></div>
-                    
-                    <div class="dashboard-grid">
-                        
-                        <div class="metrics-card-box flex flex-col justify-between items-center bg-gray-50/50">
-                            <div class="metrics-card-title text-purple-900 font-extrabold">Recommendation Score Gauge</div>
-                            <div class="gauge-container mt-4">
+            <div id="resultsLayout" class="results-section">
+                <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
+                
+                <div class="dashboard-grid">
+                    <div class="flex flex-col gap-4">
+                        <div class="metrics-card-box flex flex-col items-center">
+                            <div class="metrics-card-title">Recommendation Score Gauge</div>
+                            <div class="gauge-container mt-2">
                                 <div class="gauge-bg-clock"></div>
-                                <div class="gauge-pin" id="gaugePointerPin"></div>
+                                <div id="gaugeNeedle" class="gauge-pin"></div>
                                 <div class="gauge-center-dot"></div>
                             </div>
-                            <div class="text-center font-black text-xs tracking-wider mt-4 text-gray-800" id="gaugeValueLabel">
-                                OPTIMAL STYLE MATCH: --
-                            </div>
+                            <div id="matchScoreText" class="text-xs font-black text-purple-950 uppercase tracking-wider mt-3">Optimal Style Match: --</div>
                         </div>
 
-                        <div class="metrics-card-box flex flex-col justify-between">
-                            <div class="metrics-card-title text-purple-900 font-extrabold">Model Data Architecture</div>
-                            <div class="text-xs space-y-2 text-gray-700 font-serif" style="text-align: left;">
-                                <div class="flex justify-between border-b pb-1"><span>Target Fabric Element</span><span class="text-green-600 font-bold" id="fabricFeedbackField">Premium Selection</span></div>
-                                <div class="flex justify-between border-b pb-1"><span>Tone Matching Level</span><span class="text-purple-600 font-bold">Synchronized</span></div>
-                                <div class="flex justify-between border-b pb-1"><span>Aesthetic Vector Status</span><span class="text-blue-600 font-semibold">Active Matrix</span></div>
-                                <div class="flex justify-between pb-1"><span>Server Computation Log</span><span class="text-gray-900 font-bold" id="serverStateLabel">Success</span></div>
-                            </div>
-                            <div class="mt-3 pt-2 border-t border-dashed border-pink-300 text-xs text-center text-purple-950 font-sans" id="adviceText"></div>
-                        </div>
-
-                        <div class="metrics-card-box flex flex-col justify-between">
-                            <div class="metrics-card-title text-purple-900 font-extrabold">Curated Alternatives</div>
-                            <div class="space-y-3 overflow-y-auto text-left font-sans text-xs max-h-[160px] pr-1">
-                                
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span class="font-black text-gray-900">ALT 1: 91% Match</span>
-                                            <p class="text-[11px] text-gray-600 font-medium">Navy Cotton-Poly Blazer with Chinos</p>
-                                        </div>
-                                        <div class="w-6 h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-white font-bold">🧥</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
-                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
-                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
-                                    </div>
-                                </div>
-
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span class="font-black text-gray-900">ALT 2: 89% Match</span>
-                                            <p class="text-[11px] text-gray-600 font-medium">Teal Gradient Shirt-Jacket</p>
-                                        </div>
-                                        <div class="w-6 h-6 bg-teal-700 rounded flex items-center justify-center text-[10px] text-white font-bold">👕</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
-                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
-                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
-                                    </div>
-                                </div>
-
-                                <div class="alt-box-layout">
-                                    <div class="flex justify-between items-start mb-1">
-                                        <div>
-                                            <span class="font-black text-gray-900">ALT 3: 86% Match</span>
-                                            <p class="text-[11px] text-gray-600 font-medium">Olive Textured Trousers with T-shirt</p>
-                                        </div>
-                                        <div class="w-6 h-6 bg-olive-700 rounded flex items-center justify-center text-[10px] text-white font-bold">👖</div>
-                                    </div>
-                                    <div class="grid grid-cols-2 gap-x-2 text-[10px] text-gray-500 pt-1 border-t border-gray-100">
-                                        <div>• Sleeve Length<br><span class="text-gray-700 font-semibold">• Optimizes the sleeve length</span></div>
-                                        <div>• Fit Type<br><span class="text-gray-700 font-semibold">• Optimizes the fit type</span></div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="dashboard-grid mt-4">
                         <div class="metrics-card-box">
                             <div class="metrics-card-title">Refined Color Palette</div>
-                            <div class="flex justify-center gap-3" id="paletteCirclesWrapper"></div>
+                            <div class="flex justify-center gap-3 py-2" id="paletteContainer">
+                                <span class="palette-circle-dot" style="background: #27272a;"></span>
+                                <span class="palette-circle-dot" style="background: #71717a;"></span>
+                                <span class="palette-circle-dot" style="background: #d4d4d8;"></span>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="metrics-card-box">
-                            <div class="metrics-card-title">Optimal Fabric Solutions</div>
-                            <div class="grid grid-cols-2 gap-2 text-center font-sans">
-                                <div class="bg-purple-50 p-1.5 rounded-xl border border-purple-100">
-                                    <div class="text-[10px] uppercase font-bold text-gray-500">Structural Fit</div>
-                                    <div class="text-sm font-black text-purple-900" id="structuralFitValue">--</div>
+                    <div class="metrics-card-box flex flex-col justify-between">
+                        <div>
+                            <div class="metrics-card-title">Model Data Architecture</div>
+                            <div class="space-y-3 text-xs font-bold font-sans px-1">
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-500 uppercase">Target Fabric Element</span>
+                                    <span id="resFabric" class="text-green-600 uppercase">--</span>
                                 </div>
-                                <div class="bg-pink-50 p-1.5 rounded-xl border border-pink-100">
-                                    <div class="text-[10px] uppercase font-bold text-gray-500">Aura Density</div>
-                                    <div class="text-sm font-black text-pink-900" id="auraDensityValue">--</div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-500 uppercase">Tone Matching Level</span>
+                                    <span id="resToneMatch" class="text-blue-600 uppercase">--</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-500 uppercase">Aesthetic Vector Matrix</span>
+                                    <span id="resAesthetic" class="text-purple-600 uppercase">--</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-500 uppercase">Server Computation Log</span>
+                                    <span class="text-gray-900">SUCCESS (200)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 mt-4 text-center">
+                            <p class="text-[11px] font-bold text-amber-900 leading-tight">
+                                🌟 <span id="verdictText">Perfect Match Matrix Ready!</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <div class="metrics-card-box">
+                            <div class="metrics-card-title">Curated Alternatives</div>
+                            <div class="space-y-2 max-h-[140px] overflow-y-auto pr-1" id="alternativesWrapper">
+                                <div class="alt-box-layout">
+                                    <div class="flex justify-between text-[11px] font-black text-purple-900 mb-1">
+                                        <span>ALT 1: 91% Match</span>
+                                        <i class="fa-solid fa-shirt"></i>
+                                    </div>
+                                    <p class="text-[10px] font-bold text-gray-600">Navy Cotton-Poly Blazer with Chinos</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="metrics-card-box">
                             <div class="metrics-card-title">System KPIs (Diversity Trend)</div>
-                            <div class="w-full h-[65px]">
-                                <canvas id="miniDiversityChart"></canvas>
+                            <div class="h-[65px] w-full relative">
+                                <canvas id="kpiMiniChart"></canvas>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
-        </div>
-    </div>
 
-    <div id="aboutModal" class="info-modal">
-        <div class="modal-content text-left">
-            <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
-            <h2 class="text-3xl font-extrabold mb-4 text-purple-950 border-b pb-2 border-purple-200">About ASA NovaStyle</h2>
-            <p class="text-gray-700 text-base leading-relaxed mb-4 font-medium">
-                Welcome to the AI Fashion Stylist Recommender! This system leverages a custom-trained machine learning model designed to analyze fashion vectors, color distributions, and personal preferences. By evaluating your uploaded garments against contemporary styling pipelines, the model delivers tailored coordination logs for specific occasions, helping you design an optimized visual profile instantly.</p>
-        </div>
-    </div>
-
-    <div id="feedbackModal" class="info-modal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="toggleModal('feedbackModal', false)">&times;</span>
-            <h2 class="text-3xl font-bold mb-4 text-purple-900">User Feedback System</h2>
-            <textarea class="w-full p-3 border border-pink-400 rounded-lg text-lg outline-none mb-4 resize-none" rows="3" placeholder="Tell us about your style prediction..."></textarea>
-            <button class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-bold py-2 px-6 rounded-xl" onclick="alert('Thank you for feedback!'); toggleModal('feedbackModal', false)">Submit</button>
         </div>
     </div>
 
     <footer class="site-footer">
+        <p class="footer-copyright-msg">© 2026 ASA NovaStyle Labs. All rights reserved.</p>
         <div class="footer-social-links">
-            <a href="https://www.linkedin.com/in/sadia-saleem-khan-a849192b5/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="mailto:sadiasaleemkhan330@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            <a href="#"><i class="fa-brands fa-github"></i></a>
         </div>
-        <div class="footer-copyright-msg">&copy; 2026 ASA NovaStyle. All Rights Reserved.</div>
     </footer>
 
-    <script>
-        const SUPABASE_URL = "https://nvghhzhxxbkrimxlrcue.supabase.co"; 
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Z2hoemh4eGJrcmlteGxyY3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTc5NDcsImV4cCI6MjA5NTYzMzk0N30.M_fQ51nPleOCQzRgzDa5LqcSR2HXIQoBVfXbHGUwfZE";
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        function switchAuthForm(formType) {
-            const loginCard = document.getElementById('loginCard');
-            const signupCard = document.getElementById('signupCard');
-            if (formType === 'signup') {
-                loginCard.style.display = 'none';
-                signupCard.style.display = 'block';
-            } else {
-                signupCard.style.display = 'none';
-                loginCard.style.display = 'block';
-            }
-        }
-
-        function togglePasswordVisibility(inputId, iconId) {
-            const inputField = document.getElementById(inputId);
-            const eyeIcon = document.getElementById(iconId);
-            if (inputField.type === "password") {
-                inputField.type = "text";
-                eyeIcon.classList.remove("fa-eye");
-                eyeIcon.classList.add("fa-eye-slash");
-            } else {
-                inputField.type = "password";
-                eyeIcon.classList.remove("fa-eye-slash");
-                eyeIcon.classList.add("fa-eye");
-            }
-        }
-
-        async function handleSocialLogin(providerName) {
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithOAuth({
-                    provider: providerName,
-                    options: { redirectTo: window.location.href }
-                });
-                if (error) throw error;
-            } catch (error) {
-                alert(`${providerName.toUpperCase()} Connection Error: ` + error.message);
-            }
-        }
-
-        async function checkActiveSession() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session && session.user) {
-                document.getElementById('authScreen').style.display = 'none';
-            }
-        }
-        window.addEventListener('DOMContentLoaded', checkActiveSession);
-
-        async function handleSignup() {
-            const firstName = document.getElementById('signupName').value;
-            const surname = document.getElementById('signupSurname').value;
-            const gender = document.getElementById('signupGender').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            
-            if (!firstName || !surname || !gender || !email || !password) {
-                alert("All profile details are mandatory!");
-                return;
-            }
-
-            const { data, error } = await supabaseClient.auth.signUp({
-                email: email,
-                password: password,
-                options: { data: { first_name: firstName, surname: surname, gender_identity: gender } }
-            });
-            
-            if (error) {
-                alert("Cloud Registry Failed: " + error.message);
-            } else {
-                alert("Identity Registered on Supabase! Returning to Log In view.");
-                switchAuthForm('login');
-            }
-        }
-
-        async function handleLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                alert("Credentials missing!");
-                return;
-            }
-
-            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-            if (error) {
-                alert("Access Prohibited: " + error.message);
-            } else {
-                document.getElementById('authScreen').style.display = 'none';
-            }
-        }
-
-        async function handleLogout() {
-            await supabaseClient.auth.signOut();
-            alert("Logged out successfully.");
-            document.getElementById('authScreen').style.display = 'flex';
-            switchAuthForm('login');
-        }
-
-        let kpiChartInstance = null;
-        function toggleModal(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
-
-        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const payload = {};
-            formData.forEach((value, key) => { payload[key] = value; });
-
-            const panel = document.getElementById('resultPanel');
-            const advice = document.getElementById('adviceText');
-
-            try {
-                const response = await fetch('https://ai-fashion-stylist-recommender.vercel.app/predict', { 
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                if(!response.ok) throw new Error(`Server status ${response.status}`);
-                const result = await response.json();
-                 
-                if(result.status === 'success') {
-                    panel.style.display = 'block';
-                    if(advice) advice.innerHTML = result.recommendation;
-                    let accuracyPercentage = result.prediction === 1 ? 92 : 31;
-                    document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
-                    updateVisualAnalyticsDashboard(accuracyPercentage, payload.fabric);
-                }
-            } catch (error) {
-                panel.style.display = 'block';
-                if(advice) advice.innerHTML = "<strong>CRITICAL NOTE:</strong> Flask server connection failed. Showing simulated matrix.";
-                document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
-                updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend");
-            }
-        });
-
-        function updateVisualAnalyticsDashboard(accuracy, userFabric) {
-            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
-            const needleAngle = ((accuracy / 100) * 180) - 90;
-            document.getElementById('gaugePointerPin').style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
-            
-            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
-            document.getElementById('structuralFitValue').innerText = `${accuracy}%`;
-            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(accuracy * 1.15))}%`;
-              const paletteWrapper = document.getElementById('paletteCirclesWrapper');
-
-const colorPalettes = {
-    "core black": ["#000000", "#434343", "#777777"],
-    "alabaster white": ["#F8F4EC", "#EDEADE", "#D6D3D1"],
-    "midnight blue": ["#0F172A", "#1E3A8A", "#3B82F6"],
-    "crimson red": ["#7F1D1D", "#DC2626", "#F87171"],
-    "forest green": ["#14532D", "#15803D", "#4ADE80"]
-};
-
-const selectedColors = colorPalettes[
-    document.querySelector('[name="primary_color"]').value
-] || ["#7c3aed", "#db2777", "#f9a8d4"];
-
-paletteWrapper.innerHTML = "";
-
-selectedColors.forEach(color => {
-    const dot = document.createElement('div');
-    dot.className = 'palette-circle-dot';
-    dot.style.background = color;
-    paletteWrapper.appendChild(dot);
-});
-            const ctx = document.getElementById('miniDiversityChart').getContext('2d');
-            if (kpiChartInstance) { kpiChartInstance.destroy(); }
-            
-            let dataPointsPoints = [30, 45, 60, 80, accuracy];
-            kpiChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['W1', 'W2', 'W3', 'W4', 'W5'],
-                    datasets: [{
-                        data: dataPointsPoints,
-                        borderColor: '#db2777',
-                        borderWidth: 2,
-                        pointRadius: 0,
-                        fill: true,
-                        backgroundColor: 'rgba(219, 39, 119, 0.05)',
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { x: { display: false }, y: { display: false } }
-                }
-            });
-            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
 </body>
 </html>
