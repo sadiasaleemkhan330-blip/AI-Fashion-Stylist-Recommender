@@ -1,6 +1,6 @@
 // 1. Supabase credentials (Yahan apni real dashboard wali keys dalein)
-const SUPABASE_URL = "https://xxxx.supabase.co"; // Apna real URL paste karein
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // Apni real anon key paste karein
+const SUPABASE_URL = https://supabase.com/dashboard/project/nvghhzhxxbkrimxlrcue/auth/users // Apna real URL paste karein
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52Z2hoemh4eGJrcmlteGxyY3VlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNTc5NDcsImV4cCI6MjA5NTYzMzk0N30.M_fQ51nPleOCQzRgzDa5LqcSR2HXIQoBVfXbHGUwfZE"; // Apni real anon key paste karein
 
 // Client initialized
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
