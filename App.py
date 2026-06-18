@@ -160,10 +160,9 @@ def predict():
         })
 
 # Base route for checking if server is online
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     try:
-        # Yeh seedha main folder se aapki poori design wali index.html load karega
         with open('index.html', 'r', encoding='utf-8') as f:
             return f.read()
     except Exception as e:
