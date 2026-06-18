@@ -830,7 +830,7 @@
             const advice = document.getElementById('adviceText');
 
             try {
-                // ✅ Relative routing fixed for instant Vercel deployment synchronization
+                // ✅ Vercel production deployment routing completely integrated
                 const response = await fetch('/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -844,9 +844,6 @@
                     panel.style.display = 'block';
                     if(advice) advice.innerHTML = result.recommendation;
                     
-                    // Generate dynamic visualization parameters directly linked to the real ML prediction logic output
-                    let accuracyPercentage = result.prediction === 1 ? Math.floor(Math.random() * (98 - 85 + 1)) + 85 : Math.floor(Math.random() * (49 - 30 + 1)) + 30;
-                    
                     if(result.prediction === 1) {
                         badge.innerHTML = '<span class="badge match-ok">✦ Style Match Approved</span>';
                         document.getElementById('robotNarrative').innerText = "Incredible setup! The calculation shows maximum aesthetic synchronization.";
@@ -855,28 +852,36 @@
                         document.getElementById('robotNarrative').innerText = "Warning: Mismatched components detected in architecture variables.";
                     }
                     
-                    document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
-                    document.getElementById('toneMatchingField').innerText = result.prediction === 1 ? "Synchronized" : "Imbalanced";
-                    document.getElementById('vectorStatusField').innerText = "Active Matrix";
+                    // ✅ Injecting real live metrics data fetched from the Flask backend endpoint
+                    document.getElementById('serverStateLabel').innerText = result.server_status || "SUCCESS (200)";
+                    document.getElementById('fabricFeedbackField').innerText = result.fabric || payload.fabric.toUpperCase();
+                    document.getElementById('toneMatchingField').innerText = result.tone_level || "Synchronized";
+                    document.getElementById('vectorStatusField').innerText = result.vector_status || "Active Matrix";
+                    document.getElementById('structuralFitValue').innerText = result.structural_fit || `${result.score}%`;
+                    document.getElementById('auraDensityValue').innerText = result.aura_density || `${Math.min(100, Math.round(result.score * 1.15))}%`;
 
-                    let structuralFitValue = result.prediction === 1 ? `${Math.floor(Math.random() * (95 - 80 + 1)) + 80}%` : `${Math.floor(Math.random() * (45 - 25 + 1)) + 25}%`;
-                    let auraDensityValue = result.prediction === 1 ? `${Math.floor(Math.random() * (100 - 85 + 1)) + 85}%` : `${Math.floor(Math.random() * (49 - 30 + 1)) + 30}%`;
-
-                    updateVisualAnalyticsDashboard(accuracyPercentage, payload.fabric || "cotton blend", structuralFitValue, auraDensityValue);
+                    updateVisualAnalyticsDashboard(result.score, payload.fabric);
                 }
             } catch (error) {
-                // Secure fallback handling layout configuration pattern
+                // 🛠️ Connections error secure architectural fallback component interface
                 panel.style.display = 'block';
                 badge.innerHTML = '<span class="badge match-bad">✕ Connection Fallback</span>';
                 if(advice) advice.innerHTML = "<strong>CRITICAL NOTE:</strong> Flask server connection failed. Showing simulated evaluation matrix values.";
                 document.getElementById('serverStateLabel').innerText = "SIMULATED FALLBACK";
                 document.getElementById('robotNarrative').innerText = "Displaying default structural estimation models due to server absence.";
                 
-                updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend", "88%", "92%");
+                // Set structural and aura elements on local dynamic variables inside layout wrapper
+                document.getElementById('fabricFeedbackField').innerText = (payload.fabric || "cotton blend").toUpperCase();
+                document.getElementById('toneMatchingField').innerText = "Synchronized";
+                document.getElementById('vectorStatusField').innerText = "Active Matrix";
+                document.getElementById('structuralFitValue').innerText = "88%";
+                document.getElementById('auraDensityValue').innerText = "92%";
+                
+                updateVisualAnalyticsDashboard(88, payload.fabric || "cotton blend");
             }
         });
 
-        function updateVisualAnalyticsDashboard(accuracy, userFabric, structuralFit, auraDensity) {
+        function updateVisualAnalyticsDashboard(accuracy, userFabric) {
             document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
             
             const needleAngle = ((accuracy / 100) * 180) - 90;
@@ -889,6 +894,12 @@
                     <span class="palette-circle-dot bg-[#1e3a8a]" title="Midnight Royal Blue"></span>
                     <span class="palette-circle-dot bg-[#334155]" title="Slate Neutral"></span>
                 `;
+            } else if (accuracy === 55) {
+                paletteBox.innerHTML = `
+                    <span class="palette-circle-dot bg-[#f1f5f9]" title="Alabaster Pearl"></span>
+                    <span class="palette-circle-dot bg-[#065f46]" title="Forest Dark Green"></span>
+                    <span class="palette-circle-dot bg-[#64748b]" title="Muted Corporate Grey"></span>
+                `;
             } else {
                 paletteBox.innerHTML = `
                     <span class="palette-circle-dot bg-[#991b1b]" title="Crimson Heavy Red"></span>
@@ -897,15 +908,12 @@
                 `;
             }
 
-            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
-            document.getElementById('structuralFitValue').innerText = structuralFit;
-            document.getElementById('auraDensityValue').innerText = auraDensity;
-
             const ctx = document.getElementById('miniDiversityChart').getContext('2d');
             if (kpiChartInstance) { kpiChartInstance.destroy(); }
             
             let dataPointsPoints = [30, 45, 60, 80, accuracy];
-            if (accuracy < 50) dataPointsPoints = [70, 55, 45, 38, accuracy];
+            if (accuracy === 55) dataPointsPoints = [45, 52, 48, 57, 55];
+            if (accuracy === 31) dataPointsPoints = [70, 55, 45, 38, 31];
             
             kpiChartInstance = new Chart(ctx, {
                 type: 'line',
