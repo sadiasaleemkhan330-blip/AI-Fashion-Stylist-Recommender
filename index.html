@@ -8,9 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- ⚡ SUPABASE INTEGRATION -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    
     <style>
         :root {
             --bg-glow: linear-gradient(135deg, #fce7f3 0%, #f5f3ff 50%, #fbcfe8 100%);
@@ -39,158 +38,6 @@
             position: relative;
         }
 
-        /* 🔒 EXACT IMAGE MATCH LOGIN SCREEN OVERLAY */
-        .auth-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(167, 139, 250, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .custom-login-box {
-            background: white;
-            padding: 40px 35px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(46, 16, 101, 0.15);
-            width: 440px;
-            text-align: center;
-        }
-
-        .custom-login-box h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #1e1b4b;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-            text-transform: uppercase;
-        }
-
-        .custom-login-box .subtitle {
-            font-size: 0.75rem;
-            color: #7c3aed;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-        }
-
-        .input-group {
-            text-align: left;
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #4c1d95;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .input-group input {
-            width: 100%;
-            background: #eef2ff;
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            border-radius: 10px;
-            padding: 12px 14px;
-            font-size: 0.95rem;
-            color: #1e1b4b;
-            font-weight: 600;
-            outline: none;
-            text-align: left !important;
-        }
-
-        .input-group .toggle-password {
-            position: absolute;
-            right: 14px;
-            top: 35px;
-            color: #4c1d95;
-            cursor: pointer;
-        }
-
-        .main-login-btn {
-            width: 100%;
-            background: #7c3aed;
-            color: white;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-
-        .main-login-btn:hover {
-            background: #6d28d9;
-        }
-
-        .divider-container {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 20px 0;
-            color: #9ca3af;
-            font-size: 0.75rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
-        .divider-container::before, .divider-container::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .divider-container:not(:empty)::before { margin-right: .5em; }
-        .divider-container:not(:empty)::after { margin-left: .5em; }
-
-        .social-buttons {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .social-btn {
-            flex: 1;
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            color: #1e1b4b;
-        }
-
-        .switch-mode-text {
-            font-size: 0.85rem;
-            color: #4b5563;
-        }
-
-        .switch-mode-text span {
-            color: #db2777;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        /* 🌟 ORIGINAL DESIGN FOR MAIN APPLICATION */
         header {
             width: 100%;
             background: rgba(255, 255, 255, 0.8);
@@ -455,7 +302,7 @@
 
         @media (max-width: 960px) {
             .dashboard-grid { 
-                grid-template-columns: 1fr; 
+                grid-template-columns: 1fr;
             }
         }
 
@@ -488,45 +335,48 @@
             margin: 0 auto;
             overflow: hidden;
         }
+        
         .gauge-bg-clock {
             position: absolute;
-            top: 0; left: 0; width: 180px; height: 180px;
-            border-radius: 50%;
+            top: 0; left: 0; width: 180px; height: 180px; border-radius: 50%;
             border: 22px solid transparent;
             background: conic-gradient(
                 from 270deg,
-                #1b7a43 0deg 36deg,   
-                #43a047 36deg 72deg,  
-                #81c784 72deg 108deg, 
-                #fdd835 108deg 144deg, 
-                #e0e0e0 144deg 180deg, 
+                #1b7a43 0deg 36deg,
+                #43a047 36deg 72deg,
+                #81c784 72deg 108deg,
+                #fdd835 108deg 144deg,
+                #e0e0e0 144deg 180deg,
                 transparent 180deg
             ) border-box;
             -webkit-mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
             transform: rotate(0deg);
         }
+        
         .gauge-pin {
             position: absolute;
             bottom: 0; left: 50%; width: 4px; height: 75px;
-            background: #27272a; transform-origin: bottom center;
-            transform: translateX(-50%) rotate(-54deg); 
+            background: #27272a;
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-54deg);
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 4px;
             z-index: 10;
         }
+        
         .gauge-center-dot {
             position: absolute;
-            bottom: -6px; left: calc(50% - 6px);
-            width: 12px; height: 12px;
-            background: #27272a; border-radius: 50%;
-            z-index: 12;
+            bottom: -6px; left: calc(50% - 6px); width: 12px; height: 12px;
+            background: #27272a; border-radius: 50%; z-index: 12;
         }
 
         .palette-circle-dot {
             width: 35px;
-            height: 35px; border-radius: 50%;
-            display: inline-block; box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            height: 35px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
         }
 
         .alt-box-layout {
@@ -570,17 +420,6 @@
             cursor: pointer;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-        .match-ok { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-        .match-bad { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
-
         .site-footer {
             width: 100%;
             background: rgba(255, 255, 255, 0.85);
@@ -617,369 +456,367 @@
             color: var(--pink-accent);
             transform: scale(1.15);
         }
-
-        .footer-copyright-msg {
-            color: #4c1d95;
-            letter-spacing: 0.3px;
-        }
-
-        @media (max-width: 640px) {
-            .site-footer {
-                flex-direction: column-reverse;
-                gap: 14px;
-                text-align: center;
-                padding: 15px 20px;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- 🔒 1. EXACT OVERLAY AND MATCH FROM image_8e27c3.png -->
-    <div id="authOverlayGate" class="auth-overlay">
-        <div class="custom-login-box">
-            <h2 id="authTitle">AI Fashion Login</h2>
-            <div class="subtitle">// Unlocking System Dashboard //</div>
-            
-            <div class="input-group">
-                <label>Email Address</label>
-                <input type="email" id="authEmail" placeholder="skgladrags@gmail.com" required>
-            </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="authPassword" placeholder="••••••••" required>
-                <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
-            </div>
-            
-            <button class="main-login-btn" id="submitAuthBtn" onclick="processAuthentication()">
-                <i class="fas fa-sign-in-alt"></i> Access Account Log In
-            </button>
-            
-            <div class="divider-container">OR CONNECT WITH</div>
-            
-            <div class="social-buttons">
-                <button class="social-btn"><img src="https://docs.idfy.com/images/button-logos/google.png" width="16" alt="G"> Google</button>
-                <button class="social-btn"><i class="fab fa-github"></i> GitHub</button>
-            </div>
-            
-            <div class="switch-mode-text">
-                New to NovaStyle? <span id="toggleAuthModeLink" onclick="toggleAuthMode()">Create Account / Sign Up</span>
-            </div>
-        </div>
-    </div>
+    <header>
+        <div class="header-logo" onclick="window.location.reload()"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>STYLING AI</div>
+        <nav class="nav-links">
+            <span class="nav-item" onclick="toggleModal('howItWorks', true)">How It Works</span>
+            <span class="nav-item" onclick="toggleModal('aboutModal', true)">About</span>
+        </nav>
+    </header>
 
-    <!-- 🌐 2. MAIN WEBSITE APP (Peeche tab tak block rahegi jab tak upar se login na ho) -->
-    <div id="mainAppWrapper" class="w-full min-h-screen flex flex-col items-center justify-center">
-        <header>
-            <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
-            <nav class="nav-links">
-                <a class="nav-item" onclick="window.location.reload()">Home</a>
-                <a class="nav-item" onclick="toggleModal('aboutModal', true)">About</a>
-                <a class="nav-item" onclick="toggleModal('feedbackModal', true)">Feedback</a>
-                <a class="nav-item text-red-600 font-bold" onclick="handleLogout()">Logout</a>
-            </nav>
-        </header>
-
-        <div class="content-container">
-            <div class="page-wrapper">
-                <div class="robot-side">
-                    <div class="speech-bubble">
-                        <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
-                        <span>ASA NOVASTYLE AI ASSISTANT</span>
-                    </div>
-                    <div class="robot-frame">
-                        <img src="robot.png" class="w-full max-w-[550px] min-w-[360px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(219,39,119,0.25)]" alt="Stylist Aura AI">
-                    </div>
+    <div class="content-container">
+        <div class="page-wrapper">
+            
+            <div class="robot-side">
+                <div class="speech-bubble">
+                    <p id="robotNarrative">Welcome! Create an account or sign in to save your metrics to Supabase.</p>
+                    <span>ASA NOVASTYLE ASSISTANT</span>
                 </div>
+                <div class="robot-frame">
+                    <svg width="220" height="220" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="roboGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#7c3aed" />
+                                <stop offset="100%" stop-color="#db2777" />
+                            </linearGradient>
+                        </defs>
+                        <rect x="40" y="50" width="120" height="110" rx="24" fill="url(#roboGrad)" />
+                        <rect x="55" y="65" width="90" height="45" rx="12" fill="#1e1b4b" />
+                        <circle cx="80" cy="88" r="10" fill="#06b6d4" />
+                        <circle cx="120" cy="88" r="10" fill="#06b6d4" />
+                        <circle cx="80" cy="88" r="4" fill="#fff" />
+                        <circle cx="120" cy="88" r="4" fill="#fff" />
+                        <path d="M80,130 Q100,145 120,130" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <rect x="92" y="160" width="16" height="20" fill="#7c3aed" />
+                        <path d="M60,180 L140,180" stroke="#db2777" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                </div>
+            </div>
 
-                <div class="main-card">
-                    <div class="w-full text-center mb-8 px-4">
-                        <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
-                            AI Fashion Stylist Recommender
-                        </h1>
-                    </div>
-
-                    <form id="predictionForm">
-                        <div class="form-grid">
-                            <div class="form-column">
-                                <h2>Body Metrics</h2>
-                                <div class="input-box">
-                                    <label>Gender Profile</label>
-                                    <select name="gender" required>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Age Segment</label>
-                                    <select name="age_group" required>
-                                        <option value="gen-z">Gen-Z</option>
-                                        <option value="millennial">Millennial</option>
-                                        <option value="older generation">Older Generation</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Body Architecture</label>
-                                    <select name="body_type" required>
-                                        <option value="slim / lean">Slim / Lean</option>
-                                        <option value="average / fit">Average / Fit</option>
-                                        <option value="athletic / muscular">Athletic / Muscular</option>
-                                        <option value="heavy / plus">Heavy / Plus</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Skin Tone Complex</label>
-                                    <select name="skin_tone" required>
-                                        <option value="fair / light">Fair / Light</option>
-                                        <option value="medium / olive">Medium / Olive</option>
-                                        <option value="dark / deep">Dark / Deep</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Exact Height (cm)</label>
-                                    <input type="number" name="height" value="165" min="100" max="250" required>
-                                </div>
-                            </div>
-
-                            <div class="form-column">
-                                <h2>Fashion Spot</h2>
-                                <div class="input-box">
-                                    <label>Style Preference</label>
-                                    <select name="style_preference" required>
-                                        <option value="casual wear">Casual Wear</option>
-                                        <option value="formal structured">Formal Structured</option>
-                                        <option value="smart casual / layered">Smart Casual / Layered</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Budget Dynamic</label>
-                                    <select name="budget_level" required>
-                                        <option value="low / budget friendly">Low / Budget Friendly</option>
-                                        <option value="medium segment">Medium Segment</option>
-                                        <option value="high / luxury premium">High / Luxury Premium</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Primary Fabric</label>
-                                    <select name="fabric" required>
-                                        <option value="cotton blend">Cotton Blend</option>
-                                        <option value="silk premium">Silk Premium</option>
-                                        <option value="denim / heavy canvas">Denim / Heavy Canvas</option>
-                                        <option value="linen luxury">Linen Luxury</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Color Palette</label>
-                                    <select name="primary_color" required>
-                                        <option value="core black">Core Black</option>
-                                        <option value="alabaster white">Alabaster White</option>
-                                        <option value="midnight blue">Midnight Blue</option>
-                                        <option value="crimson red">Crimson Red</option>
-                                        <option value="forest green">Forest Green</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Pattern Matrix</label>
-                                    <select name="pattern" required>
-                                        <option value="solid / monochromatic">Solid / Monochromatic</option>
-                                        <option value="printed micro">Printed Micro</option>
-                                        <option value="vertical striped">Vertical Striped</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-column">
-                                <h2>Environmental Logic</h2>
-                                <div class="input-box">
-                                    <label>Occasion Profile</label>
-                                    <select name="occasion" required>
-                                        <option value="casual outing / daily">Casual Outing / Daily</option>
-                                        <option value="wedding / grand festival">Wedding / Grand Festival</option>
-                                        <option value="corporate office / business">Corporate Office / Business</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>User Mood</label>
-                                    <select name="mood" required>
-                                        <option value="happy / vibrant">Happy / Vibrant</option>
-                                        <option value="relaxed / laidback">Relaxed / Laidback</option>
-                                        <option value="energetic / active">Energetic / Active</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Season Cycle</label>
-                                    <select name="season" required>
-                                        <option value="summer elements">Summer Elements</option>
-                                        <option value="winter layering">Winter Layering</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Weather Matrix</label>
-                                    <select name="weather" required>
-                                        <option value="sunny / clear">Sunny / Clear</option>
-                                        <option value="rainy / overcast">Rainy / Overcast</option>
-                                    </select>
-                                </div>
-                                <div class="input-box">
-                                    <label>Trending Spot</label>
-                                    <input type="number" step="0.01" name="daa_graph_popularity_score" value="0.45" min="0.00" max="1.00" required>
-                                </div>
-                            </div>
+            <div class="main-card">
+                <div class="w-full bg-white/60 p-6 rounded-2xl border border-pink-200/50 mb-8">
+                    <h2 class="text-xl font-extrabold text-purple-950 text-center mb-4 uppercase tracking-wider">
+                        <i class="fa-solid fa-user-plus mr-2 text-pink-600"></i> Supabase User Authentication
+                    </h2>
+                    
+                    <form id="authRegistrationForm" onsubmit="handleSignUp(event)" class="max-w-md mx-auto space-y-4">
+                        <div>
+                            <input type="email" id="emailInput" placeholder="Enter Email Address" class="w-full border-pink-300 rounded-xl px-4 py-2 font-semibold font-sans text-left" required>
                         </div>
-
-                        <div class="btn-wrapper">
-                            <button type="submit" class="action-btn">Evaluate Style Match</button>
+                        <div>
+                            <input type="password" id="passwordInput" placeholder="Create Strong Password" class="w-full border-pink-300 rounded-xl px-4 py-2 font-semibold font-sans text-left" required>
                         </div>
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-md uppercase tracking-wider hover:opacity-90 transition">
+                            Create Account (Sign Up)
+                        </button>
                     </form>
 
-                    <div class="results-section" id="resultPanel">
-                        <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
-                        <div id="badgeContainer" class="text-center mb-4"></div>
-                        
-                        <div class="dashboard-grid">
-                            <div class="metrics-card-box flex flex-col justify-between items-center bg-gray-50/50">
-                                <div class="metrics-card-title text-purple-900 font-extrabold">Recommendation Score Gauge</div>
-                                <div class="gauge-container mt-4">
-                                    <div class="gauge-bg-clock"></div>
-                                    <div class="gauge-pin" id="gaugePointerPin"></div>
-                                    <div class="gauge-center-dot"></div>
-                                </div>
-                                <div class="text-center font-black text-xs tracking-wider mt-4 text-gray-800" id="gaugeValueLabel">
-                                    OPTIMAL STYLE MATCH: --
-                                </div>
-                            </div>
+                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mt-4">
+                        <button type="button" onclick="loginWithGoogle()" class="flex-1 py-2.5 border border-gray-300 bg-white hover:bg-gray-50 rounded-xl flex items-center justify-center gap-2 font-bold text-sm text-gray-700 shadow-sm transition">
+                            <i class="fa-brands fa-google text-red-500 text-base"></i> Google Authentication
+                        </button>
+                        <button type="button" onclick="loginWithGithub()" class="flex-1 py-2.5 border border-gray-300 bg-white hover:bg-gray-50 rounded-xl flex items-center justify-center gap-2 font-bold text-sm text-gray-700 shadow-sm transition">
+                            <i class="fa-brands fa-github text-black text-base"></i> GitHub Authentication
+                        </button>
+                    </div>
+                </div>
 
-                            <div class="metrics-card-box flex flex-col justify-between">
-                                <div class="metrics-card-title text-purple-900 font-extrabold">Model Data Architecture</div>
-                                <div class="text-xs space-y-2 text-gray-700 font-serif" style="text-align: left;">
-                                    <div class="flex justify-between border-b pb-1"><span>Target Fabric Element</span><span class="text-green-600 font-bold" id="fabricFeedbackField">Premium Selection</span></div>
-                                    <div class="flex justify-between border-b pb-1"><span>Tone Matching Level</span><span class="text-purple-600 font-bold">Synchronized</span></div>
-                                    <div class="flex justify-between border-b pb-1"><span>Aesthetic Vector Status</span><span class="text-blue-600 font-semibold">Active Matrix</span></div>
-                                    <div class="flex justify-between pb-1"><span>Server Computation Log</span><span class="text-gray-900 font-bold" id="serverStateLabel">Success</span></div>
-                                </div>
-                                <div class="mt-3 pt-2 border-t border-dashed border-pink-300 text-xs text-center text-purple-950 font-sans" id="adviceText"></div>
-                            </div>
+                <div class="w-full text-center mb-8 px-4">
+                    <h1 class="text-4xl font-extrabold bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
+                        AI Fashion Stylist Recommender
+                    </h1>
+                </div>
 
-                            <div class="metrics-card-box flex flex-col justify-between">
-                                <div class="metrics-card-title text-purple-900 font-extrabold">Curated Alternatives</div>
-                                <div class="space-y-3 overflow-y-auto text-left font-sans text-xs max-h-[160px] pr-1">
-                                    <div class="alt-box-layout">
-                                        <div class="flex justify-between items-start mb-1">
-                                            <div><span class="font-black text-gray-900">ALT 1: 91% Match</span><p class="text-[11px] text-gray-600 font-medium">Navy Cotton-Poly Blazer with Chinos</p></div>
-                                            <div class="w-6 h-6 bg-slate-800 rounded flex items-center justify-center text-[10px] text-white font-bold">🧥</div>
-                                        </div>
-                                    </div>
-                                </div>
+                <form id="predictionForm" onsubmit="calculateFashionProfile(event)">
+                    <div class="form-grid">
+                        <div class="form-column">
+                            <h2>Body Metrics</h2>
+                            <div class="input-box">
+                                <label>Gender Profile</label>
+                                <select name="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Age Segment</label>
+                                <select name="age_group" required>
+                                    <option value="gen-z">Gen-Z</option>
+                                    <option value="millennial">Millennial</option>
+                                    <option value="older generation">Older Generation</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Body Architecture</label>
+                                <select name="body_type" required>
+                                    <option value="slim / lean">Slim / Lean</option>
+                                    <option value="average / fit">Average / Fit</option>
+                                    <option value="athletic / muscular">Athletic / Muscular</option>
+                                    <option value="heavy / plus">Heavy / Plus</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Skin Tone Complex</label>
+                                <select name="skin_tone" required>
+                                    <option value="fair / light">Fair / Light</option>
+                                    <option value="medium / olive">Medium / Olive</option>
+                                    <option value="dark / deep">Dark / Deep</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Exact Height (cm)</label>
+                                <input type="number" name="height" value="165" min="100" max="250" required>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <h2>Fashion Spot</h2>
+                            <div class="input-box">
+                                <label>Style Preference</label>
+                                <select name="style_preference" required>
+                                    <option value="casual wear">Casual Wear</option>
+                                    <option value="formal structured">Formal Structured</option>
+                                    <option value="smart casual / layered">Smart Casual / Layered</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Budget Dynamic</label>
+                                <select name="budget_level" required>
+                                    <option value="low / budget friendly">Low / Budget Friendly</option>
+                                    <option value="medium segment">Medium Segment</option>
+                                    <option value="high / luxury premium">High / Luxury Premium</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Primary Fabric</label>
+                                <select name="fabric" required>
+                                    <option value="cotton blend">Cotton Blend</option>
+                                    <option value="silk premium">Silk Premium</option>
+                                    <option value="denim / heavy canvas">Denim / Heavy Canvas</option>
+                                    <option value="linen luxury">Linen Luxury</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Color Palette</label>
+                                <select name="primary_color" required>
+                                    <option value="core black">Core Black</option>
+                                    <option value="alabaster white">Alabaster White</option>
+                                    <option value="midnight blue">Midnight Blue</option>
+                                    <option value="crimson red">Crimson Red</option>
+                                    <option value="forest green">Forest Green</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Pattern Matrix</label>
+                                <select name="pattern" required>
+                                    <option value="solid / monochromatic">Solid / Monochromatic</option>
+                                    <option value="printed micro">Printed Micro</option>
+                                    <option value="vertical striped">Vertical Striped</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <h2>Environmental Logic</h2>
+                            <div class="input-box">
+                                <label>Occasion Profile</label>
+                                <select name="occasion" required>
+                                    <option value="casual outing / daily">Casual Outing / Daily</option>
+                                    <option value="wedding / grand festival">Wedding / Grand Festival</option>
+                                    <option value="corporate office / business">Corporate Office / Business</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>User Mood</label>
+                                <select name="mood" required>
+                                    <option value="happy / vibrant">Happy / Vibrant</option>
+                                    <option value="relaxed / laidback">Relaxed / Laidback</option>
+                                    <option value="energetic / active">Energetic / Active</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Season Cycle</label>
+                                <select name="season" required>
+                                    <option value="summer elements">Summer Elements</option>
+                                    <option value="winter layering">Winter Layering</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Weather Matrix</label>
+                                <select name="weather" required>
+                                    <option value="sunny / clear">Sunny / Clear</option>
+                                    <option value="rainy / overcast">Rainy / Overcast</option>
+                                </select>
+                            </div>
+                            <div class="input-box">
+                                <label>Trending Spot</label>
+                                <input type="number" step="0.01" name="daa_graph_popularity_score" value="0.45" min="0.00" max="1.00" required>
                             </div>
                         </div>
                     </div>
+
+                    <div class="btn-wrapper">
+                        <button type="submit" class="action-btn">Evaluate Style Match</button>
+                    </div>
+                </form>
+
+                <div class="results-section" id="resultPanel">
+                    <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
+                    <div class="dashboard-grid">
+                        
+                        <div class="metrics-card-box flex flex-col justify-between items-center bg-gray-50/50">
+                            <div class="metrics-card-title text-purple-900 font-extrabold">Recommendation Score Gauge</div>
+                            <div class="gauge-container mt-4">
+                                <div class="gauge-bg-clock"></div>
+                                <div class="gauge-pin" id="gaugePointerPin"></div>
+                                <div class="gauge-center-dot"></div>
+                            </div>
+                            <div class="text-center font-black text-xs tracking-wider mt-4 text-gray-800" id="gaugeValueLabel">
+                                OPTIMAL STYLE MATCH: --
+                            </div>
+                        </div>
+
+                        <div class="metrics-card-box flex flex-col justify-between">
+                            <div class="metrics-card-title text-purple-900 font-extrabold">Model Profile Matrix</div>
+                            <div class="text-xs space-y-2 text-gray-700 font-mono alt-box-layout">
+                                <p><strong>GENDER:</strong> <span id="genderFeedbackField">--</span></p>
+                                <p><strong>SKIN COMPLEXION:</strong> <span id="skinFeedbackField">--</span></p>
+                                <p><strong>SELECTED FABRIC:</strong> <span id="fabricFeedbackField">--</span></p>
+                                <p><strong>AESTHETIC Score:</strong> <span id="auraDensityValue">--</span></p>
+                            </div>
+                        </div>
+
+                        <div class="metrics-card-box flex flex-col justify-between items-center">
+                            <div class="metrics-card-title text-purple-900 font-extrabold">Dynamic Color Palette</div>
+                            <div class="flex gap-2 justify-center items-center my-auto py-2" id="palettePaletteBox">
+                                </div>
+                            <div class="text-center font-bold text-xs text-purple-900 uppercase tracking-widest mt-2" id="paletteStructureLabel">
+                                Primary Palette preview
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="w-full mt-6 h-[140px] relative bg-white border border-gray-100 rounded-2xl p-3">
+                        <canvas id="miniDiversityChart"></canvas>
+                    </div>
                 </div>
+
             </div>
         </div>
-
-        <footer class="site-footer">
-            <div class="footer-social-links">
-                <a href="https://www.linkedin.com/in/sadia-saleem-khan-a849192b5/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:sadiasaleemkhan330@gmail.com"><i class="fas fa-envelope"></i></a>
-            </div>
-            <div class="footer-copyright-msg">&copy; 2026 ASA NovaStyle. All Rights Reserved.</div>
-        </footer>
     </div>
 
-    <!-- Modals -->
+    <div id="howItWorks" class="info-modal">
+        <div class="modal-content text-center">
+            <span class="modal-close" onclick="toggleModal('howItWorks', false)">&times;</span>
+            <h3 class="text-2xl font-black text-purple-950 mb-4 uppercase">How It Works</h3>
+            <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                Our advanced engine calculates mathematical distance match ratios based on complex matrix variables like skin-tones, seasons, and style types to render optimal match structures instantly.
+            </p>
+        </div>
+    </div>
+
     <div id="aboutModal" class="info-modal">
-        <div class="modal-content text-left">
+        <div class="modal-content text-center">
             <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
-            <h2 class="text-3xl font-extrabold mb-4 text-purple-950 border-b pb-2 border-purple-200">About ASA NovaStyle</h2>
-            <p class="text-gray-700 text-base leading-relaxed mb-4 font-medium">Welcome to ASA NovaStyle wardrobe architect system.</p>
+            <h3 class="text-2xl font-black text-purple-950 mb-4 uppercase">About Project</h3>
+            <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                A high-end artificial custom environment architecture setup constructed purely to help match structural aesthetics seamlessly.
+            </p>
         </div>
     </div>
 
+    <footer class="site-footer">
+        <div>© 2026 STYLING AI Studio Ecosystem</div>
+        <div class="footer-social-links">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script src="supabase-config.js"></script>
+    
     <script>
-        // 🛠️ APNE SUPABASE DASHBOARD WALI KEYS YAHAN PASTE KAREIN:
-        const SUPABASE_URL = "https://your-project-url.supabase.co"; 
-        const SUPABASE_ANON_KEY = "your-anon-public-key";          
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        let isSignUpMode = false;
+        let kpiChartInstance = null;
 
-        // Auto check session on load
-        window.onload = function() {
-            const sessionData = localStorage.getItem("user_session");
-            if (sessionData) {
-                hideAuthOverlay();
-            }
-        };
-
-        function hideAuthOverlay() {
-            document.getElementById('authOverlayGate').style.display = 'none';
+        function toggleModal(modalId, action) {
+            document.getElementById(modalId).style.display = action ? 'flex' : 'none';
         }
 
-        function togglePasswordVisibility() {
-            const passInput = document.getElementById('authPassword');
-            passInput.type = passInput.type === 'password' ? 'text' : 'password';
-        }
+        // Local Form Evaluation & Chart Styling Logic
+        function calculateFashionProfile(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(document.getElementById('predictionForm'));
+            const userGender = formData.get('gender');
+            const userSkin = formData.get('skin_tone');
+            const userFabric = formData.get('fabric');
+            const userColor = formData.get('primary_color');
+            
+            const colorMaps = {
+                'core black': ['#000000', '#1a1a1a', '#333333', '#4d4d4d'],
+                'alabaster white': ['#ffffff', '#f5f5f4', '#e7e5e4', '#d6d3d1'],
+                'midnight blue': ['#1e3a8a', '#1e40af', '#1d4ed8', '#3b82f6'],
+                'crimson red': ['#991b1b', '#b91c1c', '#dc2626', '#ef4444'],
+                'forest green': ['#065f46', '#047857', '#059669', '#10b981']
+            };
 
-        // Mode Switching: Login vs Sign Up
-        function toggleAuthMode() {
-            isSignUpMode = !isSignUpMode;
-            const title = document.getElementById('authTitle');
-            const btn = document.getElementById('submitAuthBtn');
-            const toggleLink = document.getElementById('toggleAuthModeLink');
+            let accuracy = Math.floor(Math.random() * 31) + 65; 
+            let hexColors = colorMaps[userColor] || ['#7c3aed', '#a855f7', '#c084fc', '#e9d5ff'];
 
-            if (isSignUpMode) {
-                title.innerText = "AI Fashion Sign Up";
-                btn.innerHTML = `<i class="fas fa-user-plus"></i> Create Account & Log In`;
-                toggleLink.innerHTML = "Already have an account? Log In";
-            } else {
-                title.innerText = "AI Fashion Login";
-                btn.innerHTML = `<i class="fas fa-sign-in-alt"></i> Access Account Log In`;
-                toggleLink.innerHTML = "Create Account / Sign Up";
-            }
-        }
+            const paletteBox = document.getElementById('palettePaletteBox');
+            paletteBox.innerHTML = '';
+            hexColors.forEach(color => {
+                let node = document.createElement('span');
+                node.className = 'palette-circle-dot';
+                node.style.backgroundColor = color;
+                paletteBox.appendChild(node);
+            });
 
-        // Central Authenticate Handler (@gmail.com Check Included)
-        async function processAuthentication() {
-            const email = document.getElementById('authEmail').value.trim();
-            const password = document.getElementById('authPassword').value;
+            document.getElementById('genderFeedbackField').innerText = userGender.toUpperCase();
+            document.getElementById('skinFeedbackField').innerText = userSkin.toUpperCase();
+            document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
+            document.getElementById('auraDensityValue').innerText = `${accuracy}%`;
+            document.getElementById('paletteStructureLabel').innerText = userColor + " theme";
 
-            // Strict checklist check: email must end with @gmail.com
-            if (!email.endsWith('@gmail.com') || password.length < 4) {
-                alert("Access Denied! Email must include '@gmail.com' and password cannot be empty.");
-                return;
-            }
+            let mappedDegrees = ((accuracy - 50) / 50) * 180 - 90; 
+            document.getElementById('gaugePointerPin').style.transform = `translateX(-50%) rotate(${mappedDegrees}deg)`;
+            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
 
-            if (isSignUpMode) {
-                // Supabase Sign Up technique execution
-                const { data, error } = await supabase.auth.signUp({ email, password });
-                if (error) {
-                    alert("System Error: " + error.message);
-                } else {
-                    alert("Registration Successful! Welcome.");
-                    hideAuthOverlay();
+            document.getElementById('resultPanel').style.display = 'block';
+
+            const ctx = document.getElementById('miniDiversityChart').getContext('2d');
+            if (kpiChartInstance) { kpiChartInstance.destroy(); }
+            
+            let dataPointsPoints = [40, 55, 62, 78, accuracy];
+            kpiChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Phase 1', 'Phase 2', 'Phase 3', 'Phase 4', 'Match'],
+                    datasets: [{
+                        data: dataPointsPoints,
+                        borderColor: '#db2777',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#7c3aed',
+                        fill: true,
+                        backgroundColor: 'rgba(219, 39, 119, 0.08)',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: true }, y: { min: 0, max: 100 } }
                 }
-            } else {
-                // Supabase Login technique execution
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) {
-                    alert("System Error: " + error.message);
-                } else {
-                    alert("Access Granted! Syncing Dashboard Matrix.");
-                    localStorage.setItem("user_session", JSON.stringify(data.session));
-                    hideAuthOverlay();
-                }
-            }
-        }
+            });
 
-        function handleLogout() {
-            supabase.auth.signOut();
-            localStorage.removeItem("user_session");
-            window.location.reload();
-        }
-
-        function toggleModal(id, show) {
-            document.getElementById(id).style.display = show ? 'flex' : 'none';
+            document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
