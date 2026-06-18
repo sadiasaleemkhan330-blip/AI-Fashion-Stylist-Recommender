@@ -898,7 +898,7 @@
 
             try {
                 // Flask Endpoint URL (Agar local chal raha hai to http://127.0.0.1:5000/predict use karein)
-                const response = await fetch('http://127.0.0.1:5000/predict', {
+                fetch('/predict') // ya jo bhi endpoint ka naam hai, shuru ka address mita do{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
