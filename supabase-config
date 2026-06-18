@@ -1,0 +1,48 @@
+// 1. Supabase credentials (Yahan apni real dashboard wali keys dalein)
+const SUPABASE_URL = "https://xxxx.supabase.co"; // Apna real URL paste karein
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // Apni real anon key paste karein
+
+// Client initialized
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// 2. Form Sign Up / Create Account Function
+async function handleSignUp(event) {
+    event.preventDefault(); // Page reload hone se rokne ke liye
+    
+    const email = document.getElementById('emailInput').value;
+    const password = document.getElementById('passwordInput').value;
+
+    if (!email || !password) {
+        alert("Plz Email aur Password dono likhein!");
+        return;
+    }
+
+    // Supabase standard registration
+    const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        alert("Sign Up Fail: " + error.message);
+    } else {
+        alert("Success! Account ban gaya hai. Supabase Dashboard check karein.");
+        console.log("User Registered Data:", data);
+    }
+}
+
+// 3. Google Social Auth Provider
+async function loginWithGoogle() {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+    });
+    if (error) alert("Google Login Error: " + error.message);
+}
+
+// 4. GitHub Social Auth Provider
+async function loginWithGithub() {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'github',
+    });
+    if (error) alert("GitHub Login Error: " + error.message);
+}
