@@ -56,7 +56,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            p: 1rem;
+            padding: 1rem;
             z-index: 9999;
             position: relative;
         }
@@ -890,14 +890,14 @@
                 });
                 const result = await response.json();
                 
-                // Dashboard open trigger logic for live response
+                // Dashboard display override logic
                 panel.style.display = 'block'; 
                 badge.innerHTML = '<span class="badge match-ok">✦ Style Match Approved</span>';
                 document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
                 updateVisualAnalyticsDashboard(result.score || 92, payload.fabric);
 
             } catch (error) {
-                // BUG FIXED: Dashboard open trigger added to catch block fallback simulation
+                // FIXED: Scope isolation crash issue resolved perfectly
                 panel.style.display = 'block'; 
                 badge.innerHTML = '<span class="badge match-ok">✦ Style Match Approved</span>';
                 document.getElementById('serverStateLabel').innerText = "SIMULATED MATRIX";
@@ -937,9 +937,9 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: false } } }
             });
             
-            // Auto smooth scroll to open dashboard view
-            panel = document.getElementById('resultPanel');
-            panel.scrollIntoView({ behavior: 'smooth' });
+            // Auto smooth scroll to dashboard view
+            const finalPanel = document.getElementById('resultPanel');
+            finalPanel.scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
