@@ -13,7 +13,12 @@
     },
     {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "/"
     }
-  ]
+  ],
+  "functions": {
+    "app.py": {
+      "includeFiles": "fashion_data.csv"
+    }
+  }
 }
