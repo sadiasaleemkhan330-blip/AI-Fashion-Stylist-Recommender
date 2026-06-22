@@ -459,7 +459,6 @@
 </head>
 <body>
 
-    <!-- AUTH GATING FRAME -->
     <div id="strictlyAuthGateFrame">
         <div class="bg-white max-w-[440px] w-full rounded-[28px] p-8 border-2 border-pink-500 shadow-2xl text-center">
             <h2 id="systemAuthTitle" class="text-3xl font-black text-purple-950 mb-1 tracking-tight">System Sign-In</h2>
@@ -503,7 +502,6 @@
         </div>
     </div>
 
-    <!-- MAIN WEBSITE FRAME -->
     <div id="mainWebsiteApplicationWrapper" class="w-full min-h-screen flex flex-col items-center justify-center hidden">
         <header>
             <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
@@ -517,7 +515,6 @@
 
         <div class="content-container">
             <div class="page-wrapper">
-                <!-- Left Robot Avatar -->
                 <div class="robot-side">
                     <div class="speech-bubble">
                         <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
@@ -528,7 +525,6 @@
                     </div>
                 </div>
 
-                <!-- Central Config Card -->
                 <div class="main-card">
                     <div class="w-full text-center mb-8 px-4">
                         <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-700 via-purple-900 to-pink-600 bg-clip-text text-transparent inline-block mb-3">
@@ -538,7 +534,6 @@
 
                     <form id="predictionForm">
                         <div class="form-grid">
-                            <!-- Column 1 -->
                             <div class="form-column">
                                 <h2>Body Metrics</h2>
                                 <div class="input-box">
@@ -579,7 +574,6 @@
                                 </div>
                             </div>
 
-                            <!-- Column 2 -->
                             <div class="form-column">
                                 <h2>Fashion Spot</h2>
                                 <div class="input-box">
@@ -627,7 +621,6 @@
                                 </div>
                             </div>
 
-                            <!-- Column 3 -->
                             <div class="form-column">
                                 <h2>Environmental Logic</h2>
                                 <div class="input-box">
@@ -672,13 +665,11 @@
                         </div>
                     </form>
 
-                    <!-- AI RESULTS DASHBOARD -->
                     <div class="results-section" id="resultPanel">
                         <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
                         <div id="badgeContainer" class="text-center mb-4"></div>
                              
                         <div class="dashboard-grid">
-                            <!-- Box 1: Gauge (Shows Exact Selection Score) -->
                             <div class="metrics-card-box">
                                 <div class="metrics-card-title">Your Current Selection Score</div>
                                 <div class="gauge-container my-auto">
@@ -691,7 +682,6 @@
                                 </div>
                             </div>
 
-                            <!-- Box 2: Data Architecture -->
                             <div class="metrics-card-box">
                                 <div class="metrics-card-title">Model Data Architecture</div>
                                 <div class="text-xs space-y-2.5 text-gray-700 font-sans">
@@ -715,14 +705,12 @@
                                 <div class="mt-4 pt-3 border-t border-dashed border-pink-300 text-xs bg-pink-50/50 p-2.5 rounded-xl text-purple-950 font-medium leading-relaxed" id="adviceText"></div>
                             </div>
 
-                            <!-- Box 3: PREMIUM INDEPENDENT RECOMMENDATIONS (95%+ TREND DRIVEN) -->
                             <div class="metrics-card-box">
                                 <div class="metrics-card-title flex items-center justify-center gap-1.5">
                                     <i class="fas fa-wand-magic-sparkles text-pink-600"></i> Expert Stylist Recommendations
                                 </div>
                                 
                                 <div class="space-y-2.5 text-left font-sans text-xs">
-                                    <!-- Recommendation 1: Wardrobe Suggestion -->
                                     <div class="p-2.5 bg-white border border-purple-100 rounded-xl shadow-sm flex flex-col justify-between">
                                         <div>
                                             <span class="text-[10px] font-extrabold text-purple-600 uppercase tracking-wider" id="trend_header_percent"><i class="fas fa-shirt text-purple-500"></i> Best Outfit Suggestion</span>
@@ -731,7 +719,6 @@
                                         <button type="button" onclick="applyRecommendationToForm('trend')" class="mt-2 text-right text-[10px] bg-purple-600 text-white font-extrabold px-2.5 py-1 rounded-md shadow-sm hover:bg-pink-600 transition uppercase tracking-wider self-end">Fix My Choice</button>
                                     </div>
 
-                                    <!-- Recommendation 2: Color Palette Suggestion -->
                                     <div class="p-2.5 bg-white border border-purple-100 rounded-xl shadow-sm flex flex-col justify-between">
                                         <div>
                                             <span class="text-[10px] font-extrabold text-pink-600 uppercase tracking-wider" id="tone_header_percent"><i class="fas fa-palette text-pink-500"></i> Correct Color Alignment</span>
@@ -740,7 +727,6 @@
                                         <button type="button" onclick="applyRecommendationToForm('tone')" class="mt-2 text-right text-[10px] bg-purple-600 text-white font-extrabold px-2.5 py-1 rounded-md shadow-sm hover:bg-pink-600 transition uppercase tracking-wider self-end">Fix My Choice</button>
                                     </div>
 
-                                    <!-- Recommendation 3: Trend Correction Warning -->
                                     <div class="p-2.5 bg-white border border-purple-100 rounded-xl shadow-sm flex flex-col justify-between">
                                         <div>
                                             <span class="text-[10px] font-extrabold text-blue-600 uppercase tracking-wider" id="season_header_percent"><i class="fas fa-triangle-exclamation text-amber-500"></i> Trend Check Analysis</span>
@@ -752,7 +738,6 @@
                             </div>
                         </div>
 
-                        <!-- Lower Analytics Row -->
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
                             <div class="metrics-card-box p-4 bg-white rounded-2xl flex flex-col justify-between items-center text-center">
                                 <div class="metrics-card-title w-full">Refined Color Palette</div>
@@ -795,7 +780,6 @@
         </footer>
     </div>
 
-    <!-- MODALS -->
     <div id="aboutModal" class="info-modal">
         <div class="modal-content text-left">
             <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
@@ -916,7 +900,8 @@
             const badge = document.getElementById('badgeContainer');
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/predict', {
+                // FIXED FOR VERCEL DEPLOYMENT: Relative URL used to automatically target Vercel dynamic endpoints
+                const response = await fetch('/predict', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -928,7 +913,6 @@
                     panel.style.display = 'block';
                     badge.innerHTML = `<span class="badge match-ok">✦ REAL-TIME GENERATED LOGIC DASHBOARD ✦</span>`;
                     
-                    // Clock displays exact backend/CSV calculated score
                     const selectionAccuracy = result.score;
                     document.getElementById('gaugeValueLabel').innerText = `SELECTION SCORE: ${selectionAccuracy}%`;
                     const needleAngle = ((selectionAccuracy / 100) * 180) - 90;
@@ -940,7 +924,6 @@
                     document.getElementById('serverStateLabel').innerText = result.server_status;
                     document.getElementById('adviceText').innerText = result.recommendation;
 
-                    // EXPERT CRITERIA LOGIC (ALWAYS OVER 90% INDEPENDENT RECOMMENDATIONS)
                     let bestFabric = "cotton blend";
                     let bestColor = "core black";
                     let bestStyle = "casual wear";
@@ -955,35 +938,29 @@
                         bestStyle = "smart casual / layered";
                     }
 
-                    // Cache high scoring values over 90% for user auto-fix buttons
                     cachedVibePayloads.trend = { fabric: bestFabric, primary_color: bestColor, style_preference: bestStyle };
                     cachedVibePayloads.tone = { fabric: "silk premium", primary_color: "crimson red", style_preference: "formal structured" };
                     cachedVibePayloads.season = { fabric: "cotton blend", primary_color: "forest green", style_preference: "smart casual / layered" };
 
-                    // Recommendation Headers Display Fixed 95%+ Elite Sugesstions
                     document.getElementById('trend_header_percent').innerHTML = `<i class="fas fa-shirt text-purple-500"></i> Best Outfit Suggestion - 96% Match`;
                     document.getElementById('tone_header_percent').innerHTML = `<i class="fas fa-palette text-pink-500"></i> Correct Color Alignment - 95% Match`;
                     document.getElementById('season_header_percent').innerHTML = `<i class="fas fa-triangle-exclamation text-amber-500"></i> Trend Check Analysis - 98% Match`;
 
-                    // Generate Dynamic Smart Guidelines depending upon user selection vs practical standards
                     document.getElementById('recom_trend_text').innerText = `For a ${payload.gender.toUpperCase()}, trend vectors suggest pairing '${bestStyle.toUpperCase()}' with clean '${bestFabric.toUpperCase()}' assets.`;
                     document.getElementById('recom_tone_text').innerText = `To perfectly contrast your ${payload.skin_tone.toUpperCase()} skin tone profile, we highly recommend switching to '${bestColor.toUpperCase()}'.`;
                     
-                    // Practical Check Warning
                     if (payload.season === "summer elements" && (payload.fabric === "denim / heavy canvas" || payload.style_preference === "smart casual / layered")) {
                         document.getElementById('recom_season_text').innerText = `⚠️ Choice Warning: Selected heavy winter layers in Summer! Practically incorrect. Switch to Linen elements immediately.`;
                     } else {
                         document.getElementById('recom_season_text').innerText = `✓ Selection Approved: Your environmental layout fits the current '${payload.season.toUpperCase()}' atmospheric dynamics flawlessly.`;
                     }
 
-                    // Color Palette Loops
                     const paletteBox = document.getElementById('paletteCirclesWrapper');
                     paletteBox.innerHTML = '';
                     result.palette.forEach(color => {
                         paletteBox.insertAdjacentHTML('beforeend', `<span class="palette-circle-dot" style="background-color: ${color};"></span>`);
                     });
 
-                    // Mini Line Chart
                     const ctx = document.getElementById('miniDiversityChart').getContext('2d');
                     if (kpiChartInstance) { kpiChartInstance.destroy(); }
                     kpiChartInstance = new Chart(ctx, {
@@ -1004,7 +981,7 @@
                 }
             } catch (error) {
                 console.error("API Error:", error);
-                alert("Flask server connection vector error! Keep app.py running.");
+                alert("Server execution layer block detected! Ensure your server endpoints are running properly on deployment.");
             }
         });
     </script>
