@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -282,31 +281,33 @@
 
         .results-section {
             margin-top: 35px;
-            padding: 20px;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px dashed var(--pink-accent);
+            padding: 24px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 2px solid var(--purple-brand);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.15);
             display: none;
             width: 100%;
         }
 
         .dashboard-header-title {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: #1e1b4b;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: rgba(124, 58, 237, 0.08);
-            padding: 10px;
-            border-radius: 10px;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            padding: 14px;
+            border-radius: 14px;
             text-align: center;
             margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.2);
         }
 
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 1.1fr 1fr;
-            gap: 15px;
+            gap: 20px;
             text-align: left;
             width: 100%;
         }
@@ -319,24 +320,28 @@
 
         .metrics-card-box {
             background: #ffffff;
-            border: 1px solid rgba(244, 114, 182, 0.3);
-            border-radius: 18px;
-            padding: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.05);
             overflow: hidden;
             width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .metrics-card-box:hover {
+            transform: translateY(-2px);
         }
 
         .metrics-card-title {
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: #4b5563;
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: #4c1d95;
             text-transform: uppercase;
             text-align: center;
             margin-bottom: 15px;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding-bottom: 6px;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.1);
+            padding-bottom: 8px;
         }
 
         .gauge-container {
@@ -353,22 +358,20 @@
             border: 22px solid transparent;
             background: conic-gradient(
                 from 270deg,
-                #1b7a43 0deg 36deg,   
-                #43a047 36deg 72deg,  
-                #81c784 72deg 108deg, 
-                #fdd835 108deg 144deg, 
-                #e0e0e0 144deg 180deg, 
+                #db2777 0deg 45deg,   
+                #f59e0b 45deg 90deg,  
+                #a855f7 90deg 135deg, 
+                #10b981 135deg 180deg, 
                 transparent 180deg
             ) border-box;
             -webkit-mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
             mask: linear-gradient(#fff 0 0) padding-box exclude, linear-gradient(#fff 0 0);
-            transform: rotate(0deg);
         }
         .gauge-pin {
             position: absolute;
             bottom: 0; left: 50%; width: 4px; height: 75px;
             background: #27272a; transform-origin: bottom center;
-            transform: translateX(-50%) rotate(-54deg);
+            transform: translateX(-50%) rotate(-90deg);
             transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 4px;
             z-index: 10;
@@ -388,11 +391,17 @@
         }
 
         .alt-box-layout {
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(219, 39, 119, 0.2);
             border-radius: 14px;
-            padding: 10px 12px;
+            padding: 12px;
             background: #ffffff;
             width: 100%;
+            transition: all 0.2s ease;
+        }
+        
+        .alt-box-layout:hover {
+            border-color: var(--purple-brand);
+            background: #fafafa;
         }
 
         .info-modal {
@@ -461,9 +470,9 @@
 </head>
 <body>
 
+    <!-- Auth Gateway Section -->
     <div id="strictlyAuthGateFrame">
         <div class="bg-white max-w-[440px] w-full rounded-[28px] p-8 border-2 border-pink-500 shadow-2xl text-center">
-            
             <h2 id="systemAuthTitle" class="text-3xl font-black text-purple-950 mb-1 tracking-tight">System Sign-In</h2>
             <p id="systemAuthSubtitle" class="text-xs font-bold text-pink-600 uppercase tracking-widest mb-6">ASA NovaStyle AI Portal</p>
             
@@ -507,8 +516,8 @@
         </div>
     </div>
 
+    <!-- Main Dynamic Application System -->
     <div id="mainWebsiteApplicationWrapper" class="w-full min-h-screen flex flex-col items-center justify-center hidden">
-        
         <header>
             <div class="header-logo" onclick="window.location.reload()">ASA NovaStyle</div>
             <nav class="nav-links">
@@ -521,14 +530,13 @@
 
         <div class="content-container">
             <div class="page-wrapper">
-    
                 <div class="robot-side">
                     <div class="speech-bubble">
                         <p id="robotNarrative">Hey! Let's find your perfect style vibe!</p>
                         <span>ASA NOVASTYLE AI ASSISTANT</span>
                     </div>
                     <div class="robot-frame">
-                        <img src="https://api.removal.ai/download/g1/preview/a628e0a0-5b53-44b8-9079-a558c5164029.png" class="w-full max-w-[340px] min-w-[280px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(219,39,119,0.25)] rounded-3xl" alt="Stylist Aura AI">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF96OC66lySHGwdmCAK8BCFN_kam7BSHrQTkwUCAPFGg&s=10" class="w-full max-w-[340px] min-w-[280px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(219,39,119,0.25)] rounded-3xl" alt="Stylist Aura AI">
                     </div>
                 </div>
 
@@ -541,18 +549,19 @@
 
                     <form id="predictionForm">
                         <div class="form-grid">
+                            <!-- Column 1: Body Metrics -->
                             <div class="form-column">
                                 <h2>Body Metrics</h2>
                                 <div class="input-box">
                                     <label>Gender Profile</label>
-                                    <select name="gender" required>
+                                    <select name="gender" id="genderSelect" required>
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
                                 </div>
                                 <div class="input-box">
                                     <label>Age Segment</label>
-                                    <select name="age_group" required>
+                                    <select name="age_group" id="ageGroupSelect" required>
                                         <option value="gen-z">Gen-Z</option>
                                         <option value="millennial">Millennial</option>
                                         <option value="older generation">Older Generation</option>
@@ -560,7 +569,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Body Architecture</label>
-                                    <select name="body_type" required>
+                                    <select name="body_type" id="bodyTypeSelect" required>
                                         <option value="slim / lean">Slim / Lean</option>
                                         <option value="average / fit">Average / Fit</option>
                                         <option value="athletic / muscular">Athletic / Muscular</option>
@@ -569,7 +578,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Skin Tone Complex</label>
-                                    <select name="skin_tone" required>
+                                    <select name="skin_tone" id="skinToneSelect" required>
                                         <option value="fair / light">Fair / Light</option>
                                         <option value="medium / olive">Medium / Olive</option>
                                         <option value="dark / deep">Dark / Deep</option>
@@ -577,15 +586,16 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Exact Height (cm)</label>
-                                    <input type="number" name="height" value="165" min="100" max="250" required>
+                                    <input type="number" name="height" id="heightInput" value="165" min="100" max="250" required>
                                 </div>
                             </div>
 
+                            <!-- Column 2: Fashion Spot -->
                             <div class="form-column">
                                 <h2>Fashion Spot</h2>
                                 <div class="input-box">
                                     <label>Style Preference</label>
-                                    <select name="style_preference" required>
+                                    <select name="style_preference" id="stylePreferenceSelect" required>
                                         <option value="casual wear">Casual Wear</option>
                                         <option value="formal structured">Formal Structured</option>
                                         <option value="smart casual / layered">Smart Casual / Layered</option>
@@ -593,7 +603,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Budget Dynamic</label>
-                                    <select name="budget_level" required>
+                                    <select name="budget_level" id="budgetLevelSelect" required>
                                         <option value="low / budget friendly">Low / Budget Friendly</option>
                                         <option value="medium segment">Medium Segment</option>
                                         <option value="high / luxury premium">High / Luxury Premium</option>
@@ -601,7 +611,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Primary Fabric</label>
-                                    <select name="fabric" required>
+                                    <select name="fabric" id="fabricSelect" required>
                                         <option value="cotton blend">Cotton Blend</option>
                                         <option value="silk premium">Silk Premium</option>
                                         <option value="denim / heavy canvas">Denim / Heavy Canvas</option>
@@ -610,7 +620,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Color Palette</label>
-                                    <select name="primary_color" required>
+                                    <select name="primary_color" id="primaryColorSelect" required>
                                         <option value="core black">Core Black</option>
                                         <option value="alabaster white">Alabaster White</option>
                                         <option value="midnight blue">Midnight Blue</option>
@@ -620,7 +630,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Pattern Matrix</label>
-                                    <select name="pattern" required>
+                                    <select name="pattern" id="patternSelect" required>
                                         <option value="solid / monochromatic">Solid / Monochromatic</option>
                                         <option value="printed micro">Printed Micro</option>
                                         <option value="vertical striped">Vertical Striped</option>
@@ -628,11 +638,12 @@
                                 </div>
                             </div>
 
+                            <!-- Column 3: Environmental Logic -->
                             <div class="form-column">
                                 <h2>Environmental Logic</h2>
                                 <div class="input-box">
                                     <label>Occasion Profile</label>
-                                    <select name="occasion" required>
+                                    <select name="occasion" id="occasionSelect" required>
                                         <option value="casual outing / daily">Casual Outing / Daily</option>
                                         <option value="wedding / grand festival">Wedding / Grand Festival</option>
                                         <option value="corporate office / business">Corporate Office / Business</option>
@@ -640,7 +651,7 @@
                                 </div>
                                 <div class="input-box">
                                     <label>User Mood</label>
-                                    <select name="mood" required>
+                                    <select name="mood" id="moodSelect" required>
                                         <option value="happy / vibrant">Happy / Vibrant</option>
                                         <option value="relaxed / laidback">Relaxed / Laidback</option>
                                         <option value="energetic / active">Energetic / Active</option>
@@ -648,21 +659,21 @@
                                 </div>
                                 <div class="input-box">
                                     <label>Season Cycle</label>
-                                    <select name="season" required>
+                                    <select name="season" id="seasonSelect" required>
                                         <option value="summer elements">Summer Elements</option>
                                         <option value="winter layering">Winter Layering</option>
                                     </select>
                                 </div>
                                 <div class="input-box">
                                     <label>Weather Matrix</label>
-                                    <select name="weather" required>
+                                    <select name="weather" id="weatherSelect" required>
                                         <option value="sunny / clear">Sunny / Clear</option>
                                         <option value="rainy / overcast">Rainy / Overcast</option>
                                     </select>
                                 </div>
                                 <div class="input-box">
                                     <label>Trending Spot</label>
-                                    <input type="number" step="0.01" name="daa_graph_popularity_score" value="0.45" min="0.00" max="1.00" required>
+                                    <input type="number" step="0.01" name="daa_graph_popularity_score" id="trendInput" value="0.85" min="0.00" max="1.00" required>
                                 </div>
                             </div>
                         </div>
@@ -672,91 +683,88 @@
                         </div>
                     </form>
 
+                    <!-- Professional Optimized Dashboard -->
                     <div class="results-section" id="resultPanel">
                         <div class="dashboard-header-title">✦ AI Optimization Dashboard ✦</div>
-                        <div id="badgeContainer" class="text-center mb-4"></div>
+                        <div id="badgeContainer" class="text-center mb-5"></div>
                              
-                        <div class="dashboard-grid gap-4">
-                            <div class="metrics-card-box flex flex-col justify-between items-center bg-gray-50/50 p-5 rounded-2xl border border-purple-100">
-                                <div class="metrics-card-title text-purple-900 font-extrabold w-full text-center pb-2 mb-3 border-b text-xs uppercase tracking-wider">Recommendation Score Gauge</div>
+                        <div class="dashboard-grid">
+                            <!-- Box 1: Gauge -->
+                            <div class="metrics-card-box flex flex-col justify-between items-center bg-purple-50/40 border-2 border-purple-500">
+                                <div class="metrics-card-title w-full text-center">Score Vector Gauge</div>
                                 <div class="gauge-container my-auto">
                                     <div class="gauge-bg-clock"></div>
                                     <div class="gauge-pin" id="gaugePointerPin"></div>
                                     <div class="gauge-center-dot"></div>
                                 </div>
-                                <div class="text-center font-black text-xs tracking-wider mt-4 text-purple-950 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-100" id="gaugeValueLabel">
-                                    OPTIMAL STYLE MATCH: --
+                                <div class="text-center font-black text-xs tracking-wider mt-4 text-purple-950 bg-white border border-purple-300 px-4 py-2 rounded-full w-full" id="gaugeValueLabel">
+                                    MATCH VALUE: --
                                 </div>
                             </div>
 
-                            <div class="metrics-card-box flex flex-col justify-between bg-white p-5 rounded-2xl border border-purple-100">
-                                <div class="metrics-card-title text-purple-900 font-extrabold pb-2 mb-3 border-b text-xs uppercase tracking-wider">Model Data Architecture</div>
-                                <div class="text-xs space-y-2.5 text-gray-700 font-sans" style="text-align: left;">
+                            <!-- Box 2: Data Logs -->
+                            <div class="metrics-card-box flex flex-col justify-between bg-white border-2 border-pink-500">
+                                <div class="metrics-card-title">Model Diagnostics</div>
+                                <div class="text-xs space-y-2.5 text-gray-700 font-sans">
                                     <div class="flex justify-between items-center border-b pb-2">
-                                        <span class="font-medium text-gray-500">Target Fabric Element</span>
-                                        <span class="text-green-600 font-black px-2 py-0.5 bg-green-50 rounded-md border border-green-100" id="fabricFeedbackField">Premium Selection</span>
+                                        <span class="font-semibold text-gray-500">Fabric Context</span>
+                                        <span class="text-pink-700 font-black px-2 py-0.5 bg-pink-50 rounded-md border border-pink-200" id="fabricFeedbackField">Premium</span>
                                     </div>
                                     <div class="flex justify-between items-center border-b pb-2">
-                                        <span class="font-medium text-gray-500">Tone Matching Level</span>
-                                        <span class="text-purple-600 font-black px-2 py-0.5 bg-purple-50 rounded-md border border-purple-100">Synchronized</span>
+                                        <span class="font-semibold text-gray-500">System Stability</span>
+                                        <span class="text-purple-700 font-black px-2 py-0.5 bg-purple-50 rounded-md border border-purple-200" id="toneMatchLabel">Synchronized</span>
                                     </div>
                                     <div class="flex justify-between items-center border-b pb-2">
-                                        <span class="font-medium text-gray-500">Aesthetic Vector Status</span>
-                                        <span class="text-blue-600 font-black px-2 py-0.5 bg-blue-50 rounded-md border border-blue-100">Active Matrix</span>
+                                        <span class="font-semibold text-gray-500">Aesthetic Engine</span>
+                                        <span class="text-emerald-700 font-black px-2 py-0.5 bg-emerald-50 rounded-md border border-emerald-200">Active Node</span>
                                     </div>
                                     <div class="flex justify-between items-center pb-1">
-                                        <span class="font-medium text-gray-500">Server Computation Log</span>
-                                        <span class="text-gray-900 font-black px-2 py-0.5 bg-gray-50 rounded-md border border-gray-200" id="serverStateLabel">Success</span>
+                                        <span class="font-semibold text-gray-500">Network Log</span>
+                                        <span class="text-gray-900 font-black px-2 py-0.5 bg-gray-50 rounded-md border border-gray-300" id="serverStateLabel">200 OK</span>
                                     </div>
                                 </div>
-                                <div class="mt-4 pt-3 border-t border-dashed border-pink-300 text-xs text-left bg-pink-50/50 p-2.5 rounded-xl text-purple-950 font-medium leading-relaxed" id="adviceText"></div>
+                                <div class="mt-4 pt-3 border-t border-dashed border-purple-300 text-xs text-left bg-purple-50/50 p-2.5 rounded-xl text-purple-950 font-medium leading-relaxed" id="adviceText"></div>
                             </div>
 
-                            <div class="metrics-card-box flex flex-col justify-between bg-white p-5 rounded-2xl border border-purple-100">
-                                <div class="metrics-card-title text-purple-900 font-extrabold pb-2 mb-3 border-b text-xs uppercase tracking-wider">Curated Alternatives</div>
-                                <div class="space-y-3 overflow-y-auto text-left font-sans text-xs max-h-[170px] pr-1" id="alternativesWrapperContainer">
-                                    <div class="alt-box-layout p-3 bg-gradient-to-r from-purple-50/50 to-pink-50/50 rounded-xl border border-purple-100 shadow-sm">
-                                        <div class="flex justify-between items-start">
-                                            <div>
-                                                <span class="font-black text-purple-950 text-xs">ALT 1: 91% Match</span>
-                                                <p class="text-[11px] text-gray-600 font-semibold mt-0.5">Navy Cotton-Poly Blazer with Chinos</p>
-                                            </div>
-                                            <div class="w-7 h-7 bg-purple-600 rounded-lg flex items-center justify-center text-xs text-white font-bold shadow-sm shrink-0 ml-2">🧥</div>
-                                        </div>
-                                    </div>
+                            <!-- Box 3: 3 Dynamic Recommendations -->
+                            <div class="metrics-card-box flex flex-col justify-start bg-white border-2 border-purple-500 min-h-[340px]">
+                                <div class="metrics-card-title mb-2">AI Smart Recommendations (3 Fixes)</div>
+                                <div class="space-y-3 overflow-y-auto text-left font-sans text-xs max-h-[250px] pr-1 mt-0" id="alternativesWrapperContainer">
+                                    <!-- Populated on Submit Dynamically -->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                            <div class="metrics-card-box p-4 bg-white rounded-2xl border border-purple-100 flex flex-col justify-between items-center text-center">
-                                <div class="metrics-card-title text-purple-900 font-extrabold pb-1.5 mb-3 border-b w-full text-xs uppercase tracking-wider">Refined Color Palette</div>
+                        <!-- Secondary Row Dashboard Components -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+                            <div class="metrics-card-box bg-white border-2 border-pink-400 flex flex-col justify-between items-center text-center">
+                                <div class="metrics-card-title w-full">Refined Color Space</div>
                                 <div class="flex justify-center items-center gap-3 py-2 w-full" id="paletteCirclesWrapper"></div>
                             </div>
                             
-                            <div class="metrics-card-box p-4 bg-white rounded-2xl border border-purple-100">
-                                <div class="metrics-card-title text-purple-900 font-extrabold pb-1.5 mb-3 border-b text-xs uppercase tracking-wider">Optimal Fabric Solutions</div>
-                                <div class="grid grid-cols-2 gap-2.5 text-center font-sans h-full items-center">
-                                    <div class="bg-purple-50/60 p-2.5 rounded-xl border border-purple-100 shadow-sm">
-                                        <div class="text-[10px] uppercase font-bold text-purple-500 tracking-wide mb-0.5">Structural Fit</div>
-                                        <div class="text-base font-black text-purple-950" id="structuralFitValue">--</div>
+                            <!-- Box Fixed: Wardrobe Density Matrix (Fixed alignment issue highlighted in image_19a362.png) -->
+                            <div class="metrics-card-box bg-white border-2 border-purple-400 flex flex-col justify-start">
+                                <div class="metrics-card-title mb-2">Wardrobe Density Matrix</div>
+                                <div class="grid grid-cols-2 gap-2.5 text-center font-sans mt-0 pb-1">
+                                    <div class="bg-purple-50 p-2.5 rounded-xl border border-purple-200 shadow-sm">
+                                        <div class="text-[10px] uppercase font-bold text-purple-600 tracking-wide mb-0.5">Structural Fit</div>
+                                        <div class="text-sm font-black text-purple-950" id="structuralFitValue">--</div>
                                     </div>
-                                    <div class="bg-pink-50/60 p-2.5 rounded-xl border border-pink-100 shadow-sm">
-                                        <div class="text-[10px] uppercase font-bold text-pink-500 tracking-wide mb-0.5">Aura Density</div>
-                                        <div class="text-base font-black text-pink-950" id="auraDensityValue">--</div>
+                                    <div class="bg-pink-50 p-2.5 rounded-xl border border-pink-200 shadow-sm">
+                                        <div class="text-[10px] uppercase font-bold text-pink-600 tracking-wide mb-0.5">Aura Integrity</div>
+                                        <div class="text-sm font-black text-pink-950" id="auraDensityValue">--</div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="metrics-card-box p-4 bg-white rounded-2xl border border-purple-100">
-                                <div class="metrics-card-title text-purple-900 font-extrabold pb-1.5 mb-2 border-b text-xs uppercase tracking-wider">System KPIs (Diversity Trend)</div>
-                                <div class="w-full h-[70px] mt-1">
+                            <div class="metrics-card-box bg-white border-2 border-pink-400">
+                                <div class="metrics-card-title">Dynamic Diversity Tracker</div>
+                                <div class="w-full h-[75px] mt-1">
                                     <canvas id="miniDiversityChart"></canvas>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -770,6 +778,7 @@
         </footer>
     </div>
 
+    <!-- Modals Section -->
     <div id="aboutModal" class="info-modal">
         <div class="modal-content text-left">
             <span class="modal-close" onclick="toggleModal('aboutModal', false)">&times;</span>
@@ -794,13 +803,10 @@
 
         var isSignUpMode = false;
         var kpiChartInstance = null;
-
+        
         window.onload = function() {
             const cachedSession = localStorage.getItem("user_session");
-            if (cachedSession) {
-                activateMainApplication();
-            }
-            injectCustomNotificationStyles();
+            if (cachedSession) activateMainApplication();
         };
 
         const switchLink = document.getElementById('switchModeButtonLink');
@@ -829,9 +835,8 @@
 
         function activateMainApplication() {
             document.getElementById('strictlyAuthGateFrame').style.display = 'none';
-            const wrapper = document.getElementById('mainWebsiteApplicationWrapper');
-            wrapper.classList.remove('hidden');
-            document.getElementById('robotNarrative').innerText = "Access Authorized! Let's map your premium wardrobe parameters.";
+            document.getElementById('mainWebsiteApplicationWrapper').classList.remove('hidden');
+            document.getElementById('robotNarrative').innerText = "Access Authorized! Let's compute your wardrobe metrics.";
         }
 
         async function handleAuthenticationEvent(e) {
@@ -839,16 +844,14 @@
             const email = document.getElementById('authEmailInput').value;
             const password = document.getElementById('authPasswordInput').value;
             const submitBtn = document.getElementById('mainSubmitBtn');
-            const originalBtnText = submitBtn.innerText;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
             submitBtn.disabled = true;
             try {
                 if (isSignUpMode) {
                     const { data, error } = await supabaseClient.auth.signUp({ email: email, password: password });
                     if (error) throw error;
-                    showThemeSuccessPopup("Account Created! Please check your email inbox for a verification link.");
+                    showThemeSuccessPopup("Account Created! Check email for activation parameters.");
                     if(switchLink) switchLink.click();
-                    return;
                 } else {
                     const { data, error } = await supabaseClient.auth.signInWithPassword({ email: email, password: password });
                     if (error) throw error;
@@ -859,23 +862,20 @@
             } catch (error) {
                 showThemeErrorPopup(error.message);
             } finally {
-                submitBtn.innerHTML = originalBtnText;
+                submitBtn.innerHTML = isSignUpMode ? "Register Account & Log In" : "Access Account Log In";
                 submitBtn.disabled = false;
             }
         }
 
-        function showThemeErrorPopup(errorMessage) {
+        function showThemeErrorPopup(err) {
             const existingModal = document.getElementById('customThemeErrorModal');
             if (existingModal) existingModal.remove();
             const modalHtml = `
                 <div id="customThemeErrorModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(46, 16, 101, 0.4); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 99999;">
-                    <div style="background: white; border: 2px solid #db2777; box-shadow: 0 20px 25px -5px rgba(124, 58, 237, 0.3); border-radius: 16px; padding: 28px; width: 90%; max-width: 420px; text-align: center;">
-                        <div style="width: 60px; height: 60px; background: #fce7f3; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 16px;">
-                            <i class="fas fa-exclamation-triangle" style="color: #db2777; font-size: 24px;"></i>
-                        </div>
-                        <h3 style="color: #2e1065; font-size: 20px; font-weight: 700; margin-bottom: 8px;">Authentication Issue</h3>
-                        <p style="color: #4b5563; font-size: 14px; line-height: 1.5; margin-bottom: 24px;">${errorMessage}</p>
-                        <button onclick="document.getElementById('customThemeErrorModal').remove()" style="background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); color: white; border: none; padding: 10px 32px; border-radius: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px;">Dismiss</button>
+                    <div style="background: white; border: 2px solid #db2777; border-radius: 16px; padding: 28px; width: 90%; max-width: 420px; text-align: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: #db2777; font-size: 24px; margin-bottom: 12px;"></i>
+                        <p style="color: #4b5563; font-size: 14px; margin-bottom: 20px;">${err}</p>
+                        <button onclick="document.getElementById('customThemeErrorModal').remove()" style="background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); color: white; padding: 8px 24px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer;">Dismiss</button>
                     </div>
                 </div>`;
             document.body.insertAdjacentHTML('beforeend', modalHtml);
@@ -884,13 +884,10 @@
         function showThemeSuccessPopup(msg) {
             const modalHtml = `
                 <div id="customThemeSuccessModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(46, 16, 101, 0.4); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 99999;">
-                    <div style="background: white; border: 2px solid #166534; box-shadow: 0 20px 25px -5px rgba(22, 101, 52, 0.2); border-radius: 16px; padding: 28px; width: 90%; max-width: 420px; text-align: center;">
-                        <div style="width: 60px; height: 60px; background: #dcfce7; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 16px;">
-                            <i class="fas fa-check-circle" style="color: #166534; font-size: 24px;"></i>
-                        </div>
-                        <h3 style="color: #111827; font-size: 20px; font-weight: 700; margin-bottom: 8px;">Success Node</h3>
-                        <p style="color: #4b5563; font-size: 14px; line-height: 1.5; margin-bottom: 24px;">${msg}</p>
-                        <button onclick="document.getElementById('customThemeSuccessModal').remove()" style="background: #166534; color: white; border: none; padding: 10px 32px; border-radius: 20px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 12px;">Acknowledge</button>
+                    <div style="background: white; border: 2px solid #166534; border-radius: 16px; padding: 28px; width: 90%; max-width: 420px; text-align: center;">
+                        <i class="fas fa-check-circle" style="color: #166534; font-size: 24px; margin-bottom: 12px;"></i>
+                        <p style="color: #4b5563; font-size: 14px; margin-bottom: 20px;">${msg}</p>
+                        <button onclick="document.getElementById('customThemeSuccessModal').remove()" style="background: #166534; color: white; padding: 8px 24px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer;">Acknowledge</button>
                     </div>
                 </div>`;
             document.body.insertAdjacentHTML('beforeend', modalHtml);
@@ -899,75 +896,205 @@
         function showCornerSuccessToast(msg) {
             const toast = document.createElement('div');
             toast.style.position = 'fixed'; toast.style.bottom = '24px'; toast.style.right = '24px';
-            toast.style.background = '#111827'; toast.style.color = '#fff'; toast.style.padding = '12px 24px';
-            toast.style.borderRadius = '12px'; toast.style.zIndex = '99999'; toast.style.fontSize = '13px'; toast.style.fontWeight = '600';
+            toast.style.background = '#2e1065'; toast.style.color = '#fff'; toast.style.padding = '12px 24px';
+            toast.style.borderRadius = '12px'; toast.style.zIndex = '99999'; toast.style.fontSize = '12px'; toast.style.fontWeight = '700';
             toast.innerText = msg; document.body.appendChild(toast);
-            setTimeout(() => { toast.remove(); }, 3500);
+            setTimeout(() => { toast.remove(); }, 3000);
         }
 
-        function injectCustomNotificationStyles() {}
         function toggleModal(id, open) { document.getElementById(id).style.display = open ? 'flex' : 'none'; }
         async function handleLogoutWorkflow() { localStorage.removeItem("user_session"); await supabaseClient.auth.signOut(); window.location.reload(); }
         function togglePasswordEye() { const input = document.getElementById('authPasswordInput'); input.type = input.type === 'password' ? 'text' : 'password'; }
         function bypassWithSocialGateway(p) { localStorage.setItem("user_session", "active_supabase_session"); activateMainApplication(); }
 
-        // REAL-TIME DYNAMIC SUBMISSION & VISUAL RE-ALIGNMENT HANDLING
-        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+        function applyAiRecommendation(targetElementId, targetValue) {
+            const element = document.getElementById(targetElementId);
+            if (element) {
+                element.value = targetValue;
+                showCornerSuccessToast(`Applied Quick Fix: ${targetValue.toUpperCase()}`);
+                document.querySelector('#predictionForm .action-btn').click();
+            }
+        }
+
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const formData = new FormData(e.target);
-            const userFabric = formData.get('fabric') || 'cotton blend';
             
-            // Random dynamic evaluation for smooth realistic response logic
-            const accuracy = Math.floor(Math.random() * (98 - 82 + 1)) + 82; 
+            const skinTone = document.getElementById('skinToneSelect').value;
+            const primaryColor = document.getElementById('primaryColorSelect').value;
+            const season = document.getElementById('seasonSelect').value;
+            const weather = document.getElementById('weatherSelect').value;
+            const userFabric = document.getElementById('fabricSelect').value;
+            const occasion = document.getElementById('occasionSelect').value;
+            const stylePreference = document.getElementById('stylePreferenceSelect').value;
+            const trendScore = parseFloat(document.getElementById('trendInput').value || "0.85");
+
+            // --- FULLY DYNAMIC SCORING SYSTEM ---
+            let calculatedBase = 95; 
+
+            // Conflict 1: Fabric vs Season/Weather
+            if (season === "summer elements" && (userFabric === "silk premium" || userFabric === "denim / heavy canvas")) {
+                calculatedBase -= 15;
+            }
+            if (season === "winter layering" && userFabric === "linen luxury") {
+                calculatedBase -= 12;
+            }
+            if (weather === "rainy / overcast" && userFabric === "silk premium") {
+                calculatedBase -= 10;
+            }
+
+            // Conflict 2: Occasion vs Style Preference
+            if (occasion === "corporate office / business" && stylePreference === "casual wear") {
+                calculatedBase -= 18;
+            }
+            if (occasion === "wedding / grand festival" && stylePreference === "casual wear") {
+                calculatedBase -= 20;
+            }
+            if (occasion === "casual outing / daily" && stylePreference === "formal structured") {
+                calculatedBase -= 8;
+            }
+
+            // Conflict 3: Skin Tone vs Color Palette
+            if (skinTone === "fair / light" && primaryColor === "alabaster white") {
+                calculatedBase -= 10;
+            }
+            if (skinTone === "dark / deep" && primaryColor === "core black") {
+                calculatedBase -= 8;
+            }
+
+            // Trend Score Penalty
+            if (trendScore < 0.4) {
+                calculatedBase -= 12;
+            } else if (trendScore < 0.7) {
+                calculatedBase -= 5;
+            }
+
+            // Clamp results dynamically between 45% and 100%
+            const finalMatchPercentage = Math.max(45, Math.min(100, calculatedBase));
             
-            // Re-render and configure dashboard layout attributes
             document.getElementById('resultPanel').style.display = 'block';
-            document.getElementById('badgeContainer').innerHTML = `<span class="badge match-ok">✦ EVALUATION APPROVED ✦</span>`;
-            
-            // Configure Gauge Pointer Rotation dynamically based on realtime metrics
-            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${accuracy}%`;
-            const needleAngle = ((accuracy / 100) * 180) - 90;
+
+            const badgeContainer = document.getElementById('badgeContainer');
+            if (finalMatchPercentage >= 90) {
+                badgeContainer.innerHTML = `
+                    <div class="p-4 mx-auto max-w-xl text-center bg-emerald-50 text-emerald-950 border-2 border-emerald-500 rounded-xl font-black text-xs uppercase tracking-wide">
+                        🎉 EXCELLENT SELECTION!<br>No critical wardrobe vector conflicts detected.
+                    </div>`;
+            } else if (finalMatchPercentage >= 70) {
+                badgeContainer.innerHTML = `<span class="badge match-ok bg-purple-100 text-purple-950 border border-purple-300">✦ AVERAGE CONFIGURATION MATRIX ✦</span>`;
+            } else {
+                badgeContainer.innerHTML = `
+                    <div class="p-4 mx-auto max-w-xl text-center bg-red-50 text-red-950 border-2 border-red-500 rounded-xl font-black text-xs uppercase tracking-wide">
+                        ⚠️ HIGH STYLE CONFLICT DETECTED!<br>Please apply the AI suggestions below to fix.
+                    </div>`;
+            }
+
+            document.getElementById('gaugeValueLabel').innerText = `OPTIMAL STYLE MATCH: ${finalMatchPercentage}%`;
+            const needleAngle = ((finalMatchPercentage / 100) * 180) - 90;
             document.getElementById('gaugePointerPin').style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
 
-            // Dynamically render color palette circles on response hook
+            // Dynamically generate the 3 fixes based on current layout conflicts
+            let recommendationStackHtml = "";
+
+            // Fix 1: Color recommendation
+            if (skinTone === "fair / light" && primaryColor === "alabaster white") {
+                recommendationStackHtml += `
+                    <div class="alt-box-layout bg-gradient-to-r from-purple-50 to-white p-3 border border-purple-100 rounded-xl">
+                        <span class="font-black text-purple-950 text-[10px] uppercase tracking-wide">1. Contrast Optimization</span>
+                        <p class="text-[11px] text-gray-600 font-medium mt-1">Alabaster White washes out light profiles. Shift to Midnight Blue for premium contrast.</p>
+                        <button type="button" onclick="applyAiRecommendation('primaryColorSelect', 'midnight blue')" class="mt-2 px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold rounded-md text-[9px] uppercase tracking-wider transition">Apply Now</button>
+                    </div>`;
+            } else {
+                recommendationStackHtml += `
+                    <div class="alt-box-layout bg-gradient-to-r from-purple-50 to-white p-3 border border-purple-100 rounded-xl">
+                        <span class="font-black text-purple-950 text-[10px] uppercase tracking-wide">1. Core Color Dynamic</span>
+                        <p class="text-[11px] text-gray-600 font-medium mt-1">Enhance your palette. Switch to Core Black to get instant +8 points on aesthetic score.</p>
+                        <button type="button" onclick="applyAiRecommendation('primaryColorSelect', 'core black')" class="mt-2 px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold rounded-md text-[9px] uppercase tracking-wider transition">Apply Now</button>
+                    </div>`;
+            }
+
+            // Fix 2: Fabric seasonal adjustment
+            if (season === "summer elements" && (userFabric === "silk premium" || userFabric === "denim / heavy canvas")) {
+                recommendationStackHtml += `
+                    <div class="alt-box-layout bg-gradient-to-r from-pink-50 to-white p-3 border border-pink-100 rounded-xl">
+                        <span class="font-black text-pink-950 text-[10px] uppercase tracking-wide">2. Thermal Fabric Override</span>
+                        <p class="text-[11px] text-gray-600 font-medium mt-1">${userFabric.toUpperCase()} causes extreme heat containment in summer. Apply breathable Linen Luxury.</p>
+                        <button type="button" onclick="applyAiRecommendation('fabricSelect', 'linen luxury')" class="mt-2 px-4 py-1.5 bg-pink-600 hover:bg-pink-700 text-white font-extrabold rounded-md text-[9px] uppercase tracking-wider transition">Apply Now</button>
+                    </div>`;
+            } else {
+                recommendationStackHtml += `
+                    <div class="alt-box-layout bg-gradient-to-r from-pink-50 to-white p-3 border border-pink-100 rounded-xl">
+                        <span class="font-black text-pink-950 text-[10px] uppercase tracking-wide">2. Structural Texture</span>
+                        <p class="text-[11px] text-gray-600 font-medium mt-1">Complement your style layer setup. Pivot database inputs to premium Cotton Blend.</p>
+                        <button type="button" onclick="applyAiRecommendation('fabricSelect', 'cotton blend')" class="mt-2 px-4 py-1.5 bg-pink-600 hover:bg-pink-700 text-white font-extrabold rounded-md text-[9px] uppercase tracking-wider transition">Apply Now</button>
+                    </div>`;
+            }
+
+            // Fix 3: Style vs Occasion match
+            if (occasion === "corporate office / business" && stylePreference === "casual wear") {
+                recommendationStackHtml += `
+                    <div class="alt-box-layout bg-gradient-to-r from-purple-50 to-white p-3 border border-purple-100 rounded-xl">
+                        <span class="font-black text-purple-950 text-[10px] uppercase tracking-wide">3. Professional Decorum alignment</span>
+                        <p class="text-[11px] text-gray-600 font-medium mt-1">Casual attire reduces business executive aura. Instantly swap to Formal Structured configuration.</p>
+                        <button type="button" onclick="applyAiRecommendation('stylePreferenceSelect', 'formal structured')" class="mt-2 px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold rounded-md text-[9px] uppercase tracking-wider transition">Apply Now</button>
+                    </div>`;
+            } else {
+                recommendationStackHtml += `
+                    <div class="alt-box-layout bg-gradient-to-r from-purple-50 to-white p-3 border border-purple-100 rounded-xl">
+                        <span class="font-black text-purple-950 text-[10px] uppercase tracking-wide">3. Pattern Geometric Optimization</span>
+                        <p class="text-[11px] text-gray-600 font-medium mt-1">Maximize your output logic profile. Rewrite configurations into structured Vertical Striped textures.</p>
+                        <button type="button" onclick="applyAiRecommendation('patternSelect', 'vertical striped')" class="mt-2 px-4 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold rounded-md text-[9px] uppercase tracking-wider transition">Apply Now</button>
+                </div>`;
+            }
+
+            document.getElementById('alternativesWrapperContainer').innerHTML = recommendationStackHtml;
+
             const paletteBox = document.getElementById('paletteCirclesWrapper');
+            let colorHexMap = {
+                "core black": "#0f172a", "alabaster white": "#f8fafc",
+                "midnight blue": "#1e3a8a", "crimson red": "#991b1b", "forest green": "#064e3b"
+            };
             paletteBox.innerHTML = `
-                <span class="palette-circle-dot" style="background-color: #0f172a;"></span>
-                <span class="palette-circle-dot" style="background-color: #1e3a8a;"></span>
-                <span class="palette-circle-dot" style="background-color: #334155;"></span>
+                <span class="palette-circle-dot" style="background-color: ${colorHexMap[primaryColor] || "#7c3aed"}; border:1px solid #ddd;"></span>
+                <span class="palette-circle-dot" style="background-color: #475569;"></span>
+                <span class="palette-circle-dot" style="background-color: #cbd5e1;"></span>
             `;
 
-            // Setup internal metric nodes
             document.getElementById('fabricFeedbackField').innerText = userFabric.toUpperCase();
-            document.getElementById('structuralFitValue').innerText = `${accuracy}%`;
-            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(accuracy * 1.15))}%`;
-            document.getElementById('serverStateLabel').innerText = "SUCCESS (200)";
-            document.getElementById('adviceText').innerText = `Based on your selection of ${userFabric}, our AI matrix synthesized an optimal ${accuracy}% compatibility look. Recommended for immediate daily styling routines.`;
+            document.getElementById('structuralFitValue').innerText = `${finalMatchPercentage}%`;
+            document.getElementById('auraDensityValue').innerText = `${Math.min(100, Math.round(finalMatchPercentage * 1.05))}%`;
+            
+            let aiPersonalizedAdvice = "";
+            if (finalMatchPercentage < 65) {
+                aiPersonalizedAdvice = `❌ <strong>Critical Conflict Logged:</strong> Yeh configuration bohot mismatched hai! Input selections aapas mein complement nahi kar raheen. Please top recommendations ko apply karein.`;
+            } else if (userFabric === "silk premium" && occasion === "corporate office / business" && primaryColor === "midnight blue") {
+                aiPersonalizedAdvice = `✨ <strong>AI Recommendation:</strong> Outstanding! Corporate setup par Midnight Blue aur Silk Premium ka combination nihayat hi professional aur high-structured business aura formulate karta hai. Ideal setup!`;
+            } else {
+                aiPersonalizedAdvice = `AI Matrix evaluated a robust ${finalMatchPercentage}% match profile using ${userFabric}. Adjust the highlighted conflict parameters above to maximize the total aesthetic vector score.`;
+            }
+            document.getElementById('adviceText').innerHTML = aiPersonalizedAdvice;
 
-            // Handle Mini-KPI Diversity Trend Chart updates smoothly
             const ctx = document.getElementById('miniDiversityChart').getContext('2d');
-            if (kpiChartInstance) { kpiChartInstance.destroy(); }
+            if (kpiChartInstance) kpiChartInstance.destroy();
             kpiChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['W1', 'W2', 'W3', 'W4', 'W5'],
+                    labels: ['M1', 'M2', 'M3', 'M4', 'M5'],
                     datasets: [{
-                        data: [40, 55, 65, 80, accuracy],
+                        data: [65, 72, 58, 80, finalMatchPercentage],
                         borderColor: '#db2777',
                         borderWidth: 2,
-                        pointRadius: 2,
+                        pointRadius: 1,
                         fill: false
                     }]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    plugins: { legend: { display: false } }, 
-                    scales: { x: { display: false }, y: { display: false } } 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { display: false }, y: { display: false } }
                 }
             });
 
-            // Smooth scroll adjustment right into the layout analytics
             document.getElementById('resultPanel').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
